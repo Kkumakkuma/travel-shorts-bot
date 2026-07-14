@@ -21,3 +21,7 @@ output/
 build/
 dist/
 *.spec
+
+# 테스트 로그
+dryrun*.log
+*.log
