@@ -56,34 +56,41 @@ def extract_frame(video_path: str, timestamp: float = 1.5) -> str:
 
 def _build_question(city: str, country: str = "", landmark_lock: str = "",
                     strict: bool = False) -> str:
-    """도시 여행 배경 적합성 판정 vision 프롬프트."""
+    """도시 여행 배경 적합성 판정 vision 프롬프트 (accept-by-default).
+
+    2026-07-14 튜닝: 초기 프롬프트가 reject 편향이라 로마 콜로세움 내부·바티칸 성베드로
+    같은 명백한 도시 배경까지 'no'로 오거절(로마 22개 중 18개 reject 실측)했다.
+    정밀한 '다른 도시' 차단은 slug 필터(_CITY_CONFUSION + 키워드 도시명)가 1차로 하므로,
+    vision은 '명백한 위반'만 걸러내고 애매하면 통과시킨다(가비지 발행보다 발행0이 낫다는
+    fail-closed 정책은 유지하되, false-reject로 발행0이 되는 역효과를 막는다)."""
     where = city + (f", {country}" if country and country.lower() not in city.lower() else "")
-    lm = f" Well-known landmarks of {city}: {landmark_lock}." if landmark_lock else ""
+    lm = (f" Landmarks and neighborhoods in or near {city} — which COUNT as {city} — include: {landmark_lock}."
+          if landmark_lock else "")
     strict_line = (
-        " STRICT MODE (this slot should show an iconic landmark): ALSO reject 'no' if the image clearly"
-        f" depicts a different country or region than {where}, or a generic scene that plainly belongs"
-        " elsewhere. Prefer imagery consistent with the destination."
+        f" (This slot prefers an iconic landmark, so lean toward imagery that fits {where}"
+        f" — but still ACCEPT any plausible {city} scene.)"
         if strict else ""
     )
     return (
-        f"This image will be a background for a 60-second travel video about {where}.{lm}"
-        f" Is it visually appropriate as a travel background for {city}?"
-        f" Answer ONLY one word: 'yes' or 'no'."
-        f" REJECT (answer 'no') if the image clearly shows ANY of these:"
-        f" — A DIFFERENT, identifiable famous landmark that belongs to ANOTHER city"
-        f" (e.g. the Eiffel Tower when the city is not Paris; the Statue of Liberty when the city is not New York)."
-        f" — An indoor product shot, studio setup, packaging, or e-commerce catalog photo."
-        f" — People as the main subject (selfies, portraits, models, couples posing, close-up faces)."
-        f" — Text, maps, charts, slides, or graphic overlays dominating the frame."
-        f" — Weddings, jewelry, cosmetics, fashion/beauty shoots as the main subject."
-        f" — Image too blurry, dark, or unidentifiable."
+        f"This is a background clip for a 60-second travel video about {where}.{lm}"
+        f" Default answer is 'yes'. Answer ONLY one word: 'yes' or 'no'."
+        f" Answer 'no' ONLY if the image CLEARLY shows one of these:"
+        f" (1) A world-famous landmark that unmistakably belongs to a DIFFERENT, far-away city or country"
+        f" and is NOT in or near {city} — e.g. the Eiffel Tower (Paris), Big Ben (London),"
+        f" Statue of Liberty (New York), Sydney Opera House, Taj Mahal, Golden Gate Bridge."
+        f" (2) An obvious indoor studio / product / packaging / e-commerce catalog shot,"
+        f" or a wedding / jewelry / cosmetics / fashion-beauty shoot as the main subject."
+        f" (3) A single person's face or a selfie/portrait filling most of the frame"
+        f" (a wide street, square, or landmark scene that happens to include tourists or people is FINE — accept it)."
+        f" (4) Text, slides, charts, maps, or graphic overlays covering most of the frame."
+        f" (5) Almost entirely black/blank, or too blurry to make out anything."
         f"{strict_line}"
-        f" ACCEPT (answer 'yes') for ANY travel-appropriate imagery consistent with the destination:"
-        f" cityscapes, skylines, streets, alleys, squares, architecture, temples, churches, castles,"
-        f" markets, local food and dishes, cafes, coastlines, beaches, mountains, rivers, bridges, harbors,"
-        f" aerial/drone city views, sunsets over the city, gardens, and general scenic travel footage."
-        f" It does NOT need to prove it is {city} — generic scenic/city/food/street imagery that fits the"
-        f" destination is fine."
+        f" For EVERYTHING else — cityscapes, skylines, streets, alleys, squares, plazas, architecture,"
+        f" ruins, temples, churches, cathedrals, domes, mosques, palaces, castles, monuments, bridges,"
+        f" markets, cafes, local food and dishes, coastlines, beaches, mountains, rivers, canals, harbors,"
+        f" gardens, aerials, night scenes, sunsets, and general scenic travel footage — answer 'yes'."
+        f" You do NOT need to confirm it is specifically {city}; plausible travel imagery that fits the"
+        f" destination is enough. When in doubt, answer 'yes'."
     )
 
 
