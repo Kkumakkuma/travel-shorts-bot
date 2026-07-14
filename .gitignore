@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+
+# 자격증명
+credentials/
+.env
+.env.*
+*.json.bak
+
+# 출력물
+output/
+*.mp4
+
+# 발행 이력은 리포가 정본이다 (2026-07-10).
+# 과거엔 .gitignore + Actions 캐시에만 뒀는데, 캐시가 날아가면 이력이 리셋돼
+# GPT가 인기 토픽을 반복 픽했다(중복 방지 이력 소실). 리포에 커밋해 영속화한다.
+# used_cities.json / content_history.json / used_comments.json 은 커밋한다(cities.json 로스터도 커밋).
+
+# 빌드
+build/
+dist/
+*.spec

@@ -1,0 +1,902 @@
+[
+  {
+    "city_key": "paris_france",
+    "city": "Paris",
+    "country": "France",
+    "category": "europe_city",
+    "pexels_keywords": ["Eiffel Tower Paris", "Louvre Museum Paris", "Notre-Dame Paris", "Arc de Triomphe Paris", "Champs-Elysees Paris"],
+    "landmark_lock": "Paris, France — Eiffel Tower, Louvre, Notre-Dame, Arc de Triomphe",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "colmar_france",
+    "city": "Colmar",
+    "country": "France",
+    "category": "europe_city",
+    "pexels_keywords": ["Colmar France old town", "Little Venice Colmar", "Colmar half-timbered houses", "Colmar Christmas market", "Maison Pfister Colmar"],
+    "landmark_lock": "Colmar, France — Little Venice canals, half-timbered houses, Maison Pfister, old town",
+    "confusion_pair": ["Strasbourg", "Bruges"]
+  },
+  {
+    "city_key": "rome_italy",
+    "city": "Rome",
+    "country": "Italy",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Colosseum Rome", "Roman Forum Rome", "Trevi Fountain Rome", "Pantheon Rome", "Vatican St Peter's Rome"],
+    "landmark_lock": "Rome, Italy — Colosseum, Roman Forum, Trevi Fountain, Pantheon",
+    "confusion_pair": ["Athens"]
+  },
+  {
+    "city_key": "venice_italy",
+    "city": "Venice",
+    "country": "Italy",
+    "category": "europe_city",
+    "pexels_keywords": ["Venice Italy Grand Canal", "St Mark's Square Venice", "Rialto Bridge Venice", "Venice gondola canals", "Doge's Palace Venice"],
+    "landmark_lock": "Venice, Italy — Grand Canal, St Mark's Square, Rialto Bridge, gondolas",
+    "confusion_pair": ["Amsterdam", "Bruges"]
+  },
+  {
+    "city_key": "florence_italy",
+    "city": "Florence",
+    "country": "Italy",
+    "category": "europe_city",
+    "pexels_keywords": ["Florence Italy Duomo", "Ponte Vecchio Florence", "Piazzale Michelangelo Florence", "Uffizi Gallery Florence", "Florence Cathedral dome"],
+    "landmark_lock": "Florence, Italy — Duomo cathedral, Ponte Vecchio, Piazzale Michelangelo, Uffizi",
+    "confusion_pair": ["Rome"]
+  },
+  {
+    "city_key": "vernazza_italy",
+    "city": "Vernazza",
+    "country": "Italy",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Vernazza Cinque Terre", "Vernazza Italy harbor", "Cinque Terre coast Vernazza", "Vernazza colorful houses", "Doria Castle Vernazza"],
+    "landmark_lock": "Vernazza (Cinque Terre), Italy — colorful cliffside harbor, Doria Castle, coastal trail",
+    "confusion_pair": ["Positano", "Manarola"]
+  },
+  {
+    "city_key": "barcelona_spain",
+    "city": "Barcelona",
+    "country": "Spain",
+    "category": "europe_city",
+    "pexels_keywords": ["Sagrada Familia Barcelona", "Park Guell Barcelona", "Casa Batllo Barcelona", "La Rambla Barcelona", "Gothic Quarter Barcelona"],
+    "landmark_lock": "Barcelona, Spain — Sagrada Familia, Park Güell, Casa Batlló, La Rambla",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "seville_spain",
+    "city": "Seville",
+    "country": "Spain",
+    "category": "europe_city",
+    "pexels_keywords": ["Plaza de Espana Seville", "Seville Cathedral Giralda", "Alcazar of Seville", "Seville Spain old town", "Metropol Parasol Seville"],
+    "landmark_lock": "Seville, Spain — Plaza de España, Giralda & Cathedral, Real Alcázar, Metropol Parasol",
+    "confusion_pair": ["Granada", "Cordoba"]
+  },
+  {
+    "city_key": "granada_spain",
+    "city": "Granada",
+    "country": "Spain",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Alhambra Granada", "Granada Spain Albaicin", "Generalife gardens Granada", "Alhambra palace Granada", "Mirador San Nicolas Granada"],
+    "landmark_lock": "Granada, Spain — Alhambra, Generalife gardens, Albaicín quarter",
+    "confusion_pair": ["Seville"]
+  },
+  {
+    "city_key": "amsterdam_netherlands",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "category": "europe_city",
+    "pexels_keywords": ["Amsterdam canals Netherlands", "Rijksmuseum Amsterdam", "Anne Frank House Amsterdam", "Amsterdam canal houses", "Amsterdam bicycles bridges"],
+    "landmark_lock": "Amsterdam, Netherlands — canal ring, Rijksmuseum, canal houses, bicycles",
+    "confusion_pair": ["Venice", "Copenhagen"]
+  },
+  {
+    "city_key": "prague_czech",
+    "city": "Prague",
+    "country": "Czech Republic",
+    "category": "europe_city",
+    "pexels_keywords": ["Charles Bridge Prague", "Prague Castle", "Old Town Square Prague", "Prague astronomical clock", "Prague red rooftops"],
+    "landmark_lock": "Prague, Czech Republic — Charles Bridge, Prague Castle, Old Town Square, Astronomical Clock",
+    "confusion_pair": ["Budapest", "Vienna"]
+  },
+  {
+    "city_key": "cesky_krumlov_czech",
+    "city": "Cesky Krumlov",
+    "country": "Czech Republic",
+    "category": "europe_city",
+    "pexels_keywords": ["Cesky Krumlov Czech Republic", "Cesky Krumlov castle", "Cesky Krumlov old town Vltava", "Cesky Krumlov red rooftops", "Cesky Krumlov castle tower"],
+    "landmark_lock": "Český Krumlov, Czech Republic — castle & round tower, Vltava river bend, medieval old town",
+    "confusion_pair": ["Prague", "Hallstatt"]
+  },
+  {
+    "city_key": "vienna_austria",
+    "city": "Vienna",
+    "country": "Austria",
+    "category": "europe_city",
+    "pexels_keywords": ["Schonbrunn Palace Vienna", "St Stephen's Cathedral Vienna", "Belvedere Palace Vienna", "Vienna State Opera", "Hofburg Vienna"],
+    "landmark_lock": "Vienna, Austria — Schönbrunn Palace, St Stephen's Cathedral, Belvedere, Hofburg",
+    "confusion_pair": ["Budapest", "Prague"]
+  },
+  {
+    "city_key": "hallstatt_austria",
+    "city": "Hallstatt",
+    "country": "Austria",
+    "category": "europe_city",
+    "pexels_keywords": ["Hallstatt Austria village", "Hallstatt lake Austria", "Hallstatt Skywalk viewpoint", "Hallstatt alpine houses", "Hallstatt church lakeside"],
+    "landmark_lock": "Hallstatt, Austria — lakeside village, Hallstätter See, Skywalk viewpoint, Alpine church",
+    "confusion_pair": ["Cesky Krumlov"]
+  },
+  {
+    "city_key": "salzburg_austria",
+    "city": "Salzburg",
+    "country": "Austria",
+    "category": "europe_city",
+    "pexels_keywords": ["Hohensalzburg Fortress Salzburg", "Salzburg old town Austria", "Mirabell Gardens Salzburg", "Salzburg Getreidegasse", "Salzburg Cathedral"],
+    "landmark_lock": "Salzburg, Austria — Hohensalzburg Fortress, Mirabell Gardens, old town, Getreidegasse",
+    "confusion_pair": ["Innsbruck"]
+  },
+  {
+    "city_key": "lisbon_portugal",
+    "city": "Lisbon",
+    "country": "Portugal",
+    "category": "europe_city",
+    "pexels_keywords": ["Belem Tower Lisbon", "Jeronimos Monastery Lisbon", "Tram 28 Lisbon", "Alfama district Lisbon", "Lisbon yellow tram hills"],
+    "landmark_lock": "Lisbon, Portugal — Belém Tower, Jerónimos Monastery, Tram 28, Alfama",
+    "confusion_pair": ["Porto"]
+  },
+  {
+    "city_key": "porto_portugal",
+    "city": "Porto",
+    "country": "Portugal",
+    "category": "europe_city",
+    "pexels_keywords": ["Dom Luis I Bridge Porto", "Ribeira Porto", "Livraria Lello Porto", "Porto Portugal riverfront", "Porto Sao Bento station"],
+    "landmark_lock": "Porto, Portugal — Dom Luís I Bridge, Ribeira riverfront, Livraria Lello, São Bento station",
+    "confusion_pair": ["Lisbon"]
+  },
+  {
+    "city_key": "sintra_portugal",
+    "city": "Sintra",
+    "country": "Portugal",
+    "category": "europe_city",
+    "pexels_keywords": ["Pena Palace Sintra", "Quinta da Regaleira Sintra", "Sintra Portugal castle", "Moorish Castle Sintra", "Sintra colorful palace"],
+    "landmark_lock": "Sintra, Portugal — Pena Palace, Quinta da Regaleira, Moorish Castle",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "london_uk",
+    "city": "London",
+    "country": "United Kingdom",
+    "category": "europe_city",
+    "pexels_keywords": ["Big Ben London", "Tower Bridge London", "Buckingham Palace London", "London Eye", "London red bus telephone box"],
+    "landmark_lock": "London, United Kingdom — Big Ben, Tower Bridge, Buckingham Palace, London Eye",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "edinburgh_uk",
+    "city": "Edinburgh",
+    "country": "United Kingdom",
+    "category": "europe_city",
+    "pexels_keywords": ["Edinburgh Castle", "Royal Mile Edinburgh", "Arthur's Seat Edinburgh", "Victoria Street Edinburgh", "Edinburgh old town Scotland"],
+    "landmark_lock": "Edinburgh, Scotland (UK) — Edinburgh Castle, Royal Mile, Arthur's Seat, Victoria Street",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "bruges_belgium",
+    "city": "Bruges",
+    "country": "Belgium",
+    "category": "europe_city",
+    "pexels_keywords": ["Bruges Belgium canals", "Belfry of Bruges", "Markt square Bruges", "Bruges medieval old town", "Rozenhoedkaai Bruges"],
+    "landmark_lock": "Bruges, Belgium — Belfry, Markt square, canals, Rozenhoedkaai",
+    "confusion_pair": ["Ghent", "Amsterdam"]
+  },
+  {
+    "city_key": "dubrovnik_croatia",
+    "city": "Dubrovnik",
+    "country": "Croatia",
+    "category": "europe_city",
+    "pexels_keywords": ["Dubrovnik city walls", "Dubrovnik old town Croatia", "Stradun Dubrovnik", "Dubrovnik Adriatic rooftops", "Fort Lovrijenac Dubrovnik"],
+    "landmark_lock": "Dubrovnik, Croatia — city walls, Old Town, Stradun, Adriatic rooftops",
+    "confusion_pair": ["Kotor", "Split"]
+  },
+  {
+    "city_key": "budapest_hungary",
+    "city": "Budapest",
+    "country": "Hungary",
+    "category": "europe_city",
+    "pexels_keywords": ["Hungarian Parliament Budapest", "Chain Bridge Budapest", "Fisherman's Bastion Budapest", "Buda Castle Budapest", "Szechenyi Baths Budapest"],
+    "landmark_lock": "Budapest, Hungary — Parliament, Chain Bridge, Fisherman's Bastion, Buda Castle",
+    "confusion_pair": ["Prague", "Vienna"]
+  },
+  {
+    "city_key": "athens_greece",
+    "city": "Athens",
+    "country": "Greece",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Acropolis Athens", "Parthenon Athens", "Plaka district Athens", "Athens Greece ancient ruins", "Temple of Olympian Zeus Athens"],
+    "landmark_lock": "Athens, Greece — Acropolis, Parthenon, Plaka, ancient ruins",
+    "confusion_pair": ["Rome"]
+  },
+  {
+    "city_key": "santorini_greece",
+    "city": "Santorini",
+    "country": "Greece",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Santorini Oia blue domes", "Santorini Greece caldera", "Oia sunset Santorini", "Santorini white houses cliff", "Santorini windmill Fira"],
+    "landmark_lock": "Santorini (Oia/Fira), Greece — white-and-blue domed churches, caldera cliffs, Aegean sunset",
+    "confusion_pair": ["Mykonos"]
+  },
+  {
+    "city_key": "kotor_montenegro",
+    "city": "Kotor",
+    "country": "Montenegro",
+    "category": "europe_city",
+    "pexels_keywords": ["Bay of Kotor Montenegro", "Kotor old town", "St Tryphon Cathedral Kotor", "Kotor city walls fortress", "Kotor San Giovanni fortress view"],
+    "landmark_lock": "Kotor, Montenegro — Bay of Kotor, Old Town, St Tryphon Cathedral, San Giovanni fortress walls",
+    "confusion_pair": ["Dubrovnik"]
+  },
+  {
+    "city_key": "tbilisi_georgia",
+    "city": "Tbilisi",
+    "country": "Georgia",
+    "category": "europe_city",
+    "pexels_keywords": ["Narikala Fortress Tbilisi", "Tbilisi old town Georgia", "Tbilisi sulfur baths Abanotubani", "Bridge of Peace Tbilisi", "Tbilisi colorful balconies"],
+    "landmark_lock": "Tbilisi, Georgia — Narikala Fortress, Old Town, Abanotubani sulfur baths, Bridge of Peace",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "reykjavik_iceland",
+    "city": "Reykjavik",
+    "country": "Iceland",
+    "category": "nordic_nature",
+    "pexels_keywords": ["Hallgrimskirkja Reykjavik", "Reykjavik Iceland Sun Voyager", "Harpa Concert Hall Reykjavik", "Reykjavik colorful houses", "Reykjavik harbor mountains"],
+    "landmark_lock": "Reykjavik, Iceland — Hallgrímskirkja, Sun Voyager, Harpa, colorful houses",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "bergen_norway",
+    "city": "Bergen",
+    "country": "Norway",
+    "category": "nordic_nature",
+    "pexels_keywords": ["Bryggen wharf Bergen", "Bergen Norway harbor", "Floyen funicular Bergen", "Bergen colorful wooden houses", "Bergen fish market fjord"],
+    "landmark_lock": "Bergen, Norway — Bryggen Hanseatic wharf, Fløyen funicular, harbor, fjord gateway",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "stockholm_sweden",
+    "city": "Stockholm",
+    "country": "Sweden",
+    "category": "nordic_nature",
+    "pexels_keywords": ["Gamla Stan Stockholm", "Stockholm Sweden old town", "Vasa Museum Stockholm", "Stockholm City Hall", "Stockholm waterfront archipelago"],
+    "landmark_lock": "Stockholm, Sweden — Gamla Stan old town, Vasa Museum, City Hall, waterfront",
+    "confusion_pair": ["Copenhagen"]
+  },
+  {
+    "city_key": "rovaniemi_finland",
+    "city": "Rovaniemi",
+    "country": "Finland",
+    "category": "nordic_nature",
+    "pexels_keywords": ["Santa Claus Village Rovaniemi", "Rovaniemi Finland northern lights", "Arktikum Rovaniemi", "Rovaniemi Arctic Circle Lapland", "Rovaniemi snowy forest reindeer"],
+    "landmark_lock": "Rovaniemi, Finland — Santa Claus Village, Arctic Circle, Arktikum, northern lights",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "kyoto_japan",
+    "city": "Kyoto",
+    "country": "Japan",
+    "category": "asia_culture",
+    "pexels_keywords": ["Kyoto Japan", "Fushimi Inari shrine Kyoto", "Kiyomizu-dera temple Kyoto", "Arashiyama bamboo grove Kyoto", "Gion district Kyoto"],
+    "landmark_lock": "Kyoto, Japan — Fushimi Inari, Kiyomizu-dera, Arashiyama bamboo grove, Gion",
+    "confusion_pair": ["Osaka", "Nara"]
+  },
+  {
+    "city_key": "tokyo_japan",
+    "city": "Tokyo",
+    "country": "Japan",
+    "category": "asia_culture",
+    "pexels_keywords": ["Shibuya Crossing Tokyo", "Senso-ji temple Tokyo", "Tokyo Tower", "Tokyo Skytree", "Meiji Shrine Tokyo"],
+    "landmark_lock": "Tokyo, Japan — Shibuya Crossing, Senso-ji, Tokyo Tower, Tokyo Skytree",
+    "confusion_pair": ["Osaka", "Seoul"]
+  },
+  {
+    "city_key": "nara_japan",
+    "city": "Nara",
+    "country": "Japan",
+    "category": "asia_culture",
+    "pexels_keywords": ["Nara Japan deer park", "Todai-ji temple Nara", "Nara Great Buddha Daibutsu", "Kasuga Taisha shrine Nara", "Nara Park lanterns"],
+    "landmark_lock": "Nara, Japan — Tōdai-ji Great Buddha, deer park, Kasuga Taisha lanterns",
+    "confusion_pair": ["Kyoto"]
+  },
+  {
+    "city_key": "kanazawa_japan",
+    "city": "Kanazawa",
+    "country": "Japan",
+    "category": "asia_culture",
+    "pexels_keywords": ["Kenrokuen Garden Kanazawa", "Higashi Chaya District Kanazawa", "Kanazawa Castle Japan", "Kanazawa gold leaf", "Omicho Market Kanazawa"],
+    "landmark_lock": "Kanazawa, Japan — Kenrokuen Garden, Higashi Chaya geisha district, Kanazawa Castle",
+    "confusion_pair": ["Kyoto"]
+  },
+  {
+    "city_key": "seoul_korea",
+    "city": "Seoul",
+    "country": "South Korea",
+    "category": "asia_culture",
+    "pexels_keywords": ["Gyeongbokgung Palace Seoul", "Bukchon Hanok Village Seoul", "N Seoul Tower Namsan", "Seoul Gwanghwamun", "Seoul Myeongdong skyline"],
+    "landmark_lock": "Seoul, South Korea — Gyeongbokgung Palace, Bukchon Hanok Village, N Seoul Tower",
+    "confusion_pair": ["Tokyo", "Busan"]
+  },
+  {
+    "city_key": "busan_korea",
+    "city": "Busan",
+    "country": "South Korea",
+    "category": "asia_culture",
+    "pexels_keywords": ["Gamcheon Culture Village Busan", "Haeundae Beach Busan", "Haedong Yonggungsa Temple Busan", "Busan Gwangan Bridge", "Busan colorful hillside houses"],
+    "landmark_lock": "Busan, South Korea — Gamcheon Culture Village, Haeundae Beach, Haedong Yonggungsa, Gwangan Bridge",
+    "confusion_pair": ["Seoul"]
+  },
+  {
+    "city_key": "bangkok_thailand",
+    "city": "Bangkok",
+    "country": "Thailand",
+    "category": "asia_culture",
+    "pexels_keywords": ["Grand Palace Bangkok", "Wat Arun Bangkok", "Wat Pho reclining Buddha Bangkok", "Bangkok Chao Phraya river temples", "Bangkok floating market"],
+    "landmark_lock": "Bangkok, Thailand — Grand Palace, Wat Arun, Wat Pho, Chao Phraya temples",
+    "confusion_pair": ["Phnom Penh"]
+  },
+  {
+    "city_key": "chiang_mai_thailand",
+    "city": "Chiang Mai",
+    "country": "Thailand",
+    "category": "asia_culture",
+    "pexels_keywords": ["Wat Phra That Doi Suthep Chiang Mai", "Chiang Mai old city temples", "Wat Chedi Luang Chiang Mai", "Chiang Mai lantern festival", "Chiang Mai Thailand mountains"],
+    "landmark_lock": "Chiang Mai, Thailand — Wat Phra That Doi Suthep, Wat Chedi Luang, old city temples, Yi Peng lanterns",
+    "confusion_pair": ["Luang Prabang"]
+  },
+  {
+    "city_key": "hanoi_vietnam",
+    "city": "Hanoi",
+    "country": "Vietnam",
+    "category": "asia_culture",
+    "pexels_keywords": ["Hoan Kiem Lake Hanoi", "Hanoi Old Quarter Vietnam", "Temple of Literature Hanoi", "Hanoi train street", "Ngoc Son Temple Hanoi"],
+    "landmark_lock": "Hanoi, Vietnam — Hoan Kiem Lake, Old Quarter, Temple of Literature, Train Street",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "hoi_an_vietnam",
+    "city": "Hoi An",
+    "country": "Vietnam",
+    "category": "asia_culture",
+    "pexels_keywords": ["Hoi An ancient town lanterns", "Japanese Covered Bridge Hoi An", "Hoi An Vietnam yellow houses", "Hoi An lantern boats river", "Hoi An old town night"],
+    "landmark_lock": "Hội An, Vietnam — Japanese Covered Bridge, lantern-lit ancient town, yellow houses, Thu Bồn river boats",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "ninh_binh_vietnam",
+    "city": "Ninh Binh",
+    "country": "Vietnam",
+    "category": "asia_culture",
+    "pexels_keywords": ["Trang An Ninh Binh boat", "Tam Coc Ninh Binh", "Mua Cave viewpoint Ninh Binh", "Ninh Binh limestone karst rice fields", "Bai Dinh Pagoda Ninh Binh"],
+    "landmark_lock": "Ninh Bình, Vietnam — Trang An & Tam Coc karst rivers, Mua Cave viewpoint, Bai Dinh Pagoda",
+    "confusion_pair": ["Guilin", "Yangshuo"]
+  },
+  {
+    "city_key": "luang_prabang_laos",
+    "city": "Luang Prabang",
+    "country": "Laos",
+    "category": "asia_culture",
+    "pexels_keywords": ["Luang Prabang Laos temples", "Kuang Si Falls Luang Prabang", "Wat Xieng Thong Luang Prabang", "Mount Phousi Luang Prabang", "Luang Prabang alms giving monks"],
+    "landmark_lock": "Luang Prabang, Laos — Wat Xieng Thong, Kuang Si Falls, Mount Phousi, morning alms",
+    "confusion_pair": ["Chiang Mai"]
+  },
+  {
+    "city_key": "siem_reap_cambodia",
+    "city": "Siem Reap",
+    "country": "Cambodia",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Angkor Wat Siem Reap", "Bayon temple Angkor Siem Reap", "Ta Prohm tree temple Siem Reap", "Angkor Wat sunrise Siem Reap", "Siem Reap Angkor temples"],
+    "landmark_lock": "Siem Reap, Cambodia — Angkor Wat, Bayon faces, Ta Prohm, Angkor temples",
+    "confusion_pair": ["Bagan"]
+  },
+  {
+    "city_key": "beijing_china",
+    "city": "Beijing",
+    "country": "China",
+    "category": "asia_culture",
+    "pexels_keywords": ["Forbidden City Beijing", "Great Wall of China Beijing", "Temple of Heaven Beijing", "Tiananmen Square Beijing", "Beijing Summer Palace"],
+    "landmark_lock": "Beijing, China — Forbidden City, Great Wall, Temple of Heaven, Tiananmen",
+    "confusion_pair": ["Xian"]
+  },
+  {
+    "city_key": "xian_china",
+    "city": "Xi'an",
+    "country": "China",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Terracotta Army Xian", "Xian City Wall China", "Big Wild Goose Pagoda Xian", "Xian Bell Tower", "Xian Muslim Quarter"],
+    "landmark_lock": "Xi'an, China — Terracotta Army, ancient City Wall, Big Wild Goose Pagoda, Bell Tower",
+    "confusion_pair": ["Beijing"]
+  },
+  {
+    "city_key": "jaipur_india",
+    "city": "Jaipur",
+    "country": "India",
+    "category": "asia_culture",
+    "pexels_keywords": ["Hawa Mahal Jaipur", "Amber Fort Jaipur", "City Palace Jaipur", "Jal Mahal Jaipur", "Jaipur pink city India"],
+    "landmark_lock": "Jaipur, India — Hawa Mahal, Amber Fort, City Palace, Jal Mahal (Pink City)",
+    "confusion_pair": ["Udaipur", "Jodhpur"]
+  },
+  {
+    "city_key": "agra_india",
+    "city": "Agra",
+    "country": "India",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Taj Mahal Agra", "Agra Fort India", "Taj Mahal sunrise Agra", "Mehtab Bagh Taj Mahal Agra", "Fatehpur Sikri Agra"],
+    "landmark_lock": "Agra, India — Taj Mahal, Agra Fort, Fatehpur Sikri",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "varanasi_india",
+    "city": "Varanasi",
+    "country": "India",
+    "category": "asia_culture",
+    "pexels_keywords": ["Varanasi Ganges ghats", "Dashashwamedh Ghat Varanasi", "Ganga Aarti Varanasi", "Varanasi India boats river", "Varanasi sunrise ghats"],
+    "landmark_lock": "Varanasi, India — Ganges ghats, Dashashwamedh Ghat, Ganga Aarti, sunrise boats",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "kathmandu_nepal",
+    "city": "Kathmandu",
+    "country": "Nepal",
+    "category": "asia_culture",
+    "pexels_keywords": ["Boudhanath Stupa Kathmandu", "Swayambhunath Monkey Temple Kathmandu", "Kathmandu Durbar Square Nepal", "Pashupatinath Kathmandu", "Kathmandu prayer flags temples"],
+    "landmark_lock": "Kathmandu, Nepal — Boudhanath Stupa, Swayambhunath, Durbar Square, Pashupatinath",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "bagan_myanmar",
+    "city": "Bagan",
+    "country": "Myanmar",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Bagan temples Myanmar", "Bagan hot air balloons", "Ananda Temple Bagan", "Dhammayangyi Temple Bagan", "Bagan pagoda plain sunrise"],
+    "landmark_lock": "Bagan, Myanmar — thousands of pagodas, Ananda Temple, Dhammayangyi, balloon-filled sunrise",
+    "confusion_pair": ["Siem Reap"]
+  },
+  {
+    "city_key": "yogyakarta_indonesia",
+    "city": "Yogyakarta",
+    "country": "Indonesia",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Borobudur temple Yogyakarta", "Prambanan temple Yogyakarta", "Yogyakarta Sultan Palace Kraton", "Taman Sari water castle Yogyakarta", "Yogyakarta Malioboro street"],
+    "landmark_lock": "Yogyakarta, Indonesia — Borobudur, Prambanan, Kraton Sultan's Palace, Taman Sari",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "ubud_indonesia",
+    "city": "Ubud",
+    "country": "Indonesia",
+    "category": "asia_culture",
+    "pexels_keywords": ["Tegallalang Rice Terraces Ubud", "Sacred Monkey Forest Ubud", "Ubud Palace Bali", "Campuhan Ridge Walk Ubud", "Tegenungan Waterfall Ubud"],
+    "landmark_lock": "Ubud, Bali (Indonesia) — Tegallalang rice terraces, Sacred Monkey Forest, Ubud Palace, Campuhan Ridge",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "singapore_singapore",
+    "city": "Singapore",
+    "country": "Singapore",
+    "category": "asia_culture",
+    "pexels_keywords": ["Marina Bay Sands Singapore", "Gardens by the Bay Singapore", "Merlion Singapore", "Singapore Supertree Grove", "Singapore skyline Marina Bay"],
+    "landmark_lock": "Singapore — Marina Bay Sands, Gardens by the Bay Supertrees, Merlion",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "el_nido_philippines",
+    "city": "El Nido",
+    "country": "Philippines",
+    "category": "beach_tropical",
+    "pexels_keywords": ["El Nido Palawan Big Lagoon", "El Nido Small Lagoon Palawan", "Nacpan Beach El Nido", "El Nido island hopping Bacuit Bay", "El Nido limestone cliffs Philippines"],
+    "landmark_lock": "El Nido, Palawan (Philippines) — Big Lagoon, Small Lagoon, Nacpan Beach, Bacuit Bay limestone karst",
+    "confusion_pair": ["Ha Long Bay", "Krabi"]
+  },
+  {
+    "city_key": "dubai_uae",
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Burj Khalifa Dubai", "Palm Jumeirah Dubai", "Burj Al Arab Dubai", "Dubai Marina skyline", "Dubai desert dunes safari"],
+    "landmark_lock": "Dubai, UAE — Burj Khalifa, Palm Jumeirah, Burj Al Arab, Dubai Marina",
+    "confusion_pair": ["Abu Dhabi"]
+  },
+  {
+    "city_key": "abu_dhabi_uae",
+    "city": "Abu Dhabi",
+    "country": "United Arab Emirates",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Sheikh Zayed Grand Mosque Abu Dhabi", "Louvre Abu Dhabi", "Emirates Palace Abu Dhabi", "Qasr Al Watan Abu Dhabi", "Abu Dhabi Corniche skyline"],
+    "landmark_lock": "Abu Dhabi, UAE — Sheikh Zayed Grand Mosque, Louvre Abu Dhabi, Emirates Palace, Qasr Al Watan",
+    "confusion_pair": ["Dubai", "Doha"]
+  },
+  {
+    "city_key": "petra_jordan",
+    "city": "Petra",
+    "country": "Jordan",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Petra Treasury Jordan", "Petra Al-Khazneh", "Petra Monastery Ad Deir", "Petra Siq canyon Jordan", "Petra rock-cut city"],
+    "landmark_lock": "Petra, Jordan — The Treasury (Al-Khazneh), the Monastery, the Siq, rock-cut facades",
+    "confusion_pair": ["Wadi Rum"]
+  },
+  {
+    "city_key": "wadi_rum_jordan",
+    "city": "Wadi Rum",
+    "country": "Jordan",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Wadi Rum desert Jordan", "Wadi Rum red sand dunes", "Wadi Rum rock formations", "Wadi Rum Bedouin camp", "Wadi Rum valley of the moon"],
+    "landmark_lock": "Wadi Rum, Jordan — red sand desert, sandstone rock arches, Bedouin camps, Valley of the Moon",
+    "confusion_pair": ["Sossusvlei"]
+  },
+  {
+    "city_key": "muscat_oman",
+    "city": "Muscat",
+    "country": "Oman",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Sultan Qaboos Grand Mosque Muscat", "Mutrah Souq Muscat", "Muscat Oman Corniche", "Royal Opera House Muscat", "Al Jalali Fort Muscat"],
+    "landmark_lock": "Muscat, Oman — Sultan Qaboos Grand Mosque, Mutrah Souq & Corniche, Royal Opera House",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "istanbul_turkey",
+    "city": "Istanbul",
+    "country": "Turkey",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Hagia Sophia Istanbul", "Blue Mosque Istanbul", "Grand Bazaar Istanbul", "Bosphorus Istanbul", "Galata Tower Istanbul"],
+    "landmark_lock": "Istanbul, Turkey — Hagia Sophia, Blue Mosque, Grand Bazaar, Bosphorus, Galata Tower",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "cappadocia_turkey",
+    "city": "Cappadocia",
+    "country": "Turkey",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Cappadocia hot air balloons", "Goreme Cappadocia fairy chimneys", "Cappadocia cave houses Turkey", "Uchisar Castle Cappadocia", "Cappadocia balloon sunrise valley"],
+    "landmark_lock": "Cappadocia (Göreme), Turkey — hot-air balloons, fairy chimneys, cave dwellings, Uçhisar",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "jerusalem_israel",
+    "city": "Jerusalem",
+    "country": "Israel",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Western Wall Jerusalem", "Dome of the Rock Jerusalem", "Jerusalem Old City walls", "Church of the Holy Sepulchre Jerusalem", "Jerusalem Mount of Olives"],
+    "landmark_lock": "Jerusalem, Israel — Western Wall, Dome of the Rock, Old City, Church of the Holy Sepulchre",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "marrakech_morocco",
+    "city": "Marrakech",
+    "country": "Morocco",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Jemaa el-Fnaa Marrakech", "Koutoubia Mosque Marrakech", "Majorelle Garden Marrakech", "Bahia Palace Marrakech", "Marrakech medina souk"],
+    "landmark_lock": "Marrakech, Morocco — Jemaa el-Fnaa, Koutoubia Mosque, Majorelle Garden, Bahia Palace",
+    "confusion_pair": ["Fez"]
+  },
+  {
+    "city_key": "chefchaouen_morocco",
+    "city": "Chefchaouen",
+    "country": "Morocco",
+    "category": "desert_middleeast",
+    "pexels_keywords": ["Chefchaouen blue city Morocco", "Plaza Uta el-Hammam Chefchaouen", "Chefchaouen blue medina streets", "Spanish Mosque Chefchaouen", "Chefchaouen kasbah Rif mountains"],
+    "landmark_lock": "Chefchaouen, Morocco — blue-washed medina, Plaza Uta el-Hammam, Kasbah, Spanish Mosque viewpoint",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "fez_morocco",
+    "city": "Fez",
+    "country": "Morocco",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Fez el Bali medina Morocco", "Chouara Tannery Fez", "Al-Qarawiyyin Fez", "Bab Bou Jeloud blue gate Fez", "Fez Morocco old city"],
+    "landmark_lock": "Fez, Morocco — Fes el-Bali medina, Chouara tanneries, Al-Qarawiyyin, Bab Bou Jeloud",
+    "confusion_pair": ["Marrakech"]
+  },
+  {
+    "city_key": "cairo_egypt",
+    "city": "Cairo",
+    "country": "Egypt",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Pyramids of Giza Cairo", "Great Sphinx Giza Cairo", "Egyptian Museum Cairo", "Khan el-Khalili bazaar Cairo", "Cairo Citadel mosque"],
+    "landmark_lock": "Cairo, Egypt — Pyramids of Giza, Great Sphinx, Egyptian Museum, Khan el-Khalili",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "luxor_egypt",
+    "city": "Luxor",
+    "country": "Egypt",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Karnak Temple Luxor", "Valley of the Kings Luxor", "Luxor Temple Egypt", "Hatshepsut Temple Luxor", "Luxor Nile hot air balloons"],
+    "landmark_lock": "Luxor, Egypt — Karnak Temple, Valley of the Kings, Luxor Temple, Hatshepsut Temple",
+    "confusion_pair": ["Cairo"]
+  },
+  {
+    "city_key": "cape_town_south_africa",
+    "city": "Cape Town",
+    "country": "South Africa",
+    "category": "africa_safari",
+    "pexels_keywords": ["Table Mountain Cape Town", "Cape of Good Hope Cape Town", "Boulders Beach penguins Cape Town", "Cape Town Twelve Apostles coast", "Bo-Kaap colorful houses Cape Town"],
+    "landmark_lock": "Cape Town, South Africa — Table Mountain, Cape of Good Hope, Boulders Beach penguins, Bo-Kaap",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "zanzibar_tanzania",
+    "city": "Zanzibar",
+    "country": "Tanzania",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Stone Town Zanzibar", "Zanzibar Tanzania beach dhow", "Nungwi Beach Zanzibar", "Stone Town narrow streets Zanzibar", "Zanzibar turquoise ocean"],
+    "landmark_lock": "Zanzibar (Stone Town), Tanzania — Stone Town alleys, dhow boats, Nungwi turquoise beaches",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "nairobi_kenya",
+    "city": "Nairobi",
+    "country": "Kenya",
+    "category": "africa_safari",
+    "pexels_keywords": ["Nairobi National Park Kenya", "Nairobi Kenya skyline", "Giraffe Centre Nairobi", "David Sheldrick Elephant Nairobi", "Nairobi wildlife safari Kenya"],
+    "landmark_lock": "Nairobi, Kenya — Nairobi National Park (wildlife against skyline), Giraffe Centre, Sheldrick Elephant Orphanage",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "victoria_falls_zambia",
+    "city": "Victoria Falls",
+    "country": "Zambia",
+    "category": "africa_safari",
+    "pexels_keywords": ["Victoria Falls Zambia", "Victoria Falls Zambezi River", "Devil's Pool Victoria Falls", "Victoria Falls Knife-Edge Bridge", "Victoria Falls rainbow mist Zambia"],
+    "landmark_lock": "Victoria Falls (Livingstone), Zambia — Victoria Falls, Zambezi River, Devil's Pool, Knife-Edge Bridge",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "new_york_usa",
+    "city": "New York City",
+    "country": "United States",
+    "category": "north_america",
+    "pexels_keywords": ["Times Square New York City", "Statue of Liberty New York", "Central Park New York City", "Brooklyn Bridge New York", "Manhattan skyline New York City"],
+    "landmark_lock": "New York City, USA — Times Square, Statue of Liberty, Central Park, Brooklyn Bridge, Manhattan skyline",
+    "confusion_pair": ["Chicago"]
+  },
+  {
+    "city_key": "san_francisco_usa",
+    "city": "San Francisco",
+    "country": "United States",
+    "category": "north_america",
+    "pexels_keywords": ["Golden Gate Bridge San Francisco", "Alcatraz Island San Francisco", "San Francisco cable car", "Lombard Street San Francisco", "Painted Ladies San Francisco"],
+    "landmark_lock": "San Francisco, USA — Golden Gate Bridge, Alcatraz, cable cars, Lombard Street, Painted Ladies",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "new_orleans_usa",
+    "city": "New Orleans",
+    "country": "United States",
+    "category": "north_america",
+    "pexels_keywords": ["French Quarter New Orleans", "Bourbon Street New Orleans", "New Orleans streetcar St Charles", "Jackson Square New Orleans", "New Orleans Mardi Gras balconies"],
+    "landmark_lock": "New Orleans, USA — French Quarter, Bourbon Street, St Charles streetcar, Jackson Square",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "las_vegas_usa",
+    "city": "Las Vegas",
+    "country": "United States",
+    "category": "north_america",
+    "pexels_keywords": ["Las Vegas Strip night", "Bellagio fountains Las Vegas", "Las Vegas casino neon signs", "Welcome to Las Vegas sign", "Las Vegas Strip skyline"],
+    "landmark_lock": "Las Vegas, USA — the Strip, Bellagio fountains, neon casinos, Welcome to Las Vegas sign",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "honolulu_usa",
+    "city": "Honolulu",
+    "country": "United States",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Waikiki Beach Honolulu", "Diamond Head Honolulu", "Honolulu Hawaii skyline beach", "Hanauma Bay Honolulu", "Honolulu Oahu turquoise ocean"],
+    "landmark_lock": "Honolulu, Hawaii (USA) — Waikiki Beach, Diamond Head, Hanauma Bay",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "vancouver_canada",
+    "city": "Vancouver",
+    "country": "Canada",
+    "category": "north_america",
+    "pexels_keywords": ["Stanley Park Vancouver", "Vancouver Canada skyline harbor", "Capilano Suspension Bridge Vancouver", "Granville Island Vancouver", "Vancouver mountains seawall"],
+    "landmark_lock": "Vancouver, Canada — Stanley Park, harbor skyline, Capilano Suspension Bridge, seawall & mountains",
+    "confusion_pair": ["Seattle"]
+  },
+  {
+    "city_key": "quebec_city_canada",
+    "city": "Quebec City",
+    "country": "Canada",
+    "category": "north_america",
+    "pexels_keywords": ["Chateau Frontenac Quebec City", "Old Quebec City cobblestone streets", "Quebec City Petit-Champlain", "Quebec City winter old town", "Quebec City fortifications ramparts"],
+    "landmark_lock": "Quebec City, Canada — Château Frontenac, Old Quebec, Petit-Champlain, city walls",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "banff_canada",
+    "city": "Banff",
+    "country": "Canada",
+    "category": "north_america",
+    "pexels_keywords": ["Banff Lake Louise Canada", "Moraine Lake Banff", "Banff National Park Canada", "Banff town mountains", "Peyto Lake Banff"],
+    "landmark_lock": "Banff, Canada — Lake Louise, Moraine Lake, Banff townsite, Rocky Mountains",
+    "confusion_pair": ["Queenstown"]
+  },
+  {
+    "city_key": "mexico_city_mexico",
+    "city": "Mexico City",
+    "country": "Mexico",
+    "category": "latin_america",
+    "pexels_keywords": ["Zocalo Mexico City", "Teotihuacan pyramids Mexico City", "Palacio de Bellas Artes Mexico City", "Frida Kahlo Casa Azul Mexico City", "Chapultepec Castle Mexico City"],
+    "landmark_lock": "Mexico City, Mexico — Zócalo, Teotihuacán, Palacio de Bellas Artes, Casa Azul, Chapultepec",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "guanajuato_mexico",
+    "city": "Guanajuato",
+    "country": "Mexico",
+    "category": "latin_america",
+    "pexels_keywords": ["Guanajuato Mexico colorful houses", "Callejon del Beso Guanajuato", "Teatro Juarez Guanajuato", "Pipila Monument viewpoint Guanajuato", "Guanajuato Basilica funicular"],
+    "landmark_lock": "Guanajuato, Mexico — colorful hillside houses, Callejón del Beso, Teatro Juárez, El Pípila viewpoint",
+    "confusion_pair": ["Valparaiso"]
+  },
+  {
+    "city_key": "oaxaca_mexico",
+    "city": "Oaxaca",
+    "country": "Mexico",
+    "category": "latin_america",
+    "pexels_keywords": ["Santo Domingo church Oaxaca", "Monte Alban ruins Oaxaca", "Hierve el Agua Oaxaca", "Oaxaca Mexico colorful streets", "Oaxaca Day of the Dead"],
+    "landmark_lock": "Oaxaca, Mexico — Santo Domingo church, Monte Albán, Hierve el Agua, colorful streets",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "tulum_mexico",
+    "city": "Tulum",
+    "country": "Mexico",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Tulum Mayan ruins beach", "Tulum Mexico cenote", "Tulum turquoise Caribbean beach", "Tulum ruins cliff Yucatan", "Tulum palm beach"],
+    "landmark_lock": "Tulum, Mexico — cliffside Mayan ruins, Caribbean beach, cenotes",
+    "confusion_pair": ["Cancun"]
+  },
+  {
+    "city_key": "cartagena_colombia",
+    "city": "Cartagena",
+    "country": "Colombia",
+    "category": "latin_america",
+    "pexels_keywords": ["Cartagena Colombia walled city", "Cartagena old town colorful balconies", "Getsemani Cartagena street art", "Cartagena Clock Tower Torre del Reloj", "Cartagena Castillo San Felipe fortress"],
+    "landmark_lock": "Cartagena, Colombia — walled Old Town, colorful balconies, Getsemaní, Castillo San Felipe",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "medellin_colombia",
+    "city": "Medellin",
+    "country": "Colombia",
+    "category": "latin_america",
+    "pexels_keywords": ["Comuna 13 Medellin", "Plaza Botero Medellin", "Medellin Metrocable cable car", "Guatape El Penol near Medellin", "Medellin Colombia city valley"],
+    "landmark_lock": "Medellín, Colombia — Comuna 13 graffiti, Plaza Botero, Metrocable, Guatapé & El Peñol (day trip)",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "rio_de_janeiro_brazil",
+    "city": "Rio de Janeiro",
+    "country": "Brazil",
+    "category": "latin_america",
+    "pexels_keywords": ["Christ the Redeemer Rio de Janeiro", "Sugarloaf Mountain Rio de Janeiro", "Copacabana Beach Rio de Janeiro", "Ipanema Beach Rio de Janeiro", "Selaron Steps Rio de Janeiro"],
+    "landmark_lock": "Rio de Janeiro, Brazil — Christ the Redeemer, Sugarloaf Mountain, Copacabana, Selarón Steps",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "cusco_peru",
+    "city": "Cusco",
+    "country": "Peru",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Cusco Peru Plaza de Armas", "Sacsayhuaman Cusco", "Cusco San Blas neighborhood", "Cusco Inca stone walls", "Rainbow Mountain near Cusco"],
+    "landmark_lock": "Cusco, Peru — Plaza de Armas, Sacsayhuamán, Inca stone walls, San Blas",
+    "confusion_pair": ["Machu Picchu"]
+  },
+  {
+    "city_key": "machu_picchu_peru",
+    "city": "Machu Picchu",
+    "country": "Peru",
+    "category": "historic_ancient",
+    "pexels_keywords": ["Machu Picchu Peru ruins", "Machu Picchu Huayna Picchu", "Machu Picchu Inca citadel terraces", "Machu Picchu llama", "Machu Picchu mountain clouds"],
+    "landmark_lock": "Machu Picchu (Aguas Calientes), Peru — Inca citadel, Huayna Picchu, agricultural terraces",
+    "confusion_pair": ["Cusco"]
+  },
+  {
+    "city_key": "buenos_aires_argentina",
+    "city": "Buenos Aires",
+    "country": "Argentina",
+    "category": "latin_america",
+    "pexels_keywords": ["La Boca Caminito Buenos Aires", "Obelisco Buenos Aires", "Recoleta Cemetery Buenos Aires", "Buenos Aires Casa Rosada", "Buenos Aires tango street"],
+    "landmark_lock": "Buenos Aires, Argentina — La Boca Caminito, Obelisco, Recoleta Cemetery, Casa Rosada",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "valparaiso_chile",
+    "city": "Valparaiso",
+    "country": "Chile",
+    "category": "latin_america",
+    "pexels_keywords": ["Valparaiso Chile colorful hills", "Valparaiso street art murals", "Valparaiso funicular ascensor", "Cerro Concepcion Valparaiso", "Valparaiso port houses"],
+    "landmark_lock": "Valparaíso, Chile — colorful cerros, street-art murals, historic funiculars, Cerro Concepción",
+    "confusion_pair": ["Guanajuato"]
+  },
+  {
+    "city_key": "havana_cuba",
+    "city": "Havana",
+    "country": "Cuba",
+    "category": "latin_america",
+    "pexels_keywords": ["Havana Cuba vintage cars", "Old Havana Habana Vieja", "Malecon Havana seawall", "El Capitolio Havana", "Havana colorful colonial streets"],
+    "landmark_lock": "Havana, Cuba — classic American cars, Old Havana, Malecón, El Capitolio",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "antigua_guatemala",
+    "city": "Antigua",
+    "country": "Guatemala",
+    "category": "latin_america",
+    "pexels_keywords": ["Santa Catalina Arch Antigua Guatemala", "Antigua Guatemala Volcan de Agua", "La Merced church Antigua Guatemala", "Antigua Guatemala cobblestone streets", "Cerro de la Cruz Antigua"],
+    "landmark_lock": "Antigua, Guatemala — Santa Catalina Arch, Volcán de Agua backdrop, La Merced church, cobblestone streets",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "sydney_australia",
+    "city": "Sydney",
+    "country": "Australia",
+    "category": "oceania",
+    "pexels_keywords": ["Sydney Opera House", "Sydney Harbour Bridge", "Bondi Beach Sydney", "Sydney Darling Harbour skyline", "Sydney harbour ferries"],
+    "landmark_lock": "Sydney, Australia — Opera House, Harbour Bridge, Bondi Beach, harbor skyline",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "melbourne_australia",
+    "city": "Melbourne",
+    "country": "Australia",
+    "category": "oceania",
+    "pexels_keywords": ["Melbourne laneways street art", "Flinders Street Station Melbourne", "Melbourne skyline Yarra River", "Royal Exhibition Building Melbourne", "Melbourne tram city"],
+    "landmark_lock": "Melbourne, Australia — graffiti laneways, Flinders Street Station, Yarra River skyline, trams",
+    "confusion_pair": ["Sydney"]
+  },
+  {
+    "city_key": "cairns_australia",
+    "city": "Cairns",
+    "country": "Australia",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Great Barrier Reef Cairns", "Cairns Australia esplanade", "Cairns rainforest Daintree", "Cairns aerial reef turquoise", "Cairns tropical coast Queensland"],
+    "landmark_lock": "Cairns, Australia — Great Barrier Reef, Daintree Rainforest, tropical Queensland coast",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "queenstown_new_zealand",
+    "city": "Queenstown",
+    "country": "New Zealand",
+    "category": "oceania",
+    "pexels_keywords": ["Queenstown New Zealand Lake Wakatipu", "Queenstown Remarkables mountains", "Queenstown skyline gondola", "Queenstown TSS Earnslaw steamer", "Queenstown alpine town"],
+    "landmark_lock": "Queenstown, New Zealand — Lake Wakatipu, The Remarkables, Skyline gondola",
+    "confusion_pair": ["Banff"]
+  },
+  {
+    "city_key": "auckland_new_zealand",
+    "city": "Auckland",
+    "country": "New Zealand",
+    "category": "oceania",
+    "pexels_keywords": ["Auckland Sky Tower New Zealand", "Auckland harbour skyline", "Mount Eden crater Auckland", "Auckland waterfront Viaduct", "Auckland Waiheke Island"],
+    "landmark_lock": "Auckland, New Zealand — Sky Tower, harbor skyline, Mount Eden, Viaduct Harbour",
+    "confusion_pair": []
+  },
+  {
+    "city_key": "bora_bora_french_polynesia",
+    "city": "Bora Bora",
+    "country": "French Polynesia",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Bora Bora overwater bungalows", "Bora Bora Mount Otemanu", "Bora Bora turquoise lagoon", "Bora Bora Matira Beach", "Bora Bora aerial lagoon reef"],
+    "landmark_lock": "Bora Bora, French Polynesia — Mount Otemanu, overwater bungalows, turquoise lagoon, Matira Beach",
+    "confusion_pair": ["Maldives"]
+  },
+  {
+    "city_key": "nadi_fiji",
+    "city": "Nadi",
+    "country": "Fiji",
+    "category": "beach_tropical",
+    "pexels_keywords": ["Nadi Fiji Sri Siva Subramaniya Temple", "Garden of the Sleeping Giant Nadi", "Nadi Fiji Denarau beach", "Mamanuca Islands near Nadi", "Nadi Fiji turquoise lagoon"],
+    "landmark_lock": "Nadi, Fiji — Sri Siva Subramaniya Temple, Garden of the Sleeping Giant, Denarau & Mamanuca islands",
+    "confusion_pair": ["Bora Bora"]
+  }
+]

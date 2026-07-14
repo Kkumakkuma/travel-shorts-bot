@@ -1,0 +1,191 @@
+name: Space Trivia Auto Upload
+
+on:
+  # 일 3편 (8h 간격) — KST 12:00 / 20:00 / 04:00  →  UTC 03:00 / 11:00 / 19:00
+  # 2026-05-10 쿠마님 요청: 일 4편 → 일 3편 축소 (3개 채널 동시). 동물봇과 1h 시차 유지
+  schedule:
+    # 2일에 1편 (격일=짝수일) — KST 12:00 = UTC 03:00. (2026-06-02 쿠마님 요청: 일 1.5편 → 격일 1편)
+    - cron: '0 3 2-30/3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: space-trivia-auto
+  # false = 직렬화. 이전 실행이 이력 커밋까지 끝낸 뒤 다음 실행이 시작하도록 큐잉한다.
+  # true 였을 때는 cron+dispatch 가 겹치면 업로드 후 이력 커밋 전에 취소돼
+  # 같은 주제가 다시 발행될 수 있었다(codex 지적, 2026-07-10).
+  cancel-in-progress: false
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40  # 2026-05-07 25→40 변경: GitHub Actions apt-get 22분 지연 사고로 timeout. 영상 12분 + 여유
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 회피 상태는 리포가 정본이다 (2026-07-10).
+      # 이전엔 actions/cache에만 뒀는데, 캐시가 evict되면 이력이 통째로 사라져
+      # 같은 주제가 며칠 만에 재등장했다(실측: saturn 6/18 → 7/5, jupiter 6/30 → 7/6).
+      # 이제 checkout이 이력을 가져오고, 발행 성공 시 아래 "Persist state" 스텝이 커밋한다.
+
+      - name: Install ffmpeg + ImageMagick + 폰트
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg imagemagick fonts-dejavu fonts-liberation
+          sudo sed -i 's|<policy domain="path" rights="none" pattern="@\*"|<policy domain="path" rights="read|write" pattern="@*"|g' /etc/ImageMagick-6/policy.xml || true
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore secrets
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YT_CLIENT_SECRET_B64: ${{ secrets.YT_CLIENT_SECRET_B64 }}
+          YT_TOKEN_B64: ${{ secrets.YT_TOKEN_B64 }}
+          GDRIVE_OAUTH_TOKEN_B64: ${{ secrets.GDRIVE_OAUTH_TOKEN_B64 }}
+        run: |
+          mkdir -p credentials
+          printf "OPENAI_API_KEY=%s\n" "$OPENAI_API_KEY" > .env
+          printf "PEXELS_API_KEY=%s\n" "$PEXELS_API_KEY" >> .env
+          printf "GEMINI_API_KEY=%s\n" "$GEMINI_API_KEY" >> .env
+          echo "$YT_CLIENT_SECRET_B64" | base64 -d > credentials/youtube_client_secret.json
+          echo "$YT_TOKEN_B64" | base64 -d > credentials/youtube_token.json
+          # GDrive 토큰 (BGM 다운로드용, 음악쇼츠봇과 동일 secret 재사용)
+          if [ -n "$GDRIVE_OAUTH_TOKEN_B64" ]; then
+            echo "$GDRIVE_OAUTH_TOKEN_B64" | base64 -d > credentials/gdrive_oauth_token.json
+          fi
+          chmod 600 .env credentials/* 2>/dev/null || true
+
+      - name: Generate + Upload
+        id: generate
+        run: |
+          set -o pipefail
+          python main.py 2>&1 | tee run_stdout.log
+
+      # 발행 이력을 리포에 되돌려 쓴다. 이게 없으면 다음 실행이 과거를 모른다.
+      # 발행이 성공했을 때만 커밋 — 실패한 회차의 토픽을 "사용함"으로 태우지 않는다.
+      - name: Persist publish history to repo
+        if: steps.generate.outcome == 'success'
+        run: |
+          set -uo pipefail   # -e 제외: git diff --cached --quiet 의 exit 1을 정상 분기로 쓴다
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 존재하는 파일만 add — 없는 파일은 건너뛴다(git add 는 pathspec 부재 시 exit 128).
+          # '|| true' 로 뭉개면 저장 실패가 성공처럼 보이므로(codex 지적) 파일별로 판단한다.
+          FILES=""
+          for f in used_cities.json used_comments.json content_history.json; do
+            [ -f "$f" ] && FILES="$FILES $f"
+          done
+          if [ -z "$FILES" ]; then
+            echo "::warning::이력 파일이 하나도 없음 — 생성 로직 점검 필요"
+            exit 0
+          fi
+          git add -- $FILES
+          if git diff --cached --quiet; then
+            echo "이력 변경 없음 — 커밋 skip"
+            exit 0
+          fi
+          git commit -m "chore(state): persist publish history [skip ci]"
+          BRANCH="${GITHUB_REF_NAME:-main}"
+          # shallow clone(fetch-depth:1)에서 rebase 가능하도록 대상 브랜치를 unshallow fetch.
+          git fetch --no-tags --prune origin "$BRANCH" || true
+          for i in 1 2 3; do
+            # rebase 충돌이 나면 repo가 'rebasing' 상태로 남아 이후 시도가 전부 실패한다.
+            # 실패 시 반드시 --abort 로 원상복귀한 뒤 재시도해야 실질 재시도가 된다(codex 지적).
+            if git pull --rebase --autostash origin "$BRANCH"; then
+              if git push origin "HEAD:$BRANCH"; then
+                echo "이력 push 성공 (시도 $i)"
+                exit 0
+              fi
+            else
+              echo "rebase 충돌/실패 — 원상복귀"
+              git rebase --abort 2>/dev/null || true
+            fi
+            echo "push 실패 — 재시도 $i/3"
+            sleep 5
+          done
+          echo "::error::이력 push 3회 실패 — 다음 실행에서 중복 발행 위험. 수동 확인 필요"
+          exit 1
+
+      # 업로드 성공 후 영상/오디오 즉시 삭제 (Actions 스토리지 절감)
+      # YouTube 발행이 끝났으면 mp4/mp3는 더 이상 필요 없음. 로그만 남긴다.
+      - name: Cleanup video/audio assets
+        if: always()
+        run: |
+          if [ -d output ]; then
+            find output -type f \( -name "*.mp4" -o -name "*.mp3" -o -name "*.wav" -o -name "*.m4a" -o -name "pexels_*" \) -delete 2>/dev/null || true
+          fi
+          rm -rf assets/bgm/*.mp3 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: logs-${{ github.run_id }}
+          path: |
+            run_stdout.log
+          retention-days: 2
+          if-no-files-found: ignore
+
+      - name: Telegram notify
+        if: always() && !cancelled()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          OUTCOME: ${{ steps.generate.outcome }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os, re, urllib.request, urllib.parse
+          from datetime import datetime, timedelta, timezone
+          KST = timezone(timedelta(hours=9))
+          ok = os.environ.get("OUTCOME") == "success"
+          icon = "🚀" if ok else "❌"
+
+          yt_url, animal, locales, token_expired = None, None, None, False
+          captions_n = None
+          try:
+              content = open("run_stdout.log", encoding="utf-8", errors="ignore").read()[-12000:]
+              token_expired = bool(re.search(r"invalid_grant|RefreshError|expired or revoked", content))
+              m = re.search(r"https?://(?:youtu\.be/|(?:www\.)?youtube\.com/(?:watch\?v=|shorts/))[\w\-]+", content)
+              if m: yt_url = m.group(0)
+              am = re.search(r"=== 토픽: (\w+)", content)
+              if am: animal = am.group(1)
+              lm = re.search(r"localizations 완료: ([\w,]+)", content)
+              if lm: locales = lm.group(1)
+              cm = re.search(r"captions: (\d+)/(\d+) langs uploaded", content)
+              if cm: captions_n = (cm.group(1), cm.group(2))
+          except Exception:
+              pass
+
+          lines = [
+              f"{icon} 우주쇼츠 {'발행 완료' if ok else '실패'}",
+              f"📅 {datetime.now(KST).strftime('%Y-%m-%d %H:%M')} KST",
+          ]
+          if animal: lines.append(f"🪐 토픽: {animal}")
+          if locales: lines.append(f"🌐 다국어: {locales}")
+          if captions_n: lines.append(f"💬 CC자막: {captions_n[0]}/8개국")
+          if yt_url: lines.append(f"🎥 {yt_url}")
+          if not ok:
+              lines.append(f"⚠️ Run: https://github.com/Kkumakkuma/space-trivia-bot/actions/runs/{os.environ['RUN_ID']}")
+              if token_expired:
+                  lines.append("🔑 OAuth 토큰 만료/폐지 — PC에서 '갱신_전체.bat' 실행해 재발급하세요")
+
+          text = "\n".join(lines)
+          tg = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage"
+          payload = urllib.parse.urlencode({"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": text}).encode()
+          urllib.request.urlopen(urllib.request.Request(tg, data=payload), timeout=15)
+          print(text)
+          PY
