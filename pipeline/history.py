@@ -315,6 +315,16 @@ def recent_formats(hist: dict, count: int) -> list:
     return fmts[-count:] if count > 0 else []
 
 
+def recent_angles(hist: dict, count: int) -> list:
+    """전역 직전 count편의 angle 리스트 (오래된→최신 순).
+
+    2026-07-17 신설: 기존엔 angle 회피가 '같은 도시 재등장' 시에만 동작해
+    서로 다른 도시로 같은 앵글이 연속 발행될 수 있었다 — 전역 회전 배선용."""
+    entries = _sorted_entries(hist)
+    angs = [e.get("angle", "") for e in entries if e.get("angle")]
+    return angs[-count:] if count > 0 else []
+
+
 def compute_exclude(hist: dict, used: list, keep: int, window_days: float,
                     pool: list = None, min_candidates: int = 8,
                     min_window: float = 7.0, now: datetime = None):

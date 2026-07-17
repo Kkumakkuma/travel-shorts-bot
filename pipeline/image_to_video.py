@@ -10,7 +10,7 @@ import logging
 import os
 import random
 
-log = logging.getLogger("spacebot.image_to_video")
+log = logging.getLogger("travelbot.image_to_video")
 
 
 def png_to_video(png_path: str, output_mp4: str, duration: float = 10.0,

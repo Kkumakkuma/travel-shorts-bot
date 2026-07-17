@@ -5,12 +5,15 @@ vision은 2차로 (1) 명백히 다른 식별가능 도시의 랜드마크, (2) 
 (3) 인물 셀피 위주, (4) 텍스트/지도 오버레이, (5) 식별불가/블러만 reject한다.
 니치 소도시는 Pexels가 랜드마크 없이 일반 풍경만 줄 때가 많아 — 도시임을 증명하지 못해도
 목적지에 어울리는 일반 도시/거리/음식/풍경이면 통과(발행 0 방지).
-strict=True(아이콘 랜드마크 슬롯): 다른 나라/지역이 명백한 이미지도 추가로 reject.
+strict=True(아이콘 랜드마크 슬롯): 추가 reject 규칙은 없고 "이 슬롯은 랜드마크 선호" 강조만
+주입한다(2026-07-14 cbd828d에서 오거절 대량 발생으로 의도적으로 완화 — 판정 기준은 base와 동일).
+confusion_pair: 혼동 도시(예: Florence↔Rome)의 상징 랜드마크가 명백하면 reject하는 규칙을 주입.
 
 2026-05-06 fix (Saturn 케이크 사고 계승): rate limit 429에서 fail-OPEN(return True)로
 garbage가 통과하던 문제 → fail-CLOSED로 전환 + 429 backoff 재시도.
-인프라 fault(API 키 없음 / frame 추출 실패)만 통과 처리하고 vision 응답 자체가
-실패한 경우는 reject — garbage 발행보다 발행 안 하는 게 낫다는 정책.
+2026-07-17 fix: 인프라 fault(API 키 없음 / frame 추출 실패)도 fail-CLOSED로 전환 —
+키 없음은 main.py 시작 시 fail-fast로도 차단되고, 여기서도 reject한다.
+garbage 발행보다 발행 안 하는 게 낫다는 정책.
 
 비용: gpt-4o-mini vision은 1 이미지 약 $0.0005~0.001.
 """
@@ -22,7 +25,7 @@ import time
 
 from config import OPENAI_API_KEY
 
-log = logging.getLogger("spacebot.vision")
+log = logging.getLogger("travelbot.vision")
 
 # ffmpeg 경로: 시스템 PATH 우선 (GitHub Actions ubuntu apt-get 설치본),
 # fallback으로 imageio_ffmpeg 번들 (로컬 Windows).
@@ -55,7 +58,7 @@ def extract_frame(video_path: str, timestamp: float = 1.5) -> str:
 
 
 def _build_question(city: str, country: str = "", landmark_lock: str = "",
-                    strict: bool = False) -> str:
+                    strict: bool = False, confusion_pair: list = None) -> str:
     """도시 여행 배경 적합성 판정 vision 프롬프트 (accept-by-default).
 
     2026-07-14 튜닝: 초기 프롬프트가 reject 편향이라 로마 콜로세움 내부·바티칸 성베드로
@@ -71,6 +74,15 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
         f" — but still ACCEPT any plausible {city} scene.)"
         if strict else ""
     )
+    # 혼동쌍 방어: slug 필터를 통과한 혼동 도시의 '상징 랜드마크'가 명백하면 reject.
+    # (같은 나라 혼동쌍(Florence↔Rome)은 country 필터가 못 거르므로 vision이 최후 방어선)
+    confusion_line = ""
+    pairs = [c for c in (confusion_pair or []) if c and c.lower() != city.lower()]
+    if pairs:
+        confusion_line = (
+            f" (1b) A signature landmark that unmistakably belongs to {', or '.join(pairs)}"
+            f" — commonly confused with {city} — and is NOT in {city}."
+        )
     return (
         f"This is a background clip for a 60-second travel video about {where}.{lm}"
         f" Default answer is 'yes'. Answer ONLY one word: 'yes' or 'no'."
@@ -78,6 +90,7 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
         f" (1) A world-famous landmark that unmistakably belongs to a DIFFERENT, far-away city or country"
         f" and is NOT in or near {city} — e.g. the Eiffel Tower (Paris), Big Ben (London),"
         f" Statue of Liberty (New York), Sydney Opera House, Taj Mahal, Golden Gate Bridge."
+        f"{confusion_line}"
         f" (2) An obvious indoor studio / product / packaging / e-commerce catalog shot,"
         f" or a wedding / jewelry / cosmetics / fashion-beauty shoot as the main subject."
         f" (3) A single person's face or a selfie/portrait filling most of the frame"
@@ -95,23 +108,27 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
 
 
 def verify_city(video_path: str, city: str, country: str = "",
-                landmark_lock: str = "", strict: bool = False) -> bool:
+                landmark_lock: str = "", strict: bool = False,
+                confusion_pair: list = None) -> bool:
     """영상 첫 프레임이 {city} 여행 배경으로 적합한지 GPT-4o-mini vision으로 검증.
 
-    True: 여행 배경 적합 (또는 인프라 fault — API 키 없음/frame 추출 실패만 통과)
+    True: 여행 배경 적합
     False: 다른 도시 랜드마크 / 비-여행 garbage / vision API 자체 실패(rate limit 포함)
+           / 인프라 fault(API 키 없음, frame 추출 실패) — 전부 fail-CLOSED
 
-    strict=True: 아이콘 랜드마크 슬롯 — 다른 나라/지역이 명백한 이미지도 추가 reject.
-    fail-CLOSED: API 호출 실패는 reject. rate limit 429만 backoff 재시도 (3회).
+    strict=True: 아이콘 랜드마크 슬롯 — 랜드마크 선호 강조(판정 기준은 base와 동일).
+    confusion_pair: 혼동 도시 목록 — 그 도시들의 상징 랜드마크가 명백하면 reject.
+    fail-CLOSED: 검증할 수 없는 클립은 발행하지 않는다. rate limit 429만 backoff 재시도 (3회).
     """
     if not OPENAI_API_KEY:
-        log.warning("OPENAI_API_KEY 없음 — vision 검증 스킵 (안전 통과)")
-        return True
+        log.error("OPENAI_API_KEY 없음 — vision 검증 불가 → REJECT (fail-closed). "
+                  "main.py 시작 시 fail-fast로도 차단되지만 방어층으로 여기서도 거절.")
+        return False
 
     img_path = extract_frame(video_path, timestamp=1.5)
     if not img_path:
-        log.warning(f"frame 추출 실패: {os.path.basename(video_path)} — 안전 통과")
-        return True
+        log.warning(f"frame 추출 실패: {os.path.basename(video_path)} — REJECT (fail-closed, 다른 클립으로 대체)")
+        return False
 
     try:
         with open(img_path, "rb") as f:
@@ -120,7 +137,7 @@ def verify_city(video_path: str, city: str, country: str = "",
         from openai import OpenAI
         client = OpenAI(api_key=OPENAI_API_KEY)
 
-        question = _build_question(city, country, landmark_lock, strict)
+        question = _build_question(city, country, landmark_lock, strict, confusion_pair)
 
         # rate limit 429에서 fail-OPEN으로 garbage 통과되던 사고 방지 — 3회 backoff 재시도.
         # 비-rate-limit 에러는 재시도 없이 즉시 fail-CLOSED.

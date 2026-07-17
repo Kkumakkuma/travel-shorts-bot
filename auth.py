@@ -64,18 +64,15 @@ print("=" * 60)
 flow = InstalledAppFlow.from_client_secrets_file(CLIENT, SCOPES)
 creds = flow.run_local_server(port=0, prompt="consent", access_type="offline")
 
-with open(TOKEN, "wb") as f:
-    pickle.dump(creds, f)
-
-print(f"\n[OK] 토큰 저장됨: {TOKEN}")
-print(f"[OK] refresh_token 포함: {bool(creds.refresh_token)}")
-
-print("\n[검증] 발급된 토큰의 채널 확인 중...")
+# 검증을 통과하기 전에는 절대 디스크에 저장하지 않는다.
+# (과거: 저장 → 검증 순서라 잘못된 채널 토큰이 파일로 남아 SETUP의 base64 단계로
+#  흘러들 수 있었다. 검증 실패 시 기존 토큰 파일도 건드리지 않는다.)
+print("\n[검증] 발급된 토큰의 채널 확인 중... (통과 전에는 저장 안 함)")
 yt = build("youtube", "v3", credentials=creds)
 resp = yt.channels().list(part="snippet", mine=True).execute()
 items = resp.get("items", [])
 if not items:
-    print("[ERROR] 채널 정보 조회 실패")
+    print("[ERROR] 채널 정보 조회 실패 — 토큰 저장 안 함")
     sys.exit(1)
 
 ch = items[0]
@@ -88,12 +85,16 @@ low = title.lower()
 has_travel_kw = any(k in low for k in CHANNEL_KEYWORDS)
 has_foreign = any(w in low for w in _FOREIGN_CHANNEL_WORDS)
 if has_travel_kw and not has_foreign:
+    with open(TOKEN, "wb") as f:
+        pickle.dump(creds, f)
     print(f"\n✅ 여행 채널('{title}')로 정상 발급됨! (키워드 매칭)")
+    print(f"[OK] 토큰 저장됨: {TOKEN}")
+    print(f"[OK] refresh_token 포함: {bool(creds.refresh_token)}")
 elif has_foreign:
     print(f"\n❌ 채널 이름 모호/불일치 ({title}) — 다른 봇 채널 단어 포함 (animal/lofi/space 등)")
-    print(f"❌ 이 토큰 쓰지 말고 채널을 여행 브랜드로 리브랜드한 뒤 auth.py 다시 실행!")
+    print(f"❌ 토큰을 저장하지 않았습니다(기존 토큰 파일도 그대로). 채널을 여행 브랜드로 리브랜드한 뒤 auth.py 다시 실행!")
     sys.exit(2)
 else:
     print(f"\n❌ 잘못된 채널 ({title})! 여행 채널 아님 (키워드 {CHANNEL_KEYWORDS} 미포함)")
-    print(f"❌ 이 토큰 쓰지 말고 채널을 '{CHANNEL_NAME}'로 리브랜드한 뒤 auth.py 다시 실행!")
+    print(f"❌ 토큰을 저장하지 않았습니다(기존 토큰 파일도 그대로). 채널을 '{CHANNEL_NAME}'로 리브랜드한 뒤 auth.py 다시 실행!")
     sys.exit(2)

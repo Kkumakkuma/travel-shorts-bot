@@ -45,17 +45,18 @@ if IS_SPACE:
     ]
     OUTRO = "Follow for more space facts."
 else:
-    TOPIC = "Octopuses"
-    HOOK = "Octopuses • Trivia"
-    TITLE = "Octopuses Have 3 Hearts?! Here's Why"
-    INTRO = "An octopus has 3 hearts and bright blue blood."
+    # 여행봇 픽스처 (2026-07-17 fix: 동물 트리비아 잔재 → 실제 발행물과 같은 여행 제목/도시/CTA로 교체)
+    TOPIC = "Rome"
+    HOOK = "Rome in 60s"
+    TITLE = "5 Reasons Rome Will Steal Your Heart"
+    INTRO = "Rome layers three thousand years of history into one walkable city."
     FACTS = [
-        "An octopus has three separate hearts, two pump blood through the gills while the third drives it around the body, stopping entirely whenever the animal swims.",
-        "With about 500 million neurons, two thirds sit inside its eight arms, so each arm can taste, touch and react almost independently of the central brain.",
-        "An octopus can squeeze its soft body through any gap larger than its beak, meaning a 50 pound giant can escape through a hole the size of a coin.",
-        "Some octopuses change color in about 0.3 seconds using millions of pigment cells, blending into coral so fast that predators lose track of them instantly.",
+        "The Colosseum once held fifty thousand spectators — walk its upper tiers at opening time and you'll beat both the crowds and the midday heat.",
+        "Toss a coin into the Trevi Fountain, then stay a while: the marble glows gold in the late afternoon light and the piazza empties by dinner.",
+        "The Pantheon's two-thousand-year-old concrete dome is still the world's largest unreinforced one — stand under the oculus when it rains for something unforgettable.",
+        "Skip the restaurants beside the big sights and eat in Trastevere, where family-run trattorias serve carbonara the way Romans actually make it.",
     ]
-    OUTRO = "Follow for more animal facts."
+    OUTRO = "Save this for your trip."
 
 
 def build_dummy_backgrounds(n=4):

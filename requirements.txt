@@ -6,5 +6,5 @@ requests>=2.31.0
 google-api-python-client>=2.100.0
 google-auth>=2.20.0
 google-auth-oauthlib>=1.0.0
-edge-tts>=6.1.0
+edge-tts>=7.0.0  # 7.x boundary="WordBoundary" 명시 필요 (tts.py) — 6.x 고정 방지
 google-genai>=0.3.0

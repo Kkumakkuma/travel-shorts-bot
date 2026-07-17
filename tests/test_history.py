@@ -158,4 +158,10 @@ check("min_window 0 클램프(>=0.001)", eff_b >= 0.001)
 check("전량 차단이라 union=10", len(excl_b) == 10)
 
 print(f"\n=== 결과: {_passed} PASS / {_failed} FAIL ===")
-sys.exit(1 if _failed else 0)
+if __name__ == "__main__":
+    # 모듈 최상위 sys.exit는 unittest discover/pytest의 import 단계에서 SystemExit을 일으켜
+    # 전부 통과인데도 FAILED(errors)로 집계됐다(2026-07-17 fix). 직접 실행 시에만 종료코드 전달.
+    sys.exit(1 if _failed else 0)
+elif _failed:
+    # discover/pytest로 import된 경우에도 실패가 초록으로 묻히지 않게 에러로 표면화
+    raise AssertionError(f"test_history: {_failed}개 체크 실패 (직접 실행: py -3 tests/test_history.py)")

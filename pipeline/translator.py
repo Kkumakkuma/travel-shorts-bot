@@ -4,7 +4,7 @@ import logging
 
 from config import META_MODEL, OPENAI_API_KEY
 
-log = logging.getLogger("spacebot.translator")
+log = logging.getLogger("travelbot.translator")
 
 LOCALIZATION_LANGS = [
     ("ko", "Korean"),

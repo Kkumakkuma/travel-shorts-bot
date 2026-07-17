@@ -17,7 +17,7 @@ from googleapiclient.http import MediaIoBaseDownload
 
 from config import CREDENTIALS_DIR
 
-log = logging.getLogger("spacebot.bgm")
+log = logging.getLogger("travelbot.bgm")
 
 # 음악쇼츠봇 토큰 재활용 (같은 Google 계정의 Drive)
 _OAUTH_TOKEN = os.path.join(CREDENTIALS_DIR, "gdrive_oauth_token.json")
@@ -79,15 +79,17 @@ def fetch_bgm_by_category(category: str, output_dir: str) -> Optional[str]:
 
     실패 시 None (composer가 BGM 없이 진행).
     """
-    svc = _get_service()
-    if svc is None:
-        return None
-
-    music_themes = CATEGORY_TO_MUSIC.get((category or "").lower(), DEFAULT_MUSIC_THEMES)
-    chosen_theme = random.choice(music_themes)
-    log.info(f"bgm theme: category={category} → {chosen_theme}")
-
     try:
+        # _get_service()는 만료/폐지/포맷 불일치 토큰에서 예외(RefreshError/UnpicklingError)를
+        # 던질 수 있다 — BGM은 부가요소이므로 반드시 try 안에서 호출해 런 전체 크래시를 막는다.
+        svc = _get_service()
+        if svc is None:
+            return None
+
+        music_themes = CATEGORY_TO_MUSIC.get((category or "").lower(), DEFAULT_MUSIC_THEMES)
+        chosen_theme = random.choice(music_themes)
+        log.info(f"bgm theme: category={category} → {chosen_theme}")
+
         root_id = _find_folder(svc, GDRIVE_ROOT)
         if not root_id:
             log.warning(f"Drive '{GDRIVE_ROOT}' 폴더 없음")

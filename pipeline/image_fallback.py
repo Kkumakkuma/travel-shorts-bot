@@ -26,7 +26,7 @@ import subprocess
 import sys
 from typing import List
 
-log = logging.getLogger("spacebot.image_fallback")
+log = logging.getLogger("travelbot.image_fallback")
 
 
 _SPACE_CATEGORIES = {
@@ -37,15 +37,40 @@ _ANIMAL_CATEGORIES = {
     "mammal", "bird", "marine", "reptile", "amphibian", "insect",
     "fish", "arachnid", "crustacean", "cephalopod",
 }
+# 여행봇 카테고리 (cities.json category + config 기본값 'city') — 2026-07-17 여행 분기 신설.
+# 이전엔 여행 카테고리가 어느 집합에도 없어 항상 generic else로 떨어져
+# 랜드마크/여행 힌트 없는 밋밋한 폴백 이미지가 생성됐다.
+_TRAVEL_CATEGORIES = {
+    "europe_city", "asia_culture", "beach_tropical", "desert_middleeast",
+    "africa_safari", "latin_america", "north_america", "oceania",
+    "nordic_nature", "historic_ancient", "city",
+}
 
 
 def _build_prompts(meta: dict, n: int) -> List[str]:
-    """토픽 메타 → 9:16 portrait 영상화 적합한 프롬프트 N개. 우주/동물 자동 분기."""
+    """토픽 메타 → 9:16 portrait 영상화 적합한 프롬프트 N개. 우주/동물/여행 자동 분기."""
     display = meta.get("display", "subject")
     single = meta.get("single", display)
     category = meta.get("category", "phenomenon").lower()
 
-    if category in _SPACE_CATEGORIES:
+    if category in _TRAVEL_CATEGORIES:
+        country = (meta.get("country") or "").strip()
+        where = f"{single}, {country}" if country and country.lower() not in single.lower() else single
+        # landmark_lock: "City, Country — Landmark1, Landmark2, Landmark3" → 랜드마크부만
+        lock = (meta.get("landmark_lock") or "")
+        landmarks = lock.split("—")[-1].strip() if "—" in lock else ""
+        domain_hint = "travel destination photography"
+        styles = [
+            f"hyperrealistic travel photograph of the {where} cityscape, {domain_hint}, golden hour light, vivid colors",
+            f"cinematic street-level view of {where}, {domain_hint}, ultra-detailed, 8k",
+            (f"wide angle view of famous landmarks of {where} such as {landmarks}, {domain_hint}, photorealistic"
+             if landmarks else
+             f"wide angle view of famous landmarks of {where}, {domain_hint}, photorealistic"),
+            f"editorial travel photograph of the old town streets of {where}, {domain_hint}, warm light",
+            f"aerial view of the {where} skyline at dusk, {domain_hint}, sharp focus, high contrast",
+        ]
+        suffix_extra = "edge to edge travel scenery"
+    elif category in _SPACE_CATEGORIES:
         domain_hint = "outer space cosmos astronomy"
         styles = [
             f"hyperrealistic photograph of {single}, {domain_hint}, dramatic lighting, deep cosmic colors",

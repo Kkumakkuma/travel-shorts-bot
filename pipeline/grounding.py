@@ -84,23 +84,33 @@ def _extract(title: str, max_chars: int, timeout: float = 12.0) -> str:
 
 
 def fetch_source(display: str, single: str = "", context: str = "",
-                 category: str = "", min_chars: int = 3000, max_chars: int = 6000) -> str:
+                 category: str = "", min_chars: int = 3000, max_chars: int = 6000,
+                 must_include=None) -> str:
     """topic의 위키 발췌 SOURCE TEXT 반환 (약 3000~6000자). 실패/애매 시 "".
 
     context: 도메인 맥락 키워드(예: "space astronomy planet moon ... NASA").
     category: 토픽 분류(예: "moon"/"planet"/"mission"/"mammal") — 검색 정확도 향상용
     (예: "Titan moon" → 'Titan (moon)', "Apollo mission" → 'Apollo program').
+    must_include: 필수 포함 토큰(str 또는 list of str) — 텍스트에 하나도 없으면 off-topic.
+    제네릭 컨텍스트('city' 등)는 모든 도시 문서에 존재해 any() 게이트가 못 되므로,
+    여행 도메인의 동명 도시(Tripoli 레바논 vs 리비아) 방어는 국가명을 여기로 강제한다.
 
     동음이의(single="Apollo"→그리스 신, "Titan"/"Europa"→위성 vs 신화) 문서에 잘못
     grounding되는 것을 막는다. 검색 우선순위: display/single 직접(on-topic) →
     "topic category" 검색 → "topic 도메인맥락" 검색. 전부 off-topic이면 "" (보수 모드).
     """
     ctx_kw = [w.lower() for w in (context or "").split() if len(w) > 3]
+    if isinstance(must_include, str):
+        must_include = [must_include] if must_include.strip() else []
+    must_kw = [m.strip().lower() for m in (must_include or []) if m and m.strip()]
 
     def _on_topic(txt: str) -> bool:
+        low = (txt or "").lower()
+        # 필수 토큰(국가 등)이 하나도 없으면 제네릭 매칭과 무관하게 off-topic
+        if must_kw and not any(m in low for m in must_kw):
+            return False
         if not ctx_kw:
             return True
-        low = (txt or "").lower()
         return any(k in low for k in ctx_kw)
 
     candidates = []

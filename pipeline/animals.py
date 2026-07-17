@@ -20,7 +20,7 @@ try:  # 모델 3분할 (2026-07-10). 구버전 config 호환을 위해 폴백.
 except ImportError:  # pragma: no cover
     SCRIPT_MODEL = FACTCHECK_MODEL = META_MODEL
 
-log = logging.getLogger("spacebot.topics")
+log = logging.getLogger("travelbot.topics")
 
 # === Angle 로테이션 (여행 도메인) — 같은 도시 재등장 시/전역 다양성 확보 ===
 # 도시 소개형 앵글: 한 편은 하나의 앵글을 중심으로 하이라이트 4~5개를 구성.
@@ -135,6 +135,38 @@ def _has_banned(text: str) -> bool:
     return any(p in low for p in BANNED_PHRASES)
 
 
+# 변동정보(시점의존 수치) 결정적 백스톱 (2026-07-17) — 프롬프트/GPT 팩트체커가 놓쳐도
+# 코드가 최종 차단한다. 가격·영업시간·환율·'현재 ~중' 류는 촬영 시점에만 참이라
+# 고정 사실로 발행 금지 (fail-closed: 걸리면 안전 하이라이트로 교체).
+_VOLATILE_PATTERNS = [
+    r"[$€£₩¥]\s?\d",                                                # $25, €10 …
+    r"\d+\s?(?:dollars|euros|pounds|won|yen|pesos|baht|dirhams|rupees)\b",
+    r"\b\d{1,2}\s?(?:am|pm)\b",                                     # 9am, 10 pm
+    r"\b\d{1,2}:\d{2}\s?(?:am|pm)?\b",                              # 9:30, 21:00
+    r"\bopen(?:s|ing)?\s(?:daily|from|at|until)\b",
+    r"\b(?:entry|entrance|admission)\s?(?:fee|ticket|price)\b",
+    r"\bticket(?:s)?\s?(?:cost|price|fee)s?\b",
+    r"\bexchange rate\b",
+    r"\bcurrently\b",
+    r"\bper\s(?:night|person|day)\b",
+]
+_VOLATILE_RE = re.compile("|".join(_VOLATILE_PATTERNS), re.IGNORECASE)
+
+
+def _has_volatile(text: str) -> bool:
+    return bool(_VOLATILE_RE.search(text or ""))
+
+
+def _sweep_deterministic(display: str, facts: list, flagged=()) -> list:
+    """금지문구/변동정보/최종 false 하이라이트를 안전 템플릿으로 교체하는 결정적 최종 방어."""
+    out = list(facts)
+    for i in range(len(out)):
+        if i in flagged or _has_banned(out[i]) or _has_volatile(out[i]):
+            log.warning(f"factcheck: fact{i+1} false/금지문구/변동정보 → 안전 fact 교체: {out[i][:60]!r}")
+            out[i] = _safe_fact(display, i)
+    return out
+
+
 def _count_numbers(texts) -> int:
     return sum(len(re.findall(r"\d[\d,\.]*", t or "")) for t in texts)
 
@@ -156,12 +188,12 @@ def _validate_fact_keywords(raw, single: str, generic: list, n: int = 4) -> list
 
 
 def _safe_fact(display: str, idx: int) -> str:
-    """팩트체크 최종 실패 시 교체할 안전(보수적·참) 하이라이트 템플릿 (8~20단어)."""
+    """팩트체크 최종 실패 시 교체할 안전(보수적·참) 하이라이트 템플릿 (20~30단어, 내레이션 분량 유지)."""
     templates = [
-        f"{display} rewards slow wandering — quiet streets and small corners reveal its real character.",
-        f"Start early in {display}: the light, the calm, and the food are worth it.",
-        f"Half the joy of {display} is getting a little lost and letting the city surprise you.",
-        f"{display} keeps its best moments off the main square — look just beyond the obvious.",
+        f"{display} rewards slow wandering — skip the checklist for an afternoon and let its quiet streets, small squares, and everyday corners show you its real character.",
+        f"Start your day early in {display}: soft morning light, calmer streets, and the first fresh food of the day make it feel like a different city.",
+        f"Half the joy of {display} is getting a little lost — the alleys between the famous sights are where you'll find the moments you actually remember.",
+        f"{display} keeps its best moments just off the main square — walk ten extra minutes past the crowds and the city quietly opens up for you.",
     ]
     return templates[idx % len(templates)]
 
@@ -216,7 +248,7 @@ A believable-sounding number you cannot find in SOURCE is FALSE, not plausible. 
         """GPT 1회: 각 항목 판정 + false 항목 교정본 반환. (verdicts, hook, facts)."""
         item_lines = [f"hook: {cur_hook}"] + [f"highlight{i+1}: {f}" for i, f in enumerate(cur_facts)]
         verdict_keys = '"hook": "...", ' + ", ".join(f'"fact{i+1}": "..."' for i in range(len(cur_facts)))
-        facts_slot = ", ".join(['"<highlight 8-20 words>"'] * len(cur_facts))
+        facts_slot = ", ".join(['"<highlight 20-30 words>"'] * len(cur_facts))
         prompt = f"""You are a SKEPTICAL travel fact-checker for a 60-second YouTube Shorts about the city {display} ({single}).
 Viewers actively fact-check and leave angry comments when a claim is wrong, so catch every FALSE or EXAGGERATED statement before it airs.
 
@@ -230,7 +262,7 @@ For EVERY item judged "false_or_exaggerated", REWRITE it to be accurate and supp
 - Replace any unverifiable number/year with a value you can point to in SOURCE. If SOURCE has no number for that claim, drop the number and make a true qualitative statement instead.
 - For VOLATILE info (ticket prices, opening hours, exchange rates, current population): never state a precise figure as fixed — use a qualitative version ("cheap street food", "go early to beat the crowds").
 - Do NOT invent facts you are unsure of; a true qualitative highlight beats a false precise one. Keep the landmark/dish/event correct for THIS city.
-- Each highlight MUST stay 8-20 words. The hook MUST be 12 words or fewer, punchy, and NEVER start with "Did you know".
+- Each highlight MUST stay 20-30 words. The hook MUST be 12 words or fewer, punchy, and NEVER start with "Did you know".
 - Keep every "supported"/"plausible" item EXACTLY as written.
 
 ITEMS:
@@ -264,7 +296,8 @@ Output STRICT JSON:
             verdicts, nh, nf = _judge(cur_hook, cur_facts)
         except Exception as e:
             log.warning(f"adversarial factcheck 호출 실패 (round {rnd+1}) — 현재 버전 유지: {e}")
-            return cur_hook, cur_facts
+            # GPT 판정이 불가해도 결정적 백스톱(금지문구/변동정보)은 적용하고 반환
+            return cur_hook, _sweep_deterministic(display, cur_facts)
         flagged = [i for i in range(len(cur_facts))
                    if str(verdicts.get(f"fact{i+1}", "")).lower().startswith("false")]
         hook_flagged = str(verdicts.get("hook", "")).lower().startswith("false")
@@ -280,11 +313,11 @@ Output STRICT JSON:
             break
         # 교정 라운드: 교정본 반영 후 다음 라운드 재판정
         cur_hook, cur_facts = nh, nf
-    # 잔존 false + 금지문구 fact는 안전 fact로 교체 (허위 자막 차단)
-    for i in range(len(cur_facts)):
-        if i in final_flagged or _has_banned(cur_facts[i]):
-            cur_facts[i] = _safe_fact(display, i)
-            log.warning(f"factcheck: fact{i+1} 최종 판정 false/금지문구 → 안전 fact 교체")
+    # 잔존 false + 금지문구 + 변동정보 fact는 안전 fact로 교체 (허위/시점의존 자막 차단)
+    cur_facts = _sweep_deterministic(display, cur_facts, final_flagged)
+    if _has_volatile(cur_hook):
+        log.warning(f"factcheck: hook에 변동정보 → 안전 hook 교체: {cur_hook[:60]!r}")
+        cur_hook = f"Here's why {display} belongs on your travel list."
     return cur_hook, cur_facts
 
 
@@ -448,16 +481,34 @@ Output STRICT JSON: {{"title": "..."}}"""}],
     return f"{display} in 60 Seconds"[:95]
 
 
+# 위키 본문이 쓰는 국가명 변형 — must_include 게이트가 정식 명칭만 요구하면
+# 'Edinburgh(Scotland)'류 요약을 false-reject하므로 별칭까지 허용한다.
+_COUNTRY_ALIASES = {
+    "united states": ["united states", "u.s.", "usa"],
+    "united kingdom": ["united kingdom", "uk", "england", "scotland", "wales", "northern ireland"],
+    "czech republic": ["czech republic", "czechia"],
+    "turkey": ["turkey", "türkiye", "turkiye"],
+    "south korea": ["south korea", "korea"],
+    "united arab emirates": ["united arab emirates", "uae"],
+}
+
+
 def fetch_source_for(display: str, single: str, category: str = "", country: str = "") -> str:
     """토픽(도시)의 위키 SOURCE 확보. 실패 시 "" (호출 측이 재픽 판단).
 
-    country: 여행 도메인에서 grounding context에 붙여 동명 도시 오매칭을 줄인다."""
+    country: 여행 도메인의 동명 도시(Tripoli 레바논 vs 리비아) 방어 —
+    (1) must_include 필수 토큰으로 강제(제네릭 'city' 키워드는 게이트가 못 됨),
+    (2) 검색 쿼리도 코드 슬러그 category('europe_city' 등, 위키 검색어로 무의미) 대신
+        country를 사용("Tripoli Lebanon")."""
     context = _DOMAIN_CONTEXT.get(_content_domain(), "")
+    must = []
     if country:
         context = (context + " " + country).strip()
+        must = _COUNTRY_ALIASES.get(country.strip().lower(), [country.strip()])
     try:
         from pipeline import grounding
-        return grounding.fetch_source(display, single, context=context, category=category)
+        return grounding.fetch_source(display, single, context=context,
+                                      category=(country or category), must_include=must)
     except Exception as e:
         log.warning(f"grounding fetch 예외: {e}")
         return ""
@@ -495,12 +546,12 @@ Rewrite it into {n} final travel HIGHLIGHTS (each = one punchy destination one-l
 - Do NOT invent superlatives ("the oldest", "the only", "the biggest in the world") unless SOURCE states them in those words.
 - For VOLATILE info (ticket prices, opening hours, exchange rates, current population) never give a precise fixed figure — use a qualitative version ("cheap street food", "go early").
 - Keep the highlights genuinely appealing: pick the most memorable landmarks / food / activities / history SOURCE actually mentions. Prefer a true vivid highlight over a fabricated shocking one.
-- **Each highlight MUST be 8-20 words. Count the words before you answer.** Warm, first/second-person travel tone (e.g. "Fushimi Inari — thousands of vermilion gates you'll never forget.").
+- **Each highlight MUST be 20-30 words. Count the words before you answer.** Warm, first/second-person travel tone (e.g. "Fushimi Inari's thousands of vermilion gates climb the mountainside — go at sunrise and you'll have whole stretches of the winding trail almost to yourself.").
 - All numeric/historical claims across the {n} highlights MUST agree with each other and with SOURCE.
 - No hype phrases ("will blow your mind", "paradise on earth", "more interesting than people think").
 - hook: 12 words or fewer, a concrete SOURCE-backed detail about the city, never starts with "Did you know".
 
-Output STRICT JSON: {{"hook": "...", "facts": [{', '.join(['"highlight (8-20 words)"'] * n)}]}}"""
+Output STRICT JSON: {{"hook": "...", "facts": [{', '.join(['"highlight (20-30 words)"'] * n)}]}}"""
     try:
         from openai import OpenAI
         client = OpenAI(api_key=OPENAI_API_KEY)
@@ -517,15 +568,15 @@ Output STRICT JSON: {{"hook": "...", "facts": [{', '.join(['"highlight (8-20 wor
             return d, [str(f).strip() for f in (d.get("facts") or []) if str(f).strip()]
 
         d, nf = _call()
-        # 길이 보정: 하이라이트는 8~20단어. 너무 짧으면(< 6단어) SOURCE 범위 안에서 1회 보강.
-        if len(nf) == n and any(len(f.split()) < 6 for f in nf):
-            short = [i + 1 for i, f in enumerate(nf) if len(f.split()) < 6]
+        # 길이 보정: 하이라이트는 20~30단어(60초 내레이션 채움). 짧으면(< 14단어) SOURCE 범위 안에서 1회 보강.
+        if len(nf) == n and any(len(f.split()) < 14 for f in nf):
+            short = [i + 1 for i, f in enumerate(nf) if len(f.split()) < 14]
             log.info(f"reground: highlight {short} 단어수 미달 → SOURCE 범위 내 보강 재요청")
             try:
                 d2, nf2 = _call(
-                    "\n\nYour previous answer had highlights shorter than 8 words: "
+                    "\n\nYour previous answer had highlights shorter than 20 words: "
                     f"{', '.join('highlight' + str(i) for i in short)}. "
-                    "Rewrite ALL highlights so each is 8-20 words, adding only true detail found in SOURCE.")
+                    "Rewrite ALL highlights so each is 20-30 words, adding only true detail found in SOURCE.")
                 if len(nf2) == n and sum(len(f.split()) for f in nf2) > sum(len(f.split()) for f in nf):
                     d, nf = d2, nf2
             except Exception as e:
@@ -582,7 +633,7 @@ HIGHLIGHTS TO KEEP (do not change, for context):
 REWRITE ONLY these highlights to cover DIFFERENT true aspects of the city from SOURCE (a different landmark, dish, activity, or piece of history), not overlapping the used ones above:
 {redo}
 
-Rules: each rewrite 8-20 words, supported by SOURCE, every number/year must appear in SOURCE, vary openers, warm travel tone, no hype.
+Rules: each rewrite 20-30 words, supported by SOURCE, every number/year must appear in SOURCE, vary openers, warm travel tone, no hype.
 Output STRICT JSON with the SAME 1-based indices you were asked to rewrite:
 {{"rewrites": {{{', '.join(f'"{i+1}": "..."' for i in dup_idx)}}}}}"""
     try:
@@ -665,7 +716,7 @@ Already-used angles for this city: {', '.join(past_angles) or 'none'}
 Recently used formats to avoid: {avoid_fmt}
 
 REQUIREMENTS:
-- {n} NEW travel highlights, each 8-20 words, each about a DIFFERENT aspect than the previously covered ones above. Mix highlight types (landmark / food / activity / history / hidden corner). Warm first/second-person travel tone.
+- {n} NEW travel highlights, each 20-30 words, each about a DIFFERENT aspect than the previously covered ones above. Mix highlight types (landmark / food / activity / history / hidden corner). Warm first/second-person travel tone.
 - Hook (intro narration): 12 words or fewer, a concrete detail about the city, NEVER start with "Did you know".
 - Do NOT use empty hype ("will blow your mind", "paradise on earth", "more interesting than people think").
 - Any number/year must be a real, verifiable fact for THIS city; volatile info (prices, hours) stays qualitative.
@@ -750,7 +801,17 @@ def verify_consistency(meta: dict) -> dict:
     has_own_in_comment = bool(comment_tokens & own_tokens) or display.lower() in comment.lower() or single.lower() in comment.lower()
     suspect_offtopic_comment = bool(other_in_comment) or not has_own_in_comment
 
+    country = (meta.get("country") or "").strip()
+    landmark_lock = (meta.get("landmark_lock") or "").strip()
+    ctx_lines = f"City: {display} ({single})" + (f", Country: {country}" if country else "")
+    if landmark_lock:
+        ctx_lines += f"\nSignature landmarks (ground truth for what belongs to {display}): {landmark_lock}"
+
     review_prompt = f"""You are a travel-script consistency editor for YouTube Shorts about the city {display} ({single}).
+
+{ctx_lines}
+Treat the Country and Signature landmarks above as ground truth — a highlight naming a landmark
+from a different city/country, or implying the wrong country, is a FALSE claim.
 
 Review this city-intro script for three CRITICAL issues:
 1. NUMERIC/HISTORICAL CONTRADICTIONS between highlights (e.g. one says a landmark opened in 1889, another says 1900 for the same thing)
@@ -764,14 +825,15 @@ Comment: {comment}
 
 INSTRUCTIONS:
 - If 2+ highlights give different numbers/years for the SAME thing, pick ONE accurate value and rewrite ALL contradicting highlights to use THAT value.
-  Keep highlights at 8-20 words. Only modify the contradicting claim, keep the rest of the line.
+  Keep highlights at 20-30 words. Only modify the contradicting claim, keep the rest of the line.
 - If any highlight is factually FALSE (wrong-city landmark/dish/event, wrong year, fixed price stated as fact), correct it to an accurate, equally
-  appealing highlight for {display} (keep 8-20 words). Do NOT invent facts you are not confident about.
+  appealing highlight for {display} (keep 20-30 words). Do NOT invent facts you are not confident about.
 - If comment mentions any city other than {display}, rewrite the comment to be about {display} ONLY,
   in 8-20 words, using one of: hot take / forced choice within {display} / what-if / personal challenge / confession bait / fill-in-the-blank.
 - If everything is fine, return original highlights and comment unchanged.
 
-Output STRICT JSON: {{"facts": ["...", "...", "...", "..."], "comment": "...", "fixed": ["short list of issues fixed, empty if none"]}}"""
+Output STRICT JSON — "facts" MUST contain EXACTLY {len(facts)} items in the same order:
+{{"facts": [{", ".join(['"..."'] * len(facts))}], "comment": "...", "fixed": ["short list of issues fixed, empty if none"]}}"""
 
     try:
         from openai import OpenAI
@@ -842,7 +904,7 @@ def _resolve_roster_key(animal_key: str, single: str = "", display: str = "") ->
 
 
 def pick_random_animal(exclude_keys: list = None, history: dict = None,
-                       avoid_formats: list = None) -> dict:
+                       avoid_formats: list = None, avoid_angles: list = None) -> dict:
     """GPT가 로스터(cities.json)에서 도시 1곳 + 앵글 + 하이라이트 4~5개 메타를 일괄 생성.
 
     콘텐츠 모델: 한 편 = 한 도시 60초 소개. 앵글 1개(iconic_landmarks/best_things_to_do/
@@ -852,6 +914,7 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
 
     history: content_history dict (재등장 도시 차별화 + per-city angle 회피용).
     avoid_formats: 전역 직전 N편 format (연속 방지).
+    avoid_angles: 전역 직전 N편 angle (서로 다른 도시로 같은 앵글 연속 방지, 2026-07-17 배선).
 
     반환: {animal_key(city_key), display(city), single(city), country, category, landmark_lock,
            pexels_keywords, fact_keywords, title_en, description_en, hook, intro, facts, outro,
@@ -864,7 +927,16 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
 
     exclude_str = ", ".join(exclude_keys[-100:]) if exclude_keys else "none"
     avoid_fmt_str = ", ".join(avoid_formats or []) or "none"
+    avoid_angle_str = ", ".join(avoid_angles or []) or "none"
+    # 참고: angle 회피는 프롬프트 advisory + per-city 회피(_differentiate_content)가 방어선.
+    # format과 달리 angle은 대본 내용과 결합돼 있어 파싱 후 라벨만 강제 교체하면
+    # 앵글-대본 부정합이 생기므로 코드 강제는 하지 않고, 겹치면 경고 로그만 남긴다(하단).
     roster_block = _roster_lines(exclude_keys)
+    if not roster_block:
+        # USED_KEEP(85) < 로스터(100)라 정상적으로는 도달 불가. 도달 시 off-roster 픽을
+        # 유도하지 않고(큐레이션·landmark_lock 상실 방지) 예외 → main의 legacy fallback
+        # (로스터 내 재사용)으로 위임한다. fail-closed.
+        raise RuntimeError("로스터 후보 0 — off-roster GPT 픽 금지, legacy fallback으로 위임")
 
     # 전역 중복 차단 (2026-07-10). 기존엔 '같은 topic 재등장' 시에만 과거 facts를 봤기 때문에
     # topic이 달라도 같은 사실을 반복했고, 제목은 대상만 갈아끼운 양산 템플릿이 반복됐다.
@@ -889,7 +961,7 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
 Pick ONE city from the ROSTER below and write a 60-second city introduction (1-minute Shorts).
 
 ROSTER — pick ONE city from THIS list only (use its exact key). Prefer cities lower in the list / that feel fresh:
-{roster_block or "(roster empty — pick any well-known, well-photographed city)"}
+{roster_block}
 
 AVOID picking these cities (recently used): {exclude_str}{facts_block}{titles_block}
 
@@ -904,14 +976,14 @@ CONTENT MODEL (city showcase, 60s):
 - You MAY mix highlight types within the video (e.g. 2 landmarks + 1 food + 1 history), but keep them coherent with the chosen angle.
 
 REQUIREMENTS:
-- **Each highlight MUST be 8-20 words.** Warm, first/second-person travel tone. Example: "Fushimi Inari — thousands of vermilion gates you'll never forget."
+- **Each highlight MUST be 20-30 words** (this fills the 60-second narration — shorter lines leave dead air). Warm, first/second-person travel tone. Example: "Fushimi Inari's thousands of vermilion gates climb the mountainside — go at sunrise and you'll have whole stretches of the winding trail almost to yourself."
 - Every highlight must be TRUE for THIS city. Landmarks, dishes, and historical events must actually belong to it. Every number/year will be checked against Wikipedia and rewritten if wrong.
 - **VOLATILE info stays qualitative**: do NOT state exact ticket prices, opening hours, or exchange rates as fixed facts — say "cheap street food", "go early", "worth the climb" instead. Verifiable facts (a founding year, a landmark's height) are fine only if real.
 - **INTERNAL CONSISTENCY**: any number/year you use must agree across highlights, title, and comment. title and description MUST be about the SAME city as the highlights.
 - **Hook (intro narration)** — 12 words or FEWER. A concrete, inviting reason to visit. NEVER start with "Did you know". Example: "Kyoto packs a thousand years of Japan into one walkable city."
 - **BANNED PHRASES (never use in intro or highlights)**: "paradise on earth", "will blow your mind", "must-see before you die", "best kept secret", "more interesting than people think". Write concrete, specific lines instead.
 - Each highlight MUST start differently (vary openers).
-- **angle**: choose ONE from {ANGLES}.
+- **angle**: choose ONE from {ANGLES}. AVOID these recently-used angles unless nothing else fits the city: {avoid_angle_str}.
 - **format**: choose ONE from {FORMATS}. AVOID these recently-used formats: {avoid_fmt_str}.
 - **pexels_keywords**: 5 stock-video search keywords. **EVERY keyword MUST contain the city name** (add the country too if the city name is ambiguous, e.g. "Paris France", not just "Paris"). Examples for Kyoto: "Kyoto Japan", "Kyoto temple", "Kyoto street", "Kyoto Fushimi Inari", "Kyoto old town". NEVER use bare generic terms like "city" or "temple" alone.
 - **fact_keywords**: one background-video search keyword per highlight IN ORDER, each containing the city name and describing that highlight's visual (e.g. a torii-gate highlight -> "Kyoto Fushimi Inari"; a food highlight -> "Kyoto matcha sweets").
@@ -958,7 +1030,7 @@ Output STRICT JSON only:
   "description_en": "... #shorts #travel #kyoto #japan #wander",
   "hook": "Kyoto in 60s",
   "intro": "Kyoto packs a thousand years of Japan into one walkable city.",
-  "facts": ["highlight1 (8-20 words)", "highlight2 (8-20 words)", "highlight3 (8-20 words)", "highlight4 (8-20 words)", "highlight5 (8-20 words)"],
+  "facts": ["highlight1 (20-30 words)", "highlight2 (20-30 words)", "highlight3 (20-30 words)", "highlight4 (20-30 words)", "highlight5 (20-30 words)"],
   "outro": "Save this for your trip.",
   "comment": "In Kyoto: temples first or street food first?",
   "tags": ["shorts","travel","kyoto","japan","things to do","city guide","wander","travel tips","asia"]
@@ -1128,20 +1200,20 @@ Output STRICT JSON only:
     facts = [str(f).strip() for f in facts[:5] if str(f).strip()]
     if len(facts) < 3:
         facts = facts + [_safe_fact(display, i) for i in range(3 - len(facts))]
-    # 하이라이트는 8~20단어. 너무 짧으면(< 6단어) 여행 톤으로 1회 보강.
-    if any(len(f.split()) < 6 for f in facts):
-        log.warning(f"highlights too short ({[len(f.split()) for f in facts]}), rewriting to 8-20 words each...")
+    # 하이라이트는 20~30단어(60초 내레이션 채움). 짧으면(< 14단어) 여행 톤으로 1회 보강.
+    if any(len(f.split()) < 14 for f in facts):
+        log.warning(f"highlights too short ({[len(f.split()) for f in facts]}), rewriting to 20-30 words each...")
         try:
             from openai import OpenAI
             client = OpenAI(api_key=OPENAI_API_KEY)
             n = len(facts)
             joined = "\n".join(f"{i+1}. {f}" for i, f in enumerate(facts))
-            expand_prompt = f"""Rewrite each city highlight to 8-20 words in a warm first/second-person travel tone. Keep each one TRUE for {display} (real landmark/food/activity/history). Vary the openers. Do NOT invent numbers.
+            expand_prompt = f"""Rewrite each city highlight to 20-30 words in a warm first/second-person travel tone. Keep each one TRUE for {display} (real landmark/food/activity/history). Add only true, concrete detail — never invent numbers. Vary the openers.
 
 Original {n} highlights about {display}:
 {joined}
 
-Output STRICT JSON: {{"facts": [{', '.join(['"highlight (8-20 words)"'] * n)}]}}"""
+Output STRICT JSON: {{"facts": [{', '.join(['"highlight (20-30 words)"'] * n)}]}}"""
             r2 = client.chat.completions.create(
                 model=SCRIPT_MODEL,
                 messages=[{"role": "user", "content": expand_prompt}],
@@ -1164,6 +1236,10 @@ Output STRICT JSON: {{"facts": [{', '.join(['"highlight (8-20 words)"'] * n)}]}}
 
     # angle / format 파싱 + 정규화 (로테이션 + strict 랜드마크 슬롯 판정용)
     angle = _normalize_angle(d.get("angle"))
+    if avoid_angles and angle in {a.lower() for a in avoid_angles}:
+        # angle은 대본 내용과 결합돼 있어 format처럼 라벨만 강제 교체하면 부정합 —
+        # 프롬프트 회피가 뚫린 경우 관측용 경고만 남긴다 (codex P3, 2026-07-17)
+        log.warning(f"angle '{angle}'이 최근 사용 목록 {avoid_angles}과 중복 — 프롬프트 회피 미적용된 픽")
     fmt = str(d.get("format") or "").strip().lower().replace(" ", "_")
     avoid = {f.lower() for f in (avoid_formats or [])}
     # 유효하지 않거나 '최근 사용 format'이면 회피 목록 밖에서 강제 재선택
@@ -1245,7 +1321,7 @@ def expand_legacy_to_rich(meta: dict) -> dict:
 
 REQUIREMENTS:
 - Choose ONE angle from {ANGLES} and build the video around it.
-- 5 travel HIGHLIGHTS (one-liners), each 8-20 words. Warm first/second-person travel tone. You MAY mix types (landmark / food / activity / history / hidden corner).
+- 5 travel HIGHLIGHTS (one-liners), each 20-30 words. Warm first/second-person travel tone. You MAY mix types (landmark / food / activity / history / hidden corner).
 - Each highlight opens DIFFERENTLY. NEVER use empty hype: "paradise on earth", "will blow your mind", "best kept secret", "more interesting than people think".
 - Every highlight must be TRUE for {single}: real landmarks, dishes, and historical events only. Volatile info (prices, hours) stays qualitative ("cheap street food", "go early").
 - **INTERNAL CONSISTENCY (CRITICAL)**: any number/year must agree across highlights, title, and comment. No contradictions.
@@ -1271,7 +1347,7 @@ Output STRICT JSON: {{
   "description_en": "... #shorts #travel #{single.lower().replace(' ', '')} #wander",
   "hook": "{display} in 60s",
   "intro": "Here's why {display} belongs on your travel list.",
-  "facts": ["highlight1 (8-20 words)", "highlight2", "highlight3", "highlight4", "highlight5"],
+  "facts": ["highlight1 (20-30 words)", "highlight2", "highlight3", "highlight4", "highlight5"],
   "fact_keywords": ["{single} visual1", "{single} visual2", "{single} visual3", "{single} visual4", "{single} visual5"],
   "angle": "one_of_the_angle_labels",
   "format": "one_of_the_format_labels",
@@ -1370,8 +1446,15 @@ def _legacy_meta(animal_key: str) -> dict:
     """
     cfg = ANIMALS.get(animal_key)
     if cfg is None:
-        vals = list(ANIMALS.values())
-        cfg = vals[0] if vals else {}
+        # 2026-07-17 fix: unknown key가 조용히 로스터 첫 도시(Paris)로 대체되어
+        # 엉뚱한 도시 영상이 생성/발행되던 문제 → 정규화 시도 후 실패 시 명시적 에러.
+        resolved = _resolve_roster_key(animal_key)
+        cfg = ANIMALS.get(resolved)
+        if cfg is None:
+            raise ValueError(
+                f"_legacy_meta: 로스터에 없는 도시 키 '{animal_key}' — "
+                f"cities.json의 city_key를 확인하세요 (예: kyoto_japan)")
+        animal_key = resolved
     display = cfg.get("display") or animal_key.replace("_", " ").title()
     single = cfg.get("single") or display
     country = cfg.get("country", "")
@@ -1400,11 +1483,11 @@ def _legacy_meta(animal_key: str) -> dict:
         "hook": f"{display} in 60s",
         "intro": f"Here's why {display} belongs on your travel list.",
         "facts": [
-            f"{display} rewards slow wandering — its streets and small corners tell the real story.",
-            f"Start early in {display}: soft light, fewer crowds, and the best local food.",
-            f"Half the fun of {display} is getting a little lost between the landmarks.",
-            f"{display} keeps its best moments just off the main square — look a bit further.",
-            f"Come hungry to {display}: the local specialties are half the reason to visit.",
+            f"{display} rewards slow wandering — skip the checklist for an afternoon and let its quiet streets, small squares, and everyday corners tell you the real story.",
+            f"Start your day early in {display}: soft morning light, calmer streets, and the first fresh local food make it feel like a completely different city.",
+            f"Half the fun of {display} is getting a little lost — the alleys between the landmarks are where you'll find the moments you actually remember.",
+            f"{display} keeps its best moments just off the main square — walk ten extra minutes past the crowds and the city quietly opens up for you.",
+            f"Come hungry to {display}: the local specialties, the markets, and the small family-run places are honestly half the reason to make the trip.",
         ],
         "outro": "Save this for your trip.",
         "comment": f"What's the first thing you'd do in {display}?",
@@ -1449,11 +1532,11 @@ def make_meta(animal_key: str) -> dict:
 
 Generate a ~60-second city introduction about {where} ({single}). Structure:
 - 0~3s: hook line (a concrete, inviting reason to visit — do NOT start with "Did you know")
-- 3~52s: 5 travel highlights (one-liners), each ~5-7s spoken (8-20 words each), mix of landmark/food/activity/history
+- 3~52s: 5 travel highlights (one-liners), each ~8-11s spoken (20-30 words each), mix of landmark/food/activity/history
 - 52~60s: outro CTA
 
 HARD RULES:
-- Each highlight MUST be 8-20 words, warm first/second-person travel tone, TRUE for {single}.
+- Each highlight MUST be 20-30 words, warm first/second-person travel tone, TRUE for {single}.
 - Volatile info (prices, hours) stays qualitative; any number/year must be real.
 - Plain spoken English, no jargon, no emoji.
 - Title: catchy, max 90 chars, includes "{display}". NEVER use "compilation", "best of".
@@ -1468,7 +1551,7 @@ Output STRICT JSON only:
   "description_en": "...",
   "hook": "...",
   "intro": "...",
-  "facts": ["highlight1 (8-20 words)", "highlight2", "highlight3", "highlight4", "highlight5"],
+  "facts": ["highlight1 (20-30 words)", "highlight2", "highlight3", "highlight4", "highlight5"],
   "outro": "..."
 }}"""
 

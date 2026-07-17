@@ -15,7 +15,7 @@ import requests
 
 from config import PEXELS_API_KEY, VIDEO_DURATION_SEC
 
-log = logging.getLogger("spacebot.pexels")
+log = logging.getLogger("travelbot.pexels")
 PEXELS_API = "https://api.pexels.com/videos/search"
 PEXELS_PHOTO_API = "https://api.pexels.com/v1/search"
 
@@ -90,36 +90,47 @@ def _slug_tokens(url: str, sep: str = "/video/") -> set:
 
 # 동음이의 도시 하드 쌍: 도시명(소문자) → 이 토큰이 slug에 있으면(도시 자체 국가/맥락이 아니면)
 # 다른 곳(주로 미국 동명 도시)이므로 reject. 대소문자 무시, 부분 토큰.
+# 항목은 공백 구분 다중 토큰 허용("new york" = slug 토큰에 new와 york가 모두 있으면 매치).
+# 2026-07-17 fix: 과거 연결형('newyork')/하이픈형('nice-day') 항목은 '-' 분해 토큰과
+# whole-token 교집합으로는 절대 매치 불가였다(Rome NY·Hamburg NY·Berlin NH 무방비).
 _CITY_CONFUSION = {
     "paris": {"texas", "tx", "vegas", "kentucky", "tennessee", "ontario", "hilton"},
-    "venice": {"beach", "california", "losangeles", "florida", "italy-beach"},
+    "venice": {"beach", "california", "los angeles", "florida"},
     "athens": {"georgia", "ohio", "ga", "alabama"},
     "naples": {"florida", "fl"},
     "cairo": {"illinois", "georgia", "il"},
     "sydney": {"nova", "scotia", "montana"},
-    "rome": {"georgia", "newyork", "ny"},
+    "rome": {"georgia", "new york", "ny"},
     "florence": {"alabama", "sc", "kentucky", "oregon"},
     "dublin": {"ohio", "california", "georgia"},
     "moscow": {"idaho"},
-    "berlin": {"newhampshire", "connecticut", "maryland"},
-    "vienna": {"virginia", "austria-sausage"},
-    "lima": {"ohio", "peru-bean"},
-    "manchester": {"newhampshire", "connecticut"},
+    "berlin": {"new hampshire", "connecticut", "maryland"},
+    "vienna": {"virginia", "sausage"},
+    "lima": {"ohio", "bean"},
+    "manchester": {"new hampshire", "connecticut"},
     "birmingham": {"alabama"},
     "melbourne": {"florida"},
     "columbia": {"missouri", "carolina", "maryland"},
-    "hamburg": {"newyork", "burger"},
+    "hamburg": {"new york", "burger"},
     "st petersburg": {"florida"},
-    "nice": {"guy", "nice-day", "weather"},
+    "nice": {"guy", "weather", "nice day"},
 }
 
 
 def _has_confused_city(tokens: set, city_lower: str, country_lower: str = "") -> bool:
-    """slug 토큰에 이 도시의 동음이의 오매칭 토큰이 있으면 True (해당 도시 국가는 예외)."""
+    """slug 토큰에 이 도시의 동음이의 오매칭 토큰이 있으면 True (해당 도시 국가는 예외).
+
+    항목이 다중 토큰("new york")이면 그 토큰들이 slug 토큰에 전부 있어야 매치 —
+    'rome-new-york-street'는 {new, york} ⊆ {rome, new, york, street} 로 잡힌다."""
     conf = _CITY_CONFUSION.get(city_lower)
     if not conf:
         return False
-    hit = tokens & conf
+    hit = False
+    for c in conf:
+        parts = {p for p in c.replace("-", " ").split() if p}
+        if parts and parts <= tokens:
+            hit = True
+            break
     if not hit:
         return False
     # 도시 자체 국가/맥락 토큰이 slug에 있으면 오매칭 아님 (진짜 그 도시)

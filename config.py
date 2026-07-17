@@ -53,7 +53,10 @@ VIDEO_WIDTH = 1080
 VIDEO_HEIGHT = 1920
 VIDEO_FPS = 30
 VIDEO_DURATION_SEC = 60
-MIN_VIDEO_DURATION_SEC = 50  # TTS 짧아도 50초 보장 (BGM + 배경으로 채움). Shorts retention 안정
+# 적응형 길이 하한 (composer v4, 2026-07-17): 내레이션+7s가 이보다 짧아도 이 길이는 보장.
+# 50→40 하향: 프롬프트가 하이라이트 20~30단어로 내레이션을 ~45s+로 채우므로 하한은
+# 안전망일 뿐이며, 하한이 높으면 짧은 내레이션에서 무자막 데드타임이 부활한다.
+MIN_VIDEO_DURATION_SEC = 40
 VIDEO_BITRATE = "4500k"
 VIDEO_PRESET = "veryfast"
 VIDEO_THREADS = 8
@@ -86,7 +89,7 @@ CONTENT_WINDOW_DAYS = 120       # 여행: 100개 도시 1회전(발행빈도 감
 HISTORY_MIN_CANDIDATES = 8      # 제외 후 후보 8개 미만이면 창 0.75배씩 완화
 HISTORY_MIN_WINDOW_DAYS = 14    # 완화 하한 (한 번에 전체 리셋 금지)
 CLIP_DEDUP_DAYS = 30            # 30일 내 사용한 Pexels 클립 id 재사용 금지
-RECENT_FORMAT_KEEP = 2          # 전역 직전 N편 angle 연속 금지
+RECENT_FORMAT_KEEP = 2          # 전역 직전 N편 format+angle 연속 회피 (2026-07-17: angle 회전 실배선)
 
 # 미디어 소스: 우주봇 NASA 자리를 Pexels-사진으로 치환
 USE_NASA_MEDIA = False          # 여행봇: NASA 미사용

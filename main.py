@@ -44,10 +44,14 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)],
 )
-log = logging.getLogger("spacebot")
+log = logging.getLogger("travelbot")
 
 USED_PATH = os.path.join(BASE_DIR, "used_cities.json")
-USED_KEEP = 100  # 직전 100개 도시 회피 + 코드 레벨 강제 dedup (로스터 ~100개, 1회전 전 재등장 차단)
+# 직전 N개 도시 회피 + 코드 레벨 강제 dedup.
+# 2026-07-17 fix: 로스터(100)와 같은 값이면 100편 발행 후 후보풀이 0이 되어
+# off-roster 픽 유도 + 재발행 + GPT 낭비가 지속됨(시뮬 실측). 로스터보다 작게 둬서
+# 상시 후보 여유(≥15)를 확보한다 — 도시 재등장은 85편(약 8.5개월) 뒤부터 순환.
+USED_KEEP = 85
 
 # Pexels 풋티지 dedup (2026-05-07 우주봇 사용자 지적 동기화: 최근 영상 풋티지 가타)
 USED_PEXELS_PATH = os.path.join(BASE_DIR, "used_pexels.json")
@@ -165,7 +169,8 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
             _time.sleep(0.5)  # vision TPM burst 회피
         verify_count[0] += 1
         return verify_visual.verify_city(path, single, country=country,
-                                         landmark_lock=landmark_lock, strict=strict)
+                                         landmark_lock=landmark_lock, strict=strict,
+                                         confusion_pair=confusion_pair)
 
     def _assign(i, path, cid):
         slots_path[i] = path
@@ -354,6 +359,14 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     from pipeline import animals, pexels, tts, composer, translator
     from pipeline import history as hist_mod
 
+    # 2026-07-17: 필수 API 키 fail-fast — 시크릿 누락/오타 상태로 vision 0회 검증 발행이
+    # 조용히 성공하는 것을 차단(verify_visual도 무키 reject하지만 여기서 시작 자체를 막아
+    # GPT/Pexels 호출 낭비 없이 명확한 에러로 실패시킨다).
+    _missing = [k for k in ("OPENAI_API_KEY", "PEXELS_API_KEY")
+                if not (getattr(_cfg, k, "") or "").strip()]
+    if _missing:
+        raise RuntimeError(f"필수 API 키 누락: {', '.join(_missing)} — fail-fast (무검증 발행 차단)")
+
     used = _load_used()
     used_pexels = _load_used_pexels()
 
@@ -378,12 +391,26 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         pool=list(ANIMALS.keys()), min_candidates=HISTORY_MIN_CANDIDATES,
         min_window=HISTORY_MIN_WINDOW_DAYS)
     avoid_formats = hist_mod.recent_formats(hist, RECENT_FORMAT_KEEP)
+    avoid_angles = hist_mod.recent_angles(hist, RECENT_FORMAT_KEEP)  # 전역 angle 연속 방지 (2026-07-17 배선)
     recent_clips = hist_mod.recent_clip_ids(hist, CLIP_DEDUP_DAYS)  # 태깅된 id (nasa:/숫자)
-    log.info(f"dynamic_exclude {len(dynamic_exclude_list)}개 / fallback_exclude {len(fallback_exclude)}개 (window={eff_window:.0f}d) / avoid_formats={avoid_formats} / recent_clips={len(recent_clips)}")
+    log.info(f"dynamic_exclude {len(dynamic_exclude_list)}개 / fallback_exclude {len(fallback_exclude)}개 (window={eff_window:.0f}d) / avoid_formats={avoid_formats} / avoid_angles={avoid_angles} / recent_clips={len(recent_clips)}")
 
     bg_clip_ids = []
 
     if forced_animal:
+        # 2026-07-17: 오타 키가 조용히 로스터 첫 도시(Paris)로 대체되던 문제 → 사전 검증.
+        # 키는 lower_snake_case — 'Kyoto'/'kyoto japan' 같은 입력도 정규화 후 해석.
+        forced_animal = forced_animal.strip().lower().replace(" ", "_")
+        resolved = animals._resolve_roster_key(forced_animal)
+        if resolved not in ANIMALS:
+            low = forced_animal.lower().replace(" ", "_")
+            close = [k for k in ANIMALS if low in k or k.startswith(low[:4])][:5]
+            raise RuntimeError(
+                f"--city '{forced_animal}' 는 로스터에 없는 키입니다. "
+                f"비슷한 키: {close or '없음'} (정확한 키는 cities.json의 city_key 참조)")
+        if resolved != forced_animal:
+            log.info(f"--city 키 정규화: {forced_animal} → {resolved}")
+        forced_animal = resolved
         meta = animals._legacy_meta(forced_animal)
         try:
             meta.update(animals.expand_legacy_to_rich(meta))
@@ -403,7 +430,8 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         for attempt in range(5):
             try:  # (G) pick 자체 예외도 다음 시도로
                 try_meta = animals.pick_random_animal(
-                    exclude_keys=retry_used, history=hist, avoid_formats=avoid_formats)
+                    exclude_keys=retry_used, history=hist, avoid_formats=avoid_formats,
+                    avoid_angles=avoid_angles)
             except Exception as e:
                 log.warning(f"[try {attempt+1}] pick_random_animal 예외 → 재시도: {e}")
                 continue
@@ -481,7 +509,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     for i, f in enumerate(meta["facts"]):
         log.info(f"highlight[{i}]: {f}")
 
-    # 1) TTS (intro + fact x3 + outro)
+    # 1) TTS (intro + 하이라이트 전체 + outro)
     tts_texts = [meta["intro"]] + list(meta["facts"]) + [meta["outro"]]
     tts_lines = tts.synth_lines(tts_texts, work_dir, prefix="tts")
 
@@ -526,33 +554,37 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             custom_comment=meta.get("comment"),
         )
 
-    # 7) 사용 기록 (GPT 회피용)
-    used.append(animal_key)
-    _save_used(used)
-
-    # 7-1) Pexels 풋티지 사용 기록 (다음 영상부터 같은 풋티지 안 뜨도록)
+    # 7) 사용 기록 — 실제로 발행된 경우에만. (2026-07-17 fix: --no-upload 테스트 런이
+    #    used_cities/used_pexels/content_history를 '발행됨'으로 오염시키던 문제)
     used_clip_ids = [c for c in (bg_clip_ids or []) if c]
-    new_pexels_ids = [int(c) for c in used_clip_ids if str(c).isdigit()]
-    if new_pexels_ids:
-        used_pexels.extend(new_pexels_ids)
-        _save_used_pexels(used_pexels)
-        log.info(f"used_pexels.json 갱신: +{new_pexels_ids} (전체 {len(used_pexels)}개 추적)")
+    if no_upload:
+        log.info("--no-upload → 사용 기록(used_cities/used_pexels/content_history) 저장 스킵 (상태 오염 방지)")
+    else:
+        used.append(animal_key)
+        _save_used(used)
 
-    # 7-2) content_history.json 기록 (시간 기반 재등장 차단 + 클립 dedup + angle/format 로테이션)
-    try:
-        entry = hist_mod.build_entry(
-            animal_key,
-            angle=meta.get("angle", ""),
-            fmt=meta.get("format", ""),
-            facts=meta.get("facts", []),
-            title=meta.get("title_en", ""),
-            clip_ids=used_clip_ids,
-        )
-        hist_mod.add_entry(hist, animal_key, entry)
-        hist_mod.save_history(CONTENT_HISTORY_PATH, hist)
-        log.info(f"content_history.json 기록: {animal_key} (angle={entry['angle']}, format={entry['format']}, clips={len(used_clip_ids)})")
-    except Exception as e:
-        log.warning(f"content_history 기록 실패: {e}")
+        # 7-1) Pexels 풋티지 사용 기록 (다음 영상부터 같은 풋티지 안 뜨도록)
+        new_pexels_ids = [int(c) for c in used_clip_ids if str(c).isdigit()]
+        if new_pexels_ids:
+            used_pexels.extend(new_pexels_ids)
+            _save_used_pexels(used_pexels)
+            log.info(f"used_pexels.json 갱신: +{new_pexels_ids} (전체 {len(used_pexels)}개 추적)")
+
+        # 7-2) content_history.json 기록 (시간 기반 재등장 차단 + 클립 dedup + angle/format 로테이션)
+        try:
+            entry = hist_mod.build_entry(
+                animal_key,
+                angle=meta.get("angle", ""),
+                fmt=meta.get("format", ""),
+                facts=meta.get("facts", []),
+                title=meta.get("title_en", ""),
+                clip_ids=used_clip_ids,
+            )
+            hist_mod.add_entry(hist, animal_key, entry)
+            hist_mod.save_history(CONTENT_HISTORY_PATH, hist)
+            log.info(f"content_history.json 기록: {animal_key} (angle={entry['angle']}, format={entry['format']}, clips={len(used_clip_ids)})")
+        except Exception as e:
+            log.warning(f"content_history 기록 실패: {e}")
 
     # 8) CC 자막 트랙 (en + 7개국) — 기록(used/history) 저장을 먼저 끝낸 뒤 수행.
     #    **fail-soft**: 자막 실패가 영상 발행/기록을 실패시키지 않음. CC 전체 예산 180s.
@@ -563,9 +595,16 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             from pipeline import captions
             cc_deadline = _time.monotonic() + 180.0  # CC 단계 전체 예산(초)
             video_id = url.rstrip("/").split("/")[-1].split("?")[0]
+            # 적응형 길이(composer v4)라 실제 렌더 길이를 실측해 자막 총길이로 사용
+            try:
+                from moviepy.editor import VideoFileClip as _VFC
+                with _VFC(out_video) as _vc:
+                    _actual_dur = float(_vc.duration)
+            except Exception:
+                _actual_dur = composer.final_video_duration()
             srts = captions.generate_all(
                 tts_lines, work_dir,
-                total_dur=composer.final_video_duration(), deadline=cc_deadline,
+                total_dur=_actual_dur, deadline=cc_deadline,
             )
             cap_ok = captions.upload_captions(video_id, srts, deadline=cc_deadline)
             n_ok = sum(1 for v in cap_ok.values() if v)

@@ -10,8 +10,31 @@ from config import (
     YOUTUBE_CLIENT_SECRET,
     YOUTUBE_TOKEN,
 )
+import config as _cfg
 
-log = logging.getLogger("spacebot.youtube")
+log = logging.getLogger("travelbot.youtube")
+
+# 업로드 직전 채널 결속 재검증 기준 (auth.py와 동일 — feedback_oauth_channel_verify)
+_CHANNEL_KEYWORDS = [k.lower() for k in getattr(_cfg, "CHANNEL_KEYWORDS", [])]
+_FOREIGN_CHANNEL_WORDS = ["lofi", "lit", "animal", "space trivia", "spacetrivia"]
+
+
+def _verify_channel(svc):
+    """업로드 직전 토큰이 여행 채널에 결속됐는지 재검증 (fail-closed).
+
+    auth.py는 발급 시점만 검증한다 — 잘못된 토큰이 CI secret으로 유입되는 경로를
+    업로드 시점에서 최종 차단한다. 불일치면 RuntimeError로 업로드 자체를 중단."""
+    resp = svc.channels().list(part="snippet", mine=True).execute()
+    items = resp.get("items", [])
+    if not items:
+        raise RuntimeError("channel verify 실패: 채널 조회 결과 없음 — 업로드 중단 (fail-closed)")
+    title = items[0]["snippet"]["title"]
+    low = title.lower()
+    if any(w in low for w in _FOREIGN_CHANNEL_WORDS):
+        raise RuntimeError(f"channel verify 실패: 토큰이 다른 봇 채널('{title}')에 결속 — 업로드 중단")
+    if _CHANNEL_KEYWORDS and not any(k in low for k in _CHANNEL_KEYWORDS):
+        raise RuntimeError(f"channel verify 실패: '{title}'는 여행 채널 키워드 미포함 — 업로드 중단")
+    log.info(f"channel verify OK: {title}")
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.force-ssl",
@@ -123,6 +146,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
     from googleapiclient.http import MediaFileUpload
 
     svc = get_service()
+    _verify_channel(svc)
     snippet = {
         "title": title[:95],
         "description": description[:4900],

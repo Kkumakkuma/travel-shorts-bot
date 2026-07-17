@@ -17,7 +17,7 @@ import os
 
 import requests
 
-log = logging.getLogger("spacebot.nasa")
+log = logging.getLogger("travelbot.nasa")
 
 _SEARCH_API = "https://images-api.nasa.gov/search"
 _UA = "SpaceTriviaBot/1.0 (educational; contact via youtube)"
