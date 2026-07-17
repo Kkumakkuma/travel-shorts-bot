@@ -112,6 +112,10 @@ def get_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            # CI(headless)에서 run_local_server는 브라우저 인증 대기로 timeout(40분)까지
+            # 블록된다 — refresh 불가 토큰이면 즉시 실패시켜 낭비·지연을 막는다 (2026-07-17)
+            if os.environ.get("GITHUB_ACTIONS"):
+                raise RuntimeError("CI에서 대화형 OAuth 불가 — YT_TOKEN_B64 시크릿(refresh_token 포함) 확인 필요")
             flow = InstalledAppFlow.from_client_secrets_file(YOUTUBE_CLIENT_SECRET, SCOPES)
             creds = flow.run_local_server(port=0)
         os.makedirs(os.path.dirname(YOUTUBE_TOKEN), exist_ok=True)
