@@ -513,9 +513,9 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     tts_texts = [meta["intro"]] + list(meta["facts"]) + [meta["outro"]]
     tts_lines = tts.synth_lines(tts_texts, work_dir, prefix="tts")
 
-    # 3) BGM — 여행 카테고리 기반 음악쇼츠 GDrive read-only 다운로드
+    # 3) BGM — 음악쇼츠 GDrive 수노 풀 전체에서 미사용곡 랜덤 (read-only, 2026-07-17 재설계)
     from pipeline import bgm as bgm_mod
-    bgm_path = bgm_mod.fetch_bgm_by_category(meta["category"], work_dir)
+    bgm_path, bgm_file_id = bgm_mod.fetch_bgm_random(work_dir)
     if bgm_path:
         log.info(f"bgm: {os.path.basename(bgm_path)}")
     else:
@@ -585,6 +585,11 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             log.info(f"content_history.json 기록: {animal_key} (angle={entry['angle']}, format={entry['format']}, clips={len(used_clip_ids)})")
         except Exception as e:
             log.warning(f"content_history 기록 실패: {e}")
+
+        # 7-3) BGM 사용 기록 — 풀 1회전 전 중복 방지 (발행 성공 시에만)
+        if bgm_file_id:
+            bgm_mod.mark_bgm_used(bgm_file_id)
+            log.info(f"used_bgm.json 갱신: +{bgm_file_id}")
 
     # 8) CC 자막 트랙 (en + 7개국) — 기록(used/history) 저장을 먼저 끝낸 뒤 수행.
     #    **fail-soft**: 자막 실패가 영상 발행/기록을 실패시키지 않음. CC 전체 예산 180s.

@@ -87,7 +87,7 @@ jobs:
           # 존재하는 파일만 add — 없는 파일은 건너뛴다(git add 는 pathspec 부재 시 exit 128).
           # '|| true' 로 뭉개면 저장 실패가 성공처럼 보이므로(codex 지적) 파일별로 판단한다.
           FILES=""
-          for f in used_cities.json used_comments.json content_history.json used_pexels.json; do
+          for f in used_cities.json used_comments.json content_history.json used_pexels.json used_bgm.json; do
             [ -f "$f" ] && FILES="$FILES $f"
           done
           if [ -z "$FILES" ]; then
