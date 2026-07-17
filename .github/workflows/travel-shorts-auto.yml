@@ -2,9 +2,9 @@ name: Wander 60s Auto Upload
 
 on:
   schedule:
-    # 3일 간격 (매월 2,5,8,...,29일 = 월 10편) — KST 12:00 = UTC 03:00.
+    # 주 2회: 수·토 각 1편 — KST 12:00 = UTC 03:00 (2026-07-17 쿠마님 지시: 동물 월목 / 우주 화금 / 여행 수토)
     # 주의: 주기 바꿀 땐 cron과 이 주석을 함께 갱신할 것 (과거 fork 주석 불일치 사고).
-    - cron: '0 3 2-30/3 * *'
+    - cron: '0 3 * * 3,6'
   workflow_dispatch:
 
 permissions:
