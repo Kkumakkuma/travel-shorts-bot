@@ -55,7 +55,7 @@ USED_KEEP = 85
 
 # Pexels 풋티지 dedup (2026-05-07 우주봇 사용자 지적 동기화: 최근 영상 풋티지 가타)
 USED_PEXELS_PATH = os.path.join(BASE_DIR, "used_pexels.json")
-USED_PEXELS_KEEP = 30  # 직전 30개 영상 풋티지 차단 (1편당 3개 풋티지 × 10편 분량)
+USED_PEXELS_KEEP = 30  # 직전 30개 풋티지 soft 차단 (1편당 ~5클립 × 6편 분량, hard는 content_history 30일창)
 
 
 def _load_used():
@@ -586,10 +586,13 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         except Exception as e:
             log.warning(f"content_history 기록 실패: {e}")
 
-        # 7-3) BGM 사용 기록 — 풀 1회전 전 중복 방지 (발행 성공 시에만)
+        # 7-3) BGM 사용 기록 — 풀 1회전 전 중복 방지 (발행 성공 시에만, 실패해도 발행은 유효)
         if bgm_file_id:
-            bgm_mod.mark_bgm_used(bgm_file_id)
-            log.info(f"used_bgm.json 갱신: +{bgm_file_id}")
+            try:
+                bgm_mod.mark_bgm_used(bgm_file_id)
+                log.info(f"used_bgm.json 갱신: +{bgm_file_id}")
+            except Exception as e:
+                log.warning(f"used_bgm 기록 실패 (영상은 정상 발행됨): {e}")
 
     # 8) CC 자막 트랙 (en + 7개국) — 기록(used/history) 저장을 먼저 끝낸 뒤 수행.
     #    **fail-soft**: 자막 실패가 영상 발행/기록을 실패시키지 않음. CC 전체 예산 180s.

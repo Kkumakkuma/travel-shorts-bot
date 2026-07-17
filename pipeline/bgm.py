@@ -126,9 +126,12 @@ def fetch_bgm_random(output_dir: str) -> Tuple[Optional[str], Optional[str]]:
         used_set = set(used)
         fresh = [f for f in pool if f["id"] not in used_set]
         if not fresh:
-            recent = set(used[-RESET_RECENT_KEEP:])
-            fresh = [f for f in pool if f["id"] not in recent] or pool
-            log.info(f"BGM 풀 1회전 소진({len(pool)}곡) → 이력 해제 재사용 (직전 {RESET_RECENT_KEEP}곡 제외)")
+            recent = used[-RESET_RECENT_KEEP:]
+            fresh = [f for f in pool if f["id"] not in set(recent)] or pool
+            # 이력을 직전 N곡으로 truncate 저장 — 안 비우면 이후 회전의 중복 방지 창이
+            # '전체 풀'이 아니라 '직전 N곡'으로 영구 축소된다 (2026-07-17 감사 지적)
+            json.dump(recent, open(USED_BGM_PATH, "w", encoding="utf-8"))
+            log.info(f"BGM 풀 1회전 소진({len(pool)}곡) → 이력 리셋(직전 {len(recent)}곡만 유지) 후 재사용")
 
         pick = random.choice(fresh)
         os.makedirs(output_dir, exist_ok=True)

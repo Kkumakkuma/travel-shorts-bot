@@ -36,13 +36,13 @@ jobs:
       # 같은 주제가 며칠 만에 재등장했다(실측: saturn 6/18 → 7/5, jupiter 6/30 → 7/6).
       # 이제 checkout이 이력을 가져오고, 발행 성공 시 아래 "Persist state" 스텝이 커밋한다.
 
-      - name: Install ffmpeg + ImageMagick + 폰트
+      - name: Install ffmpeg + 폰트
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg imagemagick fonts-dejavu fonts-liberation
-          # sed 구분자를 #로 사용 — 치환문의 read|write 파이프가 |구분자와 충돌해
-          # policy.xml을 깨진 XML로 만들고 junk 파일을 남기던 문법 오류 수정 (2026-07-17)
-          sudo sed -i 's#<policy domain="path" rights="none" pattern="@\*"#<policy domain="path" rights="read|write" pattern="@*"#g' /etc/ImageMagick-6/policy.xml || true
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu fonts-liberation
+          # ImageMagick 설치+policy sed 제거 (2026-07-17): 파이프라인이 TextClip/ImageMagick을
+          # 전혀 안 쓰는데(자막은 전부 PIL) 설치 시간만 쓰고, sed는 문법 오류로 policy.xml을
+          # 깨뜨리는 지뢰였다. TextClip 도입 시 설치+올바른 policy 완화를 함께 되살릴 것.
 
       - name: Install Python deps
         run: |

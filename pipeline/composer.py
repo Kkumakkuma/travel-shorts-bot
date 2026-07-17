@@ -595,10 +595,12 @@ def compose(
     raw_total = cursor - pad_between + end_pad
     # 2026-07-17 v4: 적응형 길이. v3의 '항상 59.7s 강제'는 여행봇의 짧은 내레이션(~28s)에서
     # 마지막 클립 ~39s 루프 + ~25s 무자막 데드타임을 만들었다(리텐션 붕괴, 검증 확정 finding).
-    # 내레이션 끝 + CTA 여유(7s)로 맞추되, 너무 짧지 않게 MIN, Shorts 안전선(59.7s)로 캡.
+    # tail은 3.5s — 7s로 두면 cta_start=max(outro시작, total-7)이 raw_total로 밀려
+    # 'CTA는 outro 발화와 동시 표시'(v5) 의도가 깨진다. 3.5s면 total-7 < outro시작이라
+    # CTA가 outro 시작부터 뜨고(v5 복원), 노출 시간 = outro(~2-3s) + tail 3.5s ≈ 6s.
     cap_dur = final_video_duration()
     min_dur = float(getattr(_cfg, "MIN_VIDEO_DURATION_SEC", 40))
-    total_dur = min(cap_dur, max(raw_total + 7.0, min_dur))
+    total_dur = min(cap_dur, max(raw_total + 3.5, min_dur))
     if raw_total > cap_dur:
         log.warning(f"음성 {raw_total:.2f}s > 영상 {cap_dur:.2f}s — outro 일부 잘림 가능")
     log.info(f"timeline: raw={raw_total:.2f}s → total={total_dur:.2f}s (적응형, cap={cap_dur:.1f}s min={min_dur:.0f}s) lines={len(timeline)}")

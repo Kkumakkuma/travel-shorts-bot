@@ -20,7 +20,8 @@ CHANNEL_KEYWORDS = ["wander", "travel", "trip", "journey", "city", "cities", "60
 # 화면에 박히는 브랜딩(composer 워터마크/CTA). 우주봇 잔재(@SpaceTrivia60s/"for more space facts") 대체.
 # 채널 핸들은 리브랜드 후 실제 핸들로 맞출 것(쿠마님 YouTube Studio 설정값과 동기화).
 CHANNEL_HANDLE = "@Wander60s"
-BRAND_CTA_SUBTITLE = "for a new city daily"
+# "daily"는 실제 발행 주기(3일 간격)와 불일치하는 허위 약속이라 주기 무관 문구로 교체 (2026-07-17)
+BRAND_CTA_SUBTITLE = "for more city guides"
 import os
 import sys
 import json
