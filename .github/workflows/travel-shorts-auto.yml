@@ -1,3 +1,4 @@
+# 초기 push 시 GitHub 워크플로 인덱싱 누락 방지용 재등록 커밋 (2026-07-18).
 name: Wander 60s Auto Upload
 
 on:
