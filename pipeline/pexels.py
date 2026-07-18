@@ -77,7 +77,10 @@ _TRAVEL_TOKENS = {
 _HARD_MACRO_WORDS = {
     "flower", "flowers", "floral", "iris", "irises", "tulip", "tulips", "orchid", "orchids",
     "lily", "lilies", "rose", "roses", "daisy", "sunflower", "sunflowers", "lavender",
-    "petal", "petals", "bloom", "blooms", "blooming", "bouquet", "florist", "botanical",
+    "petal", "petals", "bloom", "blooms", "blooming", "blossom", "blossoms", "bouquet", "florist", "botanical",
+    "magnolia", "magnolias", "camellia", "camellias", "wisteria", "hydrangea", "hydrangeas",
+    "peony", "peonies", "azalea", "azaleas", "poppy", "poppies", "dahlia", "dahlias", "marigold",
+    "chrysanthemum", "wildflower", "wildflowers",
     "macro", "closeup", "close-up", "pollen", "dew", "potted", "houseplant", "succulent",
     "insect", "insects", "butterfly", "butterflies", "bee", "bees", "dragonfly", "ladybug",
     "mushroom", "moss",

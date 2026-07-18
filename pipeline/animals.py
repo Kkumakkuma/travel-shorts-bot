@@ -350,7 +350,7 @@ def _keywords_for_facts(display, single, facts):
     client = OpenAI(api_key=OPENAI_API_KEY)
     n = len(facts)
     joined = "\n".join(f"{i+1}. {f}" for i, f in enumerate(facts))
-    prompt = f"""For each fact below about {display} ({single}), give ONE short stock-video search keyword (2-4 words) describing the best background visual for THAT fact. EVERY keyword MUST contain "{single}". Keep the SAME order.
+    prompt = f"""For each fact below about {display} ({single}), give ONE short stock-video search keyword (2-4 words) describing the best background visual for THAT fact. EVERY keyword MUST contain "{single}". Each keyword should point to a FILMABLE OUTDOOR visual (a landmark / street / district / castle / garden / temple / market / riverside / viewpoint), NOT an abstract concept or indoor exhibit; for a food fact use a market or street-food scene. Keep the SAME order.
 
 {joined}
 
@@ -551,6 +551,7 @@ Rewrite it into {n} final travel HIGHLIGHTS (each = one punchy destination one-l
 - For VOLATILE info (ticket prices, opening hours, exchange rates, current population) never give a precise fixed figure — use a qualitative version ("cheap street food", "go early").
 - Keep the highlights genuinely appealing: pick the most memorable landmarks / food / activities / history SOURCE actually mentions. Prefer a true vivid highlight over a fabricated shocking one.
 - MIX the highlight types — do NOT make all {n} dry history facts. If SOURCE mentions any food/dish/market, include at least ONE food / local-specialty highlight; always include at least ONE present-tense sensory experience (what a visitor sees, tastes, hears, or the best time to go). NEVER invent food or detail not in SOURCE. Lead each highlight with what the traveler EXPERIENCES, not an administrative/technical detail — e.g. never sell a famous garden as an "emergency water reservoir"; sell its seasonal scenery instead. Vary the opening word; do NOT start every highlight with the same verb (Discover/Explore/Visit/Wander/Experience).
+- FILMABLE: each highlight must center on a scene with likely travel stock video of {single} — outdoor landmarks, streets, districts, the castle, gardens, temples, markets, riverside, or viewpoints. Avoid museum interiors, indoor exhibits, abstract concepts, or an isolated single dish. Only if SOURCE actually mentions a market, street food, or dining district may you frame food that way; otherwise pick another SOURCE-backed outdoor subject. Never invent a market or scene not in SOURCE.
 - **Each highlight MUST be 20-30 words. Count the words before you answer.** Warm, first/second-person travel tone (e.g. "Fushimi Inari's thousands of vermilion gates climb the mountainside — go at sunrise and you'll have whole stretches of the winding trail almost to yourself.").
 - All numeric/historical claims across the {n} highlights MUST agree with each other and with SOURCE.
 - No hype phrases ("will blow your mind", "paradise on earth", "more interesting than people think") and NO brochure clichés. BANNED words/phrases: "rich historical tapestry", "historical tapestry", "tapestry of", "boasts", "steeped in history", "nestled", "hidden gem", "melting pot", "will steal your heart", "must-see", "a feast for the senses".
@@ -1329,6 +1330,7 @@ def expand_legacy_to_rich(meta: dict) -> dict:
 REQUIREMENTS:
 - Choose ONE angle from {ANGLES} and build the video around it.
 - 5 travel HIGHLIGHTS (one-liners), each 20-30 words. Warm first/second-person travel tone. You MAY mix types (landmark / food / activity / history / hidden corner).
+- **FILMABLE (CRITICAL — each highlight becomes stock B-roll)**: every highlight must center on a place or scene that realistically HAS travel stock video of {single} — outdoor landmarks, streets, old-town districts, the castle, gardens, temples/shrines, markets, riverside, bridges, viewpoints, or festivals. AVOID subjects with little or no stock footage: museum interiors, specific indoor exhibits, abstract concepts, or a single named dish shown alone. For food, frame it as a MARKET or STREET-FOOD scene (not an isolated plate). Prefer visually iconic OUTDOOR locations.
 - Each highlight opens DIFFERENTLY. NEVER use empty hype: "paradise on earth", "will blow your mind", "best kept secret", "more interesting than people think".
 - Every highlight must be TRUE for {single}: real landmarks, dishes, and historical events only. Volatile info (prices, hours) stays qualitative ("cheap street food", "go early").
 - **INTERNAL CONSISTENCY (CRITICAL)**: any number/year must agree across highlights, title, and comment. No contradictions.
@@ -1336,7 +1338,7 @@ REQUIREMENTS:
 - Outro: 4-7 words CTA, one of: "Save this for your trip." / "Which city next?" / "Follow for a new city daily."
 - Hook (overlay text): short, like "{display} in 60s".
 - **angle**: one of {ANGLES}. **format**: one of {FORMATS}.
-- **fact_keywords**: 5 background-video search keywords, ONE per highlight IN ORDER, each containing "{single}".
+- **fact_keywords**: 5 background-video search keywords, ONE per highlight IN ORDER, each containing "{single}" and describing a FILMABLE OUTDOOR visual (a landmark / street / district / castle / garden / market / riverside), NOT an abstract concept or indoor exhibit.
 - **Title (CRITICAL CTR — pick ONE viral pattern, max 70 chars, must include "{single}", NO emoji)**:
   (a) In 60s: "{display} in 60 Seconds"
   (b) Why visit: "Why {display} Should Be Your Next Trip"

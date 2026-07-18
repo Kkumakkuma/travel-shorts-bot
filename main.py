@@ -138,6 +138,11 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
 
     ordered_kw = [k for k in (meta.get("fact_keywords") or []) if isinstance(k, str) and k.strip()]
     generic_kw = [g for g in (meta.get("pexels_keywords") or []) if isinstance(g, str) and g.strip()]
+    # 폴백은 '정원 랜드마크'(generic)보다 '도시/거리 일반'을 먼저 시도한다 — 음식·추상 fact가
+    # 그 주제 영상을 못 찾을 때 엉뚱한 정원(+꽃)으로 튀지 않게 (쿠마님 2026-07-19 A+C 조합).
+    _single_s = (single or "").strip()
+    _neutral_kw = ([f"{_single_s} old town street", f"{_single_s} downtown", f"{_single_s} city street scene"]
+                   if _single_s else [])
     while len(ordered_kw) < n:
         ordered_kw.append(generic_kw[len(ordered_kw) % len(generic_kw)] if generic_kw else (single or "city"))
 
@@ -162,7 +167,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
             log.warning(f"nasa_media 임포트 실패 — NASA 소스 skip: {e}")
             nasa = None
 
-    def _verify(path, strict=False):
+    def _verify(path, strict=False, subject=""):
         if not path or not os.path.exists(path):
             return False
         if verify_count[0] > 0:
@@ -170,7 +175,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
         verify_count[0] += 1
         return verify_visual.verify_city(path, single, country=country,
                                          landmark_lock=landmark_lock, strict=strict,
-                                         confusion_pair=confusion_pair)
+                                         confusion_pair=confusion_pair, subject=subject)
 
     def _assign(i, path, cid):
         slots_path[i] = path
@@ -190,7 +195,11 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
     # === 슬롯별 채움 (NASA영상 → Pexels영상 → NASA이미지 → Pexels사진 KenBurns) — 슬롯 인덱스 = 하이라이트 인덱스 ===
     for i in range(n):
         kw = ordered_kw[i]
-        slot_kw = [kw] + [g for g in generic_kw if g != kw]
+        # 폴백 순서: [주제 키워드] → [도시/거리 중립] → [정원 등 랜드마크]. (C) 주제 영상 실패 시
+        # 정원으로 직행하지 않고 도시/거리를 먼저 시도.
+        _fb = ([g for g in _neutral_kw if g != kw]
+               + [g for g in generic_kw if g != kw and g not in _neutral_kw])
+        slot_kw = [kw] + _fb
         # 아이콘 랜드마크 슬롯(첫 슬롯 + iconic_landmarks 앵글)은 엄격 검증, 나머지는 느슨.
         slot_strict = (i == 0 and angle == "iconic_landmarks")
 
@@ -198,7 +207,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
         if nasa is not None:
             p, nid = nasa.fetch_video(kw, work_dir, exclude_ids=_used_nasa())
             if p:
-                if _verify(p, strict=slot_strict):
+                if _verify(p, strict=slot_strict, subject=kw):
                     _assign(i, p, f"nasa:{nid}")
                     continue
                 rejected.append(p)
@@ -220,7 +229,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
             if cid and cid in used_clip_set:
                 rejected.append(cand)
                 continue
-            if _verify(cand, strict=slot_strict):
+            if _verify(cand, strict=slot_strict, subject=kw):
                 _assign(i, cand, cid or "")
                 assigned = True
                 break
@@ -249,7 +258,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
                         os.remove(png)
                     except Exception:
                         pass
-                if mp4 and _verify(mp4, strict=slot_strict):
+                if mp4 and _verify(mp4, strict=slot_strict, subject=kw):
                     _assign(i, mp4, f"nasa:{nid}")
                     continue
                 if mp4:
@@ -291,7 +300,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
                         os.remove(png)
                     except Exception:
                         pass
-                if mp4 and _verify(mp4, strict=slot_strict):
+                if mp4 and _verify(mp4, strict=slot_strict, subject=kw):
                     _assign(i, mp4, f"pexphoto:{pid}" if pid else "")
                     photo_assigned = True
                     break
@@ -322,7 +331,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
                     break
                 cand = mp4s[mi]
                 mi += 1
-                if _verify(cand):
+                if _verify(cand, subject=kw):
                     _assign(i, cand, "")
                 else:
                     rejected.append(cand)
@@ -566,6 +575,22 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
 
     if dry_run:
         log.info("--dry-run → 업로드 스킵")
+        # 검증→발행 분리: 이 mp4를 나중에 '그대로' 업로드할 수 있게 meta 저장.
+        # --upload 재렌더는 대본/클립이 매번 랜덤이라 검증본과 달라짐(꽃 재발 사고 방지).
+        try:
+            import json as _json
+            _pub = {
+                "animal_key": animal_key, "video": out_video,
+                "title_en": meta["title_en"], "description_en": meta["description_en"],
+                "tags": meta.get("tags", []), "locs": locs,
+                "comment": meta.get("comment"), "default_language": "en",
+            }
+            _pp = os.path.join(work_dir, "publish_meta.json")
+            with open(_pp, "w", encoding="utf-8") as _f:
+                _json.dump(_pub, _f, ensure_ascii=False, indent=2)
+            log.info(f"publish_meta 저장(검증→발행 분리용): {_pp}")
+        except Exception as _e:
+            log.warning(f"publish_meta 저장 실패: {_e}")
         return {
             "animal": animal_key,
             "video": out_video,
@@ -669,13 +694,49 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     }
 
 
+def _publish_prepared(meta_json_path: str):
+    """dry-run이 저장한 publish_meta.json을 읽어 '검증된 그 mp4'를 그대로 업로드한다.
+    --upload(=기본) 재렌더는 매번 대본/클립이 랜덤이라(꽃 재발 등) 검증본과 달라지므로,
+    dry-run으로 눈으로 확인한 영상을 재렌더 없이 발행하기 위한 경로(쿠마님 2026-07-18)."""
+    import json
+    from pipeline import youtube_upload
+    with open(meta_json_path, encoding="utf-8") as f:
+        pub = json.load(f)
+    video = pub["video"]
+    if not os.path.exists(video):
+        raise FileNotFoundError(f"발행할 영상 없음: {video}")
+    log.info(f"검증본 발행 시작: {os.path.basename(video)}")
+    url = youtube_upload.upload(
+        video,
+        title=pub["title_en"],
+        description=pub["description_en"],
+        tags=pub.get("tags", []),
+        localizations=pub.get("locs", {}),
+        default_language=pub.get("default_language", "en"),
+        custom_comment=pub.get("comment"),
+    )
+    log.info(f"검증본 발행 완료: {url}")
+    print({"video": video, "url": url})
+    return url
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--animal", "--city", dest="animal",
                    help="강제 도시 키 (예: kyoto_japan)")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--no-upload", action="store_true")
+    p.add_argument("--publish-prepared", dest="publish_prepared", default=None,
+                   help="dry-run이 저장한 publish_meta.json으로 검증된 mp4를 그대로 업로드")
     args = p.parse_args()
+
+    if args.publish_prepared:
+        try:
+            _publish_prepared(args.publish_prepared)
+        except Exception as e:
+            log.exception(f"검증본 발행 실패: {e}")
+            sys.exit(1)
+        return
 
     try:
         result = run_once(

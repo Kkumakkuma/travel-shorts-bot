@@ -20,6 +20,7 @@ garbage 발행보다 발행 안 하는 게 낫다는 정책.
 import base64
 import logging
 import os
+import re
 import subprocess
 import time
 
@@ -58,7 +59,7 @@ def extract_frame(video_path: str, timestamp: float = 1.5) -> str:
 
 
 def _build_question(city: str, country: str = "", landmark_lock: str = "",
-                    strict: bool = False, confusion_pair: list = None) -> str:
+                    strict: bool = False, confusion_pair: list = None, subject: str = "") -> str:
     """도시 여행 배경 적합성 판정 vision 프롬프트 (accept-by-default).
 
     2026-07-14 튜닝: 초기 프롬프트가 reject 편향이라 로마 콜로세움 내부·바티칸 성베드로
@@ -74,6 +75,37 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
         f" — but still ACCEPT any plausible {city} scene.)"
         if strict else ""
     )
+    # 주제(자막 하이라이트) 인식 — vision이 '카나자와 랜드마크인가'만 보지 않고 그 문장 주제에
+    # 맞는 장면(음식/거리 등)을 적극 accept하게 한다. (2026-07-18 쿠마님: 꽃 차단이 아니라
+    # '주제에 맞는 영상 매칭'이 핵심. 음식 자막에 카레 클립이 product-shot으로 오거절되던 문제)
+    subj_low = (subject or "").lower()
+    _toks = set(re.findall(r"[a-z]+", subj_low))  # 단어경계 토큰화 ('Swedish'의 'dish' 오탐 방지)
+    _food_words = {
+        "food", "cuisine", "curry", "ramen", "sushi", "dish", "sweets", "seafood", "gourmet",
+        "cafe", "coffee", "dessert", "delicacy", "culinary", "noodle", "noodles", "cooking",
+        "sake", "sashimi", "gastronomy", "snack", "snacks", "bakery", "pastry", "restaurant",
+        "wine", "beer", "tea", "matcha", "gelato", "kaiseki", "izakaya", "dining", "eat",
+        "market", "markets", "marketplace", "fish", "produce", "grocer",
+    }
+    _food_phrases = ("ice cream", "gold leaf", "street food", "fish market", "food market", "seafood market")
+    _street_words = {
+        "street", "streets", "district", "alley", "alleys", "shopping", "nightlife", "quarter",
+        "downtown", "nagamachi", "chaya", "samurai", "geisha", "arcade", "lane", "lanes",
+    }
+    subject_line = ""
+    if (_toks & _food_words) or any(p in subj_low for p in _food_phrases):
+        # reject 규칙 (1)-(5)는 그대로 우선. 이 힌트는 오직 규칙 (2)의 '음식=product shot' 오분류만 무효화.
+        subject_line = (
+            " NOTE: this clip is for a FOOD highlight. Rules (1)-(5) above still apply first; but for"
+            " THIS highlight a dish, plate, bowl, restaurant, market stall, street-food, or dessert"
+            " scene (including a close-up of food) does NOT count as a 'product/catalog shot' under"
+            " rule (2) — answer 'yes' for genuine food / cooking / dining / market imagery in {city}'s"
+            " country.".replace("{city}", city))
+    elif _toks & _street_words:
+        subject_line = (
+            " NOTE: this clip is for a STREET / DISTRICT highlight. Rules (1)-(5) still apply first;"
+            " any ordinary city street, alley, shopping arcade, market street, teahouse row, or"
+            " neighborhood scene should be accepted — answer 'yes'.")
     # 혼동쌍 방어: slug 필터를 통과한 혼동 도시의 '상징 랜드마크'가 명백하면 reject.
     # (같은 나라 혼동쌍(Florence↔Rome)은 country 필터가 못 거르므로 vision이 최후 방어선)
     confusion_line = ""
@@ -97,7 +129,7 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
         f" (a wide street, square, or landmark scene that happens to include tourists or people is FINE — accept it)."
         f" (4) Text, slides, charts, maps, or graphic overlays covering most of the frame."
         f" (5) Almost entirely black/blank, or too blurry to make out anything."
-        f"{strict_line}"
+        f"{strict_line}{subject_line}"
         f" For EVERYTHING else — cityscapes, skylines, streets, alleys, squares, plazas, architecture,"
         f" ruins, temples, churches, cathedrals, domes, mosques, palaces, castles, monuments, bridges,"
         f" markets, cafes, local food and dishes, coastlines, beaches, mountains, rivers, canals, harbors,"
@@ -109,7 +141,7 @@ def _build_question(city: str, country: str = "", landmark_lock: str = "",
 
 def verify_city(video_path: str, city: str, country: str = "",
                 landmark_lock: str = "", strict: bool = False,
-                confusion_pair: list = None) -> bool:
+                confusion_pair: list = None, subject: str = "") -> bool:
     """영상 첫 프레임이 {city} 여행 배경으로 적합한지 GPT-4o-mini vision으로 검증.
 
     True: 여행 배경 적합
@@ -137,7 +169,7 @@ def verify_city(video_path: str, city: str, country: str = "",
         from openai import OpenAI
         client = OpenAI(api_key=OPENAI_API_KEY)
 
-        question = _build_question(city, country, landmark_lock, strict, confusion_pair)
+        question = _build_question(city, country, landmark_lock, strict, confusion_pair, subject)
 
         # rate limit 429에서 fail-OPEN으로 garbage 통과되던 사고 방지 — 3회 backoff 재시도.
         # 비-rate-limit 에러는 재시도 없이 즉시 fail-CLOSED.
