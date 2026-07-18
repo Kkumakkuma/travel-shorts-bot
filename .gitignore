@@ -25,3 +25,4 @@ dist/
 # 테스트 로그
 dryrun*.log
 *.log
+channel_art/
