@@ -525,7 +525,40 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     out_video = os.path.join(
         work_dir, f"{animal_key}_{datetime.now().strftime('%H%M%S')}.mp4"
     )
-    composer.compose(bg_paths, tts_lines, meta["hook"], out_video, bgm_path=bgm_path, title=meta.get("title_en"))
+
+    # 4-0) 도입샷 — 첫 화면을 '도시 전경'으로(쿠마님 2026-07-18: 첫 화면이 꽃이 아니라 도시/국가여야 함).
+    #      cityscape/skyline/aerial 키워드로 vision 통과분 1개. 실패 시 None → 기존 첫 하이라이트 클립이 첫 화면.
+    intro_clip = None
+    try:
+        from pipeline import pexels as _px, verify_visual as _vv
+        _s = (meta.get("single") or "").strip()
+        _c = (meta.get("country") or "").strip()
+        if _s:
+            _excl = [int(x) for x in (bg_clip_ids or []) if str(x).isdigit()]
+            _kws = [f"{_s} {_c} cityscape".strip(), f"{_s} skyline aerial",
+                    f"{_s} {_c} city view".strip(), f"{_s} old town streets", f"{_s} downtown"]
+            _cands = _px.fetch_backgrounds(_kws, work_dir, n=4, animal_single=_s, country=_c,
+                                           ordered=True, exclude_pexels_ids=_excl, hard_exclude_ids=_excl,
+                                           confusion_pair=meta.get("confusion_pair"))
+            for _cand in _cands:
+                try:
+                    if _vv.verify_city(_cand, _s, country=_c,
+                                       landmark_lock=meta.get("landmark_lock", ""),
+                                       confusion_pair=meta.get("confusion_pair"),
+                                       strict=False):
+                        intro_clip = _cand
+                        log.info(f"도입샷(도시 전경) 확보: {os.path.basename(_cand)}")
+                        break
+                except Exception:
+                    continue
+            if intro_clip is None:
+                log.info("도입샷 검증 통과 0 → 도입샷 없이 진행(첫 하이라이트 클립이 첫 화면)")
+    except Exception as e:
+        log.warning(f"도입샷 처리 실패 → 도입샷 없이 진행: {e}")
+
+    composer.compose(bg_paths, tts_lines, meta["hook"], out_video, bgm_path=bgm_path,
+                     title=meta.get("title_en"), country=meta.get("country"),
+                     intro_clip=intro_clip, city=meta.get("single"))
     log.info(f"video: {out_video} ({os.path.getsize(out_video) / 1024 / 1024:.1f}MB)")
 
     # 5) 7개국 localizations
@@ -557,6 +590,14 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     # 7) 사용 기록 — 실제로 발행된 경우에만. (2026-07-17 fix: --no-upload 테스트 런이
     #    used_cities/used_pexels/content_history를 '발행됨'으로 오염시키던 문제)
     used_clip_ids = [c for c in (bg_clip_ids or []) if c]
+    # 도입샷으로 실제 쓴 클립도 재사용 방지 기록(다음 영상서 같은 첫 화면 방지)
+    if intro_clip:
+        import re as _re_ic
+        _m_ic = _re_ic.search(r"pexels_(\d+)", os.path.basename(intro_clip))
+        if _m_ic:
+            _iid = _m_ic.group(1)  # bg_clip_ids(숫자 문자열)와 타입 일관 → 중복비교 정확
+            if _iid not in used_clip_ids and str(_iid) not in [str(x) for x in used_clip_ids]:
+                used_clip_ids.append(_iid)
     if no_upload:
         log.info("--no-upload → 사용 기록(used_cities/used_pexels/content_history) 저장 스킵 (상태 오염 방지)")
     else:

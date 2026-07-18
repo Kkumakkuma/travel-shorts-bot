@@ -377,7 +377,7 @@ def _extract_punch(title: str = None, facts=None):
     return None
 
 
-def _make_big_hook_intro(topic_text: str, duration: float = 2.4, title: str = None, facts=None):
+def _make_big_hook_intro(topic_text: str, duration: float = 2.4, title: str = None, facts=None, country: str = None):
     """첫 2~3초 화면 가득 BIG HOOK — 스크롤 멈춤 유도.
 
     구성:
@@ -429,6 +429,26 @@ def _make_big_hook_intro(topic_text: str, duration: float = 2.4, title: str = No
             topic_clip = topic_clip.resize(lambda t: 1.4 - 0.4 * min(1.0, t / 0.25))
             topic_clip = topic_clip.crossfadein(0.1).crossfadeout(0.4)
             layers.append(topic_clip)
+
+    # 국가명 — 도시명 바로 아래(y=0.55)에 골드 대문자. "어느 나라인지 첫 화면에" (쿠마님 2026-07-18)
+    country_clean = _strip_emoji((country or "").upper().strip())
+    if country_clean:
+        c_size = 100
+        c_fp = _find_font(bold=True)
+        while c_size >= 48:
+            c_font = ImageFont.truetype(c_fp, c_size) if c_fp else ImageFont.load_default()
+            _ct = Image.new("RGBA", (CAPTION_MAX_W, 100), (0, 0, 0, 0))
+            if ImageDraw.Draw(_ct).textlength(country_clean, font=c_font) <= CAPTION_WRAP_W:
+                break
+            c_size -= 10
+        c_arr = _make_text_image(
+            country_clean, font_size=c_size, max_width=CAPTION_MAX_W,
+            fg=(255, 210, 90, 255), stroke_color=(0, 0, 0, 255), stroke_width=7)
+        if c_arr.shape[0] > 1:
+            c_clip = ImageClip(c_arr, transparent=True).set_duration(max(0.1, duration - 0.35)).set_start(0.35)
+            c_clip = c_clip.set_position(("center", int(VIDEO_HEIGHT * 0.55)))
+            c_clip = c_clip.crossfadein(0.15).crossfadeout(0.4)
+            layers.append(c_clip)
 
     return layers
 
@@ -564,6 +584,9 @@ def compose(
     bgm_path: str = None,
     title: str = None,
     qa_frame_times: list = None,
+    country: str = None,
+    intro_clip: str = None,
+    city: str = None,
 ):
     """tts_lines: [{"text", "path", "duration"}] (intro + fact x3 + outro 순서)
     bg_paths: Pexels mp4 경로 리스트 (3개 권장)
@@ -653,7 +676,29 @@ def compose(
     # 아니면(부족 등) 기존 균등 분할로 폴백.
     fact_lines = timeline[1:-1] if len(timeline) >= 3 else timeline
     k = len(fact_lines)
-    if k >= 1 and len(bg_paths) >= k:
+    use_intro = bool(intro_clip) and os.path.exists(intro_clip or "") and k >= 1 and len(bg_paths) >= 1
+    if use_intro:
+        # 도입샷: intro 구간(0 ~ 첫 하이라이트 시작)을 '도시 전경'으로 깐다(첫 화면 임팩트).
+        # 이후 세그먼트는 하이라이트별 클립. big hook(2.4s)+intro 내레이션이 이 도입샷 위에 얹힌다.
+        intro_dur = max(0.5, float(fact_lines[0]["start"]))
+        starts = [float(fact_lines[0]["start"])]
+        for j in range(1, k):
+            s = min(max(float(fact_lines[j]["start"]), starts[-1] + 0.5), total_dur)
+            starts.append(s)
+        fact_durs = []
+        for j in range(k):
+            s = starts[j]
+            e = starts[j + 1] if j + 1 < k else total_dur
+            fact_durs.append(max(0.5, e - s))
+        seg_durs = [intro_dur] + fact_durs
+        # 배경이 fact 수(k)보다 적으면(min_pass=3 부분통과) 마지막 배경을 반복해 k개 채운다 —
+        # 도입샷(첫 화면 도시 전경)은 항상 유지(쿠마님 반려사유 2~5 회귀 방지)
+        _bgs = list(bg_paths[:k])
+        while _bgs and len(_bgs) < k:
+            _bgs.append(_bgs[-1])
+        bg_for_seg = [intro_clip] + _bgs
+        log.info(f"배경 세그먼트(도입샷+fact 시작 기준) durs={[round(x,1) for x in seg_durs]}")
+    elif k >= 1 and len(bg_paths) >= k:
         starts = [0.0]
         for j in range(1, k):
             s = min(max(float(fact_lines[j]["start"]), starts[-1] + 0.5), total_dur)
@@ -678,18 +723,28 @@ def compose(
     # 시각 jolt (첫 0.5초 화이트 플래시 — 스크롤 멈춤 유도)
     layers.append(_make_jolt_flash(0.5))
 
-    # 첫 2.4초 BIG HOOK — 화면 중앙 가득 punch(제목/facts 핵심 숫자 "9 BRAINS!") + 토픽명
-    big_hook_text = hook.split("•")[0].strip() if "•" in hook else hook
+    # 첫 2.4초 BIG HOOK — 중앙에 도시명(대형)+국가(골드)+숫자 punch만. 상단 상시 hook과
+    # 워터마크는 인트로 종료 후 노출 → '도시명 이중 표기'(쿠마님 2026-07-18 BLOCKER: 상단
+    # hook과 중앙 big hook이 같은 "City in 60s"로 겹침) + 5겹 텍스트 클러터 제거.
+    BIG_HOOK_END = 2.4
+    if city and _strip_emoji(city).strip():
+        big_hook_text = _strip_emoji(city).strip().upper()   # 여행봇: 중앙 대형 = 도시명(예 KANAZAWA)
+    else:
+        big_hook_text = hook.split("•")[0].strip() if "•" in hook else hook  # 동물/우주봇 폴백(fork 호환)
     _fact_texts = [ln.get("text", "") for ln in timeline[1:-1]] if len(timeline) >= 3 else []
-    layers.extend(_make_big_hook_intro(big_hook_text, duration=2.4, title=title, facts=_fact_texts))
+    layers.extend(_make_big_hook_intro(big_hook_text, duration=BIG_HOOK_END, title=title, facts=_fact_texts, country=country))
 
-    hook_clip = _make_hook_clip(hook, total_dur)
+    # 상단 상시 hook("City in 60s") — 인트로(BIG HOOK) 종료 후부터 표시(중복 제거)
+    hook_clip = _make_hook_clip(hook, max(0.1, total_dur - BIG_HOOK_END))
     if hook_clip is not None:
+        hook_clip = hook_clip.set_start(BIG_HOOK_END)
         layers.append(hook_clip)
 
-    # 브랜드 워터마크(상단) — 자막/CTA보다 **먼저** 그려서 자막이 항상 위로 오게 (겹침 시 자막 우선)
-    brand = _make_brand_clip(total_dur)
+    # 브랜드 워터마크 — 인트로 종료 후 표시(인트로 중앙 텍스트와 겹침 방지). 자막/CTA보다
+    # **먼저** 그려서 자막이 항상 위로 오게 (겹침 시 자막 우선)
+    brand = _make_brand_clip(max(0.1, total_dur - BIG_HOOK_END))
     if brand is not None:
+        brand = brand.set_start(BIG_HOOK_END)
         layers.append(brand)
 
     # CTA 카드 시각 — v5: 음성 outro 시작과 동시에 CTA 글자 표시 (사용자 신고: 자막 음성 싱크 맞춰).

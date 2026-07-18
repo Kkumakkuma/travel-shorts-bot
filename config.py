@@ -54,10 +54,10 @@ VIDEO_WIDTH = 1080
 VIDEO_HEIGHT = 1920
 VIDEO_FPS = 30
 VIDEO_DURATION_SEC = 60
-# 적응형 길이 하한 (composer v4, 2026-07-17): 내레이션+7s가 이보다 짧아도 이 길이는 보장.
-# 50→40 하향: 프롬프트가 하이라이트 20~30단어로 내레이션을 ~45s+로 채우므로 하한은
-# 안전망일 뿐이며, 하한이 높으면 짧은 내레이션에서 무자막 데드타임이 부활한다.
-MIN_VIDEO_DURATION_SEC = 40
+# 적응형 길이 하한. 쿠마님 지시(2026-07-18): 숏츠는 최소 55초·최대한 60초를 채운다.
+# 40→55 상향. 데드타임 방지는 '하한을 낮춤'이 아니라 '내레이션을 55s+로 길게'로 해결한다
+# (하이라이트 26~34단어 x5 + TTS_RATE 완화). 짧게 나오면 이 하한이 55s를 보장한다.
+MIN_VIDEO_DURATION_SEC = 55
 VIDEO_BITRATE = "4500k"
 VIDEO_PRESET = "veryfast"
 VIDEO_THREADS = 8
@@ -72,7 +72,7 @@ FACTCHECK_MODEL = "gpt-4.1"     # 적대적 검증 — 생성 모델과 다른 �
 
 # edge-tts voice (영문)
 TTS_VOICE = "en-US-AriaNeural"  # 자연스러운 여성 보이스
-TTS_RATE = "+12%"  # 인기 숏츠 페이스
+TTS_RATE = "+2%"  # 55~60s 길이 확보 위해 완화(2026-07-18, 기존 +12%는 44s로 짧게 끝남). 또렷함↑
 TTS_PITCH = "+0Hz"
 
 # 자막 스타일

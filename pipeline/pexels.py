@@ -13,7 +13,7 @@ import subprocess
 
 import requests
 
-from config import PEXELS_API_KEY, VIDEO_DURATION_SEC
+from config import PEXELS_API_KEY, VIDEO_DURATION_SEC, CONTENT_DOMAIN
 
 log = logging.getLogger("travelbot.pexels")
 PEXELS_API = "https://api.pexels.com/videos/search"
@@ -68,6 +68,19 @@ _TRAVEL_TOKENS = {
     "garden", "gardens", "park", "forest", "desert", "valley", "countryside",
     "sunset", "sunrise", "aerial", "drone", "panorama", "night", "nightlife", "lantern",
     "canals", "gondola", "rooftop", "skyscraper", "promenade", "boardwalk",
+}
+
+# 꽃/식물/곤충 매크로·클로즈업 하드 차단 (2026-07-18 쿠마님 지시: 카나자와 첫 화면이
+# 붓꽃 클로즈업으로 나온 사고). 도시 소개 배경에 부적합한 자연 매크로는 여행 토큰/도시명이
+# 같이 있어도 무조건 reject한다 — 도시 전경·건축·거리·랜드마크를 우선한다.
+# (cherry/blossom/maple은 벚꽃·단풍 광각 명소일 수 있어 제외하지 않음.)
+_HARD_MACRO_WORDS = {
+    "flower", "flowers", "floral", "iris", "irises", "tulip", "tulips", "orchid", "orchids",
+    "lily", "lilies", "rose", "roses", "daisy", "sunflower", "sunflowers", "lavender",
+    "petal", "petals", "bloom", "blooms", "blooming", "bouquet", "florist", "botanical",
+    "macro", "closeup", "close-up", "pollen", "dew", "potted", "houseplant", "succulent",
+    "insect", "insects", "butterfly", "butterflies", "bee", "bees", "dragonfly", "ladybug",
+    "mushroom", "moss",
 }
 
 
@@ -178,6 +191,11 @@ def _passes_slug_filter(video: dict, single_lower: str, country_lower: str = "",
     if not tokens:
         # url 정보 없으면 일단 vision으로 넘김 (안전 통과)
         return True
+    # 꽃/식물/곤충 매크로 하드 차단 (여행 토큰/도시명 있어도 무조건 reject) — 첫 화면 꽃 사고 방지.
+    # 단 '여행 도메인'에서만 적용: 동물봇(butterfly/bee/flower가 정당한 토픽)에 이 모듈을
+    # 동기화해도 배경이 전량 차단되지 않도록 CONTENT_DOMAIN 게이트로 격리(fork 안전).
+    if CONTENT_DOMAIN == "travel" and (tokens & _HARD_MACRO_WORDS):
+        return False
     # 동음이의 도시 하드 차단 (Paris↔Texas 등) — 도시명이 slug에 있어도 무조건 reject
     if _has_confused_city(tokens, single_lower, country_lower):
         return False

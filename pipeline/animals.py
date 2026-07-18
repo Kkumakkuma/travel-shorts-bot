@@ -127,6 +127,10 @@ BANNED_PHRASES = [
     "you won't believe your eyes", "number will shock you", "you won't believe how",
     "paradise on earth", "best kept secret", "must-see before you die",
     "will take your breath away", "like nowhere else on earth", "hidden paradise",
+    # 브로슈어 상투구(2026-07-18 gpt-5.6-sol codex): 프롬프트뿐 아니라 결정적 차단으로 격리
+    "rich historical tapestry", "historical tapestry", "tapestry of", "boasts",
+    "steeped in history", "nestled", "hidden gem", "melting pot",
+    "will steal your heart", "a feast for the senses",
 ]
 
 
@@ -315,8 +319,8 @@ Output STRICT JSON:
         cur_hook, cur_facts = nh, nf
     # 잔존 false + 금지문구 + 변동정보 fact는 안전 fact로 교체 (허위/시점의존 자막 차단)
     cur_facts = _sweep_deterministic(display, cur_facts, final_flagged)
-    if _has_volatile(cur_hook):
-        log.warning(f"factcheck: hook에 변동정보 → 안전 hook 교체: {cur_hook[:60]!r}")
+    if _has_volatile(cur_hook) or _has_banned(cur_hook):
+        log.warning(f"factcheck: hook에 변동정보/클리셰 → 안전 hook 교체: {cur_hook[:60]!r}")
         cur_hook = f"Here's why {display} belongs on your travel list."
     return cur_hook, cur_facts
 
@@ -546,10 +550,11 @@ Rewrite it into {n} final travel HIGHLIGHTS (each = one punchy destination one-l
 - Do NOT invent superlatives ("the oldest", "the only", "the biggest in the world") unless SOURCE states them in those words.
 - For VOLATILE info (ticket prices, opening hours, exchange rates, current population) never give a precise fixed figure — use a qualitative version ("cheap street food", "go early").
 - Keep the highlights genuinely appealing: pick the most memorable landmarks / food / activities / history SOURCE actually mentions. Prefer a true vivid highlight over a fabricated shocking one.
+- MIX the highlight types — do NOT make all {n} dry history facts. If SOURCE mentions any food/dish/market, include at least ONE food / local-specialty highlight; always include at least ONE present-tense sensory experience (what a visitor sees, tastes, hears, or the best time to go). NEVER invent food or detail not in SOURCE. Lead each highlight with what the traveler EXPERIENCES, not an administrative/technical detail — e.g. never sell a famous garden as an "emergency water reservoir"; sell its seasonal scenery instead. Vary the opening word; do NOT start every highlight with the same verb (Discover/Explore/Visit/Wander/Experience).
 - **Each highlight MUST be 20-30 words. Count the words before you answer.** Warm, first/second-person travel tone (e.g. "Fushimi Inari's thousands of vermilion gates climb the mountainside — go at sunrise and you'll have whole stretches of the winding trail almost to yourself.").
 - All numeric/historical claims across the {n} highlights MUST agree with each other and with SOURCE.
-- No hype phrases ("will blow your mind", "paradise on earth", "more interesting than people think").
-- hook: 12 words or fewer, a concrete SOURCE-backed detail about the city, never starts with "Did you know".
+- No hype phrases ("will blow your mind", "paradise on earth", "more interesting than people think") and NO brochure clichés. BANNED words/phrases: "rich historical tapestry", "historical tapestry", "tapestry of", "boasts", "steeped in history", "nestled", "hidden gem", "melting pot", "will steal your heart", "must-see", "a feast for the senses".
+- hook: 12 words or fewer, a concrete SOURCE-backed detail about the city (a specific number, food, or signature fact — e.g. gold-leaf output, a famous dish, a record), never starts with "Did you know", and never uses any BANNED cliché above (especially "rich historical tapestry").
 
 Output STRICT JSON: {{"hook": "...", "facts": [{', '.join(['"highlight (20-30 words)"'] * n)}]}}"""
     try:
@@ -569,14 +574,16 @@ Output STRICT JSON: {{"hook": "...", "facts": [{', '.join(['"highlight (20-30 wo
 
         d, nf = _call()
         # 길이 보정: 하이라이트는 20~30단어(60초 내레이션 채움). 짧으면(< 14단어) SOURCE 범위 안에서 1회 보강.
-        if len(nf) == n and any(len(f.split()) < 14 for f in nf):
-            short = [i + 1 for i, f in enumerate(nf) if len(f.split()) < 14]
+        if len(nf) == n and any(len(f.split()) < 20 for f in nf):
+            short = [i + 1 for i, f in enumerate(nf) if len(f.split()) < 20]
             log.info(f"reground: highlight {short} 단어수 미달 → SOURCE 범위 내 보강 재요청")
             try:
                 d2, nf2 = _call(
                     "\n\nYour previous answer had highlights shorter than 20 words: "
                     f"{', '.join('highlight' + str(i) for i in short)}. "
-                    "Rewrite ALL highlights so each is 20-30 words, adding only true detail found in SOURCE.")
+                    "Rewrite ALL highlights so each is 20-30 words. Add the length with SENSORY / EXPERIENTIAL "
+                    "detail found in SOURCE (what a visitor sees, tastes, hears, or the best time to go) — NOT dry "
+                    "encyclopedic padding, and never the BANNED brochure clichés.")
                 if len(nf2) == n and sum(len(f.split()) for f in nf2) > sum(len(f.split()) for f in nf):
                     d, nf = d2, nf2
             except Exception as e:
