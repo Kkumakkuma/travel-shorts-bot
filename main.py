@@ -108,6 +108,23 @@ def _extract_photo_id(path: str):
     return m.group(1) if m else None
 
 
+def _collect_used_clip_ids(bg_clip_ids, intro_clip):
+    """발행 기록용 클립 id 목록 — 배경 슬롯 id + 도입샷 id, 중복 제거(순서 보존).
+    run_once 7단계와 publish-prepared 발행 기록이 같은 계산을 쓰도록 공용화(2026-07-20)."""
+    ids = []
+    seen = set()
+    for c in (bg_clip_ids or []):
+        if c and str(c) not in seen:
+            ids.append(c)
+            seen.add(str(c))
+    if intro_clip:
+        import re as _re
+        m = _re.search(r"pexels_(\d+)", os.path.basename(intro_clip))
+        if m and m.group(1) not in seen:
+            ids.append(m.group(1))
+    return ids
+
+
 def fetch_verified_backgrounds(meta: dict, work_dir: str,
                                 oversample: int = 2,
                                 exclude_pexels_ids: list = None,
@@ -331,14 +348,28 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
                     break
                 cand = mp4s[mi]
                 mi += 1
-                if _verify(cand, subject=kw):
+                # 슬롯별 키워드/strict 로 검증 — 루프 잔존 kw(마지막 슬롯 값)를 쓰면
+                # 음식 슬롯 AI 이미지가 엉뚱한 힌트로 판정되는 오염 발생 (2026-07-20 fix)
+                if _verify(cand, subject=ordered_kw[i],
+                           strict=(i == 0 and angle == "iconic_landmarks")):
                     _assign(i, cand, "")
                 else:
                     rejected.append(cand)
         except Exception as e:
             log.warning(f"AI 이미지 폴백 실패: {e}")
 
-    # === 결과 정리 (슬롯 순서 유지, 미충족 슬롯 drop) ===
+    # === 결과 정리 — 부분통과여도 fact-배경 정렬 보존 (2026-07-20 fix) ===
+    # 기존: 미충족 슬롯 drop 후 압축 → composer 가 fact 순서 1:1 매핑이라 통과 클립이
+    # 다른 fact 자막 밑에 깔림(정렬 붕괴). 수정: 미충족 슬롯을 인접 통과 클립으로 채워
+    # 길이 n 을 유지(같은 클립 반복은 composer 자체 폴백과 동일한 수용 가능한 절충).
+    filled_slots = [i for i in range(n) if slots_path[i]]
+    if filled_slots and len(filled_slots) < n:
+        for i in range(n):
+            if slots_path[i] is None:
+                donor = min(filled_slots, key=lambda j: (abs(j - i), j))
+                slots_path[i] = slots_path[donor]
+                slots_id[i] = slots_id[donor]
+        log.info(f"미충족 슬롯 {n - len(filled_slots)}개를 인접 통과 클립으로 채움 (fact-배경 정렬 보존)")
     filled_paths = [slots_path[i] for i in range(n) if slots_path[i]]
     filled_ids = [slots_id[i] for i in range(n) if slots_path[i]]
     accepted = set(filled_paths)
@@ -350,17 +381,17 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
         except Exception:
             pass
 
-    min_pass = min(n, 3)  # garbage 0: 최소 통과 배경 수(기존 바 유지)
-    if len(filled_paths) >= min_pass:
+    min_pass = min(n, 3)  # garbage 0: 최소 '고유' 통과 배경 수(패딩 제외 — 기존 바 유지)
+    if len(filled_slots) >= min_pass:
         return filled_paths, filled_ids
 
-    for p in filled_paths:
+    for p in set(filled_paths):
         try:
             os.remove(p)
         except Exception:
             pass
     raise RuntimeError(
-        f"비전 검증 통과 배경 부족 ({len(filled_paths)}/{n}, min={min_pass}) — 다른 토픽 픽 필요"
+        f"비전 검증 통과 배경 부족 ({len(filled_slots)}/{n}, min={min_pass}) — 다른 토픽 픽 필요"
     )
 
 
@@ -584,7 +615,32 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
                 "title_en": meta["title_en"], "description_en": meta["description_en"],
                 "tags": meta.get("tags", []), "locs": locs,
                 "comment": meta.get("comment"), "default_language": "en",
+                # 발행 시 사용 이력 기록 재료(2026-07-20 — publish-prepared 미기록 봉합):
+                # 이게 없으면 발행돼도 used_cities/used_pexels/content_history/used_bgm 에
+                # 안 남아 다음 cron 이 같은 도시·클립·BGM 을 재발행할 수 있다.
+                "city": meta.get("single", ""), "country": meta.get("country", ""),
+                "angle": meta.get("angle", ""), "format": meta.get("format", ""),
+                "facts": meta.get("facts", []),
+                "clip_ids": _collect_used_clip_ids(bg_clip_ids, intro_clip),
+                "bgm_file_id": bgm_file_id,
             }
+            # CC 자막 SRT 를 재료(tts_lines·번역)가 살아있는 지금 미리 생성 —
+            # publish-prepared 는 업로드만 한다(발행본 CC 미등록 봉합).
+            try:
+                import time as _t2
+                from pipeline import captions as _cap
+                try:
+                    from moviepy.editor import VideoFileClip as _VFC2
+                    with _VFC2(out_video) as _vc2:
+                        _adur = float(_vc2.duration)
+                except Exception:
+                    _adur = composer.final_video_duration()
+                _pub["cc_srts"] = _cap.generate_all(
+                    tts_lines, work_dir, total_dur=_adur, deadline=_t2.monotonic() + 180.0)
+                log.info(f"CC SRT 사전 생성: {len(_pub['cc_srts'])}개 언어 (publish-prepared 용)")
+            except Exception as _ce:
+                _pub["cc_srts"] = {}
+                log.warning(f"CC SRT 사전 생성 실패 (publish-prepared 발행 시 자막 없음): {_ce}")
             _pp = os.path.join(work_dir, "publish_meta.json")
             with open(_pp, "w", encoding="utf-8") as _f:
                 _json.dump(_pub, _f, ensure_ascii=False, indent=2)
@@ -614,15 +670,8 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
 
     # 7) 사용 기록 — 실제로 발행된 경우에만. (2026-07-17 fix: --no-upload 테스트 런이
     #    used_cities/used_pexels/content_history를 '발행됨'으로 오염시키던 문제)
-    used_clip_ids = [c for c in (bg_clip_ids or []) if c]
-    # 도입샷으로 실제 쓴 클립도 재사용 방지 기록(다음 영상서 같은 첫 화면 방지)
-    if intro_clip:
-        import re as _re_ic
-        _m_ic = _re_ic.search(r"pexels_(\d+)", os.path.basename(intro_clip))
-        if _m_ic:
-            _iid = _m_ic.group(1)  # bg_clip_ids(숫자 문자열)와 타입 일관 → 중복비교 정확
-            if _iid not in used_clip_ids and str(_iid) not in [str(x) for x in used_clip_ids]:
-                used_clip_ids.append(_iid)
+    #    도입샷 id 포함·중복 제거 — publish-prepared 기록과 동일 계산(_collect_used_clip_ids)
+    used_clip_ids = _collect_used_clip_ids(bg_clip_ids, intro_clip)
     if no_upload:
         log.info("--no-upload → 사용 기록(used_cities/used_pexels/content_history) 저장 스킵 (상태 오염 방지)")
     else:
@@ -716,6 +765,78 @@ def _publish_prepared(meta_json_path: str):
         custom_comment=pub.get("comment"),
     )
     log.info(f"검증본 발행 완료: {url}")
+
+    # 사용 이력 기록 — run_once 7단계와 동일(2026-07-20 봉합). 기록이 빠지면 다음 cron 이
+    # 같은 도시/클립/BGM 을 다시 뽑아 중복 재발행된다. 구버전 meta(기록 필드 없음)는 경고.
+    city_key = pub.get("animal_key") or ""
+    clip_ids = [c for c in (pub.get("clip_ids") or []) if c]
+    legacy_meta = not clip_ids and not pub.get("bgm_file_id")
+    if legacy_meta:
+        log.warning("publish_meta 에 기록 필드(clip_ids/bgm_file_id) 없음 — 구버전 meta. "
+                    "도시 기록만 남기고 클립/BGM/컨텐츠 이력은 스킵")
+    # 기록 4종은 각각 독립 try — 하나가 실패해도 나머지 기록은 진행(codex P2 반영).
+    try:
+        if city_key:
+            used = _load_used()
+            if city_key not in used:
+                used.append(city_key)
+                _save_used(used)
+                log.info(f"used_cities.json 갱신: +{city_key}")
+    except Exception as e:
+        log.warning(f"used_cities 기록 실패 (영상은 정상 발행됨): {e}")
+    try:
+        new_pexels_ids = [int(str(c)) for c in clip_ids if str(c).isdigit()]
+        if new_pexels_ids:
+            up = _load_used_pexels()
+            added = []
+            for i in new_pexels_ids:  # meta 내 중복까지 방어(한 번만 기록)
+                if i not in up:
+                    up.append(i)
+                    added.append(i)
+            if added:
+                _save_used_pexels(up)
+            log.info(f"used_pexels.json 갱신: +{added}")
+    except Exception as e:
+        log.warning(f"used_pexels 기록 실패 (영상은 정상 발행됨): {e}")
+    try:
+        # 구버전 meta 는 빈 angle/clip_ids 엔트리를 남기지 않는다(부정확한 이력 방지)
+        if city_key and not legacy_meta:
+            from pipeline import history as hist_mod
+            hist = hist_mod.load_history(CONTENT_HISTORY_PATH)
+            entry = hist_mod.build_entry(
+                city_key,
+                angle=pub.get("angle", ""), fmt=pub.get("format", ""),
+                facts=pub.get("facts", []), title=pub.get("title_en", ""),
+                clip_ids=[str(c) for c in clip_ids],
+            )
+            hist_mod.add_entry(hist, city_key, entry)
+            hist_mod.save_history(CONTENT_HISTORY_PATH, hist)
+            log.info(f"content_history.json 기록: {city_key}")
+    except Exception as e:
+        log.warning(f"content_history 기록 실패 (영상은 정상 발행됨): {e}")
+    try:
+        if pub.get("bgm_file_id"):
+            from pipeline import bgm as bgm_mod
+            bgm_mod.mark_bgm_used(pub["bgm_file_id"])
+            log.info(f"used_bgm.json 갱신: +{pub['bgm_file_id']}")
+    except Exception as e:
+        log.warning(f"used_bgm 기록 실패 (영상은 정상 발행됨): {e}")
+
+    # CC 자막 — dry-run 이 사전 생성해 둔 SRT 업로드(fail-soft, 발행본 CC 미등록 봉합)
+    try:
+        srts = {k: v for k, v in (pub.get("cc_srts") or {}).items() if v and os.path.exists(v)}
+        if srts:
+            import time as _time
+            from pipeline import captions
+            video_id = url.rstrip("/").split("/")[-1].split("?")[0]
+            cap_ok = captions.upload_captions(video_id, srts, deadline=_time.monotonic() + 180.0)
+            n_ok = sum(1 for v in cap_ok.values() if v)
+            log.info(f"CC 자막: {n_ok}/{len(srts)} 언어 등록")
+        else:
+            log.warning("publish_meta 에 cc_srts 없음/파일 소실 — CC 자막 스킵(구버전 meta)")
+    except Exception as e:
+        log.warning(f"CC 자막 실패 (영상 정상 발행됨): {e}")
+
     print({"video": video, "url": url})
     return url
 
