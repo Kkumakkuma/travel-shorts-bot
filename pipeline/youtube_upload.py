@@ -144,6 +144,29 @@ def has_caption_scope() -> bool:
         return True  # 판단 불가 → 보류(시도 허용)
 
 
+def _sanitize_tags(tags):
+    """YouTube 태그 한도 가드 — invalidTags(400) 시 발행 전체가 죽는 것 방지(2026-07-20).
+    규칙: str 만, 태그당 100자 컷, 최대 30개, 합산 480자(공백 포함 태그는 API 가 따옴표
+    2자를 가산하므로 +2로 계산 — 한도 500자에 여유)."""
+    out, budget = [], 480
+    for t in (tags or []):
+        if not isinstance(t, str):
+            continue
+        t = t.strip()[:100]
+        if not t:
+            continue
+        cost = len(t) + (2 if " " in t else 0)
+        if out:
+            cost += 1  # 태그 구분 쉼표도 500자 한도에 포함(codex — YouTube 명세)
+        if cost > budget:
+            continue
+        out.append(t)
+        budget -= cost
+        if len(out) >= 30:
+            break
+    return out
+
+
 def upload(video_path: str, title: str, description: str, tags: list,
            thumbnail_path: str = None, localizations: dict = None,
            default_language: str = "en", custom_comment: str = None) -> str:
@@ -154,7 +177,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
     snippet = {
         "title": title[:95],
         "description": description[:4900],
-        "tags": (tags or [])[:30],
+        "tags": _sanitize_tags(tags),
         "categoryId": YOUTUBE_CATEGORY_ID,
     }
     if localizations:

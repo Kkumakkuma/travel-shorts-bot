@@ -183,7 +183,7 @@ def verify_city(video_path: str, city: str, country: str = "",
                         "content": [
                             {"type": "text", "text": question},
                             {"type": "image_url",
-                             "image_url": {"url": f"data:image/jpeg;base64,{b64}"}},
+                             "image_url": {"url": f"data:image/png;base64,{b64}"}},
                         ],
                     }],
                     max_tokens=5,
