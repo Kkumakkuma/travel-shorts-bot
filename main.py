@@ -286,7 +286,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
             try:
                 photos = pexels.fetch_photos(
                     slot_kw, work_dir, n=oversample + 1,
-                    animal_single=single, country=country,
+                    animal_single=single, country=country, ordered=True,
                     exclude_ids=list(_used_photos()),
                     confusion_pair=confusion_pair,
                 )
@@ -574,11 +574,15 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         _s = (meta.get("single") or "").strip()
         _c = (meta.get("country") or "").strip()
         if _s:
-            _excl = [int(x) for x in (bg_clip_ids or []) if str(x).isdigit()]
+            # hard = 이번 영상 클립(같은 영상 내 중복 절대 금지),
+            # soft = 최근 사용 풋티지(used_pexels + 30일 content_history) — 풀 부족 시만 완화.
+            # 도입샷은 첫 화면(가장 노출 큰 프레임)이라 직전 영상과 같은 전경 반복 방지.
+            _hard = [int(x) for x in (bg_clip_ids or []) if str(x).isdigit()]
+            _soft = _hard + list(used_pexels) + [int(c) for c in recent_clips if str(c).isdigit()]
             _kws = [f"{_s} {_c} cityscape".strip(), f"{_s} skyline aerial",
                     f"{_s} {_c} city view".strip(), f"{_s} old town streets", f"{_s} downtown"]
             _cands = _px.fetch_backgrounds(_kws, work_dir, n=4, animal_single=_s, country=_c,
-                                           ordered=True, exclude_pexels_ids=_excl, hard_exclude_ids=_excl,
+                                           ordered=True, exclude_pexels_ids=_soft, hard_exclude_ids=_hard,
                                            confusion_pair=meta.get("confusion_pair"))
             for _cand in _cands:
                 try:
@@ -593,6 +597,13 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
                     continue
             if intro_clip is None:
                 log.info("도입샷 검증 통과 0 → 도입샷 없이 진행(첫 하이라이트 클립이 첫 화면)")
+            # 미채택 후보 mp4 정리 — 선택 클립 외 나머지가 work_dir에 누적되는 것 방지
+            for _cand in _cands:
+                if _cand is not intro_clip:
+                    try:
+                        os.remove(_cand)
+                    except OSError:
+                        pass
     except Exception as e:
         log.warning(f"도입샷 처리 실패 → 도입샷 없이 진행: {e}")
 

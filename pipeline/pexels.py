@@ -409,7 +409,7 @@ def fetch_backgrounds(keywords: list, output_dir: str, n: int = 3,
 
 def fetch_photos(keywords: list, output_dir: str, n: int = 1,
                  exclude_ids=None, animal_single: str = "", country: str = "",
-                 confusion_pair: list = None) -> list:
+                 confusion_pair: list = None, ordered: bool = False) -> list:
     """Pexels v1/search에서 portrait 사진 N장 다운로드 → 로컬 png 경로 리스트.
 
     영상(fetch_backgrounds)이 부족한 슬롯을 Ken Burns 사진 tier로 채우기 위한 소스.
@@ -418,6 +418,8 @@ def fetch_photos(keywords: list, output_dir: str, n: int = 1,
 
     파일명 pexels_photo_<id>.png (Pexels 바이트가 jpeg여도 PIL이 내용으로 포맷 판별).
     exclude_ids: 재사용 금지 photo id (str/int).
+    ordered: True면 keywords 순서 보존 + 키워드당 1장 (fetch_backgrounds와 동일 —
+             주제→도시중립→generic 폴백 우선순위를 사진 tier에서도 유지).
     """
     if not PEXELS_API_KEY:
         return []
@@ -431,7 +433,8 @@ def fetch_photos(keywords: list, output_dir: str, n: int = 1,
     paths = []
 
     candidates = [k for k in (keywords or []) if isinstance(k, str) and k.strip()]
-    random.shuffle(candidates)
+    if not ordered:
+        random.shuffle(candidates)
     skipped_slug = 0
 
     for kw in candidates:
@@ -481,6 +484,8 @@ def fetch_photos(keywords: list, output_dir: str, n: int = 1,
                 paths.append(out)
                 used_ids.add(pid)
                 log.info(f"pexels photo[{len(paths)}]: kw={kw} id={pid}")
+                if ordered:
+                    break  # 키워드당 1장 → 다음 키워드로 (슬롯 키워드 우선순위 유지)
         except Exception as e:
             log.warning(f"pexels photo kw={kw} 실패: {e}")
             continue
