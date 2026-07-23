@@ -67,8 +67,14 @@ def _load_used():
         return []
 
 
+# 2026-07-23: 파일에는 전체 발행 이력을 남긴다(회피용 슬라이스는 compute_exclude가 [-KEEP:]로 수행).
+# 85개로 잘라 저장하면 "한 번이라도 발행한 도시"를 알 수 없어, 로스터(100) > USED_KEEP(85) 구간에서
+# 풀려난 fame=1 도시가 계속 재선택되고 fame 3~4 도시는 영영 발행되지 않는다.
+USED_LOG_MAX = 500  # 파일 무한 증가 방지 상한 (5회전 분량)
+
+
 def _save_used(used):
-    json.dump(used[-USED_KEEP:], open(USED_PATH, "w", encoding="utf-8"))
+    json.dump(used[-USED_LOG_MAX:], open(USED_PATH, "w", encoding="utf-8"))
 
 
 def _load_used_pexels() -> list:
@@ -471,7 +477,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             try:  # (G) pick 자체 예외도 다음 시도로
                 try_meta = animals.pick_random_animal(
                     exclude_keys=retry_used, history=hist, avoid_formats=avoid_formats,
-                    avoid_angles=avoid_angles)
+                    avoid_angles=avoid_angles, ever_used=used)
             except Exception as e:
                 log.warning(f"[try {attempt+1}] pick_random_animal 예외 → 재시도: {e}")
                 continue
@@ -509,7 +515,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             log.warning("5번 재시도 실패 → legacy 사전 fallback 시작 (strict only)")
             legacy_tries = sorted(fallback_exclude)  # (D) 완화 적용된 exclude
             for legacy_attempt in range(5):
-                legacy_key = animals.pick_animal(exclude=legacy_tries)
+                legacy_key = animals.pick_animal(exclude=legacy_tries, ever_used=used)
                 legacy_meta = animals._legacy_meta(legacy_key)
                 wd = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), legacy_key)
                 os.makedirs(wd, exist_ok=True)

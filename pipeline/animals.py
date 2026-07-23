@@ -52,16 +52,33 @@ def _normalize_angle(angle) -> str:
     return "best_things_to_do"
 
 
-def pick_animal(rng: random.Random = None, exclude: list = None) -> str:
+def _fame(c: dict) -> int:
+    """도시 엔트리의 유명도 등급(1=세계 최상위 … 4=니치). 누락/이상값은 3."""
+    try:
+        v = int((c or {}).get("fame", 3))
+    except (TypeError, ValueError):
+        return 3
+    return v if 1 <= v <= 4 else 3
+
+
+def pick_animal(rng: random.Random = None, exclude: list = None,
+                ever_used: list = None) -> str:
     """legacy fallback (사전에서 픽). pick_random_animal() 우선.
 
     2026-05-07 fix: exclude가 ANIMALS dict 전체를 덮으면 pool이 빈 리스트가 되어
     random.choice([]) IndexError 발생 → 빈 pool일 때 exclude 무시하고 전체에서 픽.
+    2026-07-23: 이 fallback 경로도 GPT 경로와 같은 '미발행 우선 + fame 게이팅'을 적용
+    (여기만 안 걸면 GPT 실패 시 무명 도시가 새어 나감).
     """
     rng = rng or random.Random()
     pool = [k for k in ANIMALS.keys() if not exclude or k not in exclude]
     if not pool:
         pool = list(ANIMALS.keys())
+    ever = {(k or "").lower().strip() for k in (ever_used or [])}
+    fresh = [k for k in pool if k.lower() not in ever]
+    pool = fresh or pool
+    top_fame = min((_fame(ANIMALS.get(k)) for k in pool), default=3)
+    pool = [k for k in pool if _fame(ANIMALS.get(k)) == top_fame]
     return rng.choice(pool)
 
 
@@ -873,18 +890,45 @@ Output STRICT JSON — "facts" MUST contain EXACTLY {len(facts)} items in the sa
     return meta
 
 
-def _roster_lines(exclude_keys: list = None, limit: int = 40) -> str:
-    """cities.json(=ANIMALS) 로스터에서 아직 안 쓴 도시 목록 문자열 (GPT가 이 중에서 픽)."""
+def _roster_candidates(exclude_keys: list = None, ever_used: list = None,
+                       limit: int = 40) -> list:
+    """후보 도시 [(key, entry)] — **미발행 우선 → 그 안에서 가장 유명한 fame 등급 하나**만.
+
+    2026-07-23: 기존엔 100개 전체를 셔플해서 던졌고 프롬프트도 "신선한 도시 선호"라
+    첫 편이 Kanazawa로 나갔다. 채널 초기에 무명 도시는 조회수가 안 붙는다.
+    fame=1(파리·도쿄·뉴욕급)이 하나라도 남아 있으면 fame 2~4는 후보에서 아예 제외하고,
+    등급이 소진되면 자동으로 다음 등급으로 내려간다(cities.json fame 1~4).
+
+    ever_used(발행 전체 이력)를 주면 '한 번도 안 쓴 도시'를 먼저 소진한다. 이게 없으면
+    exclude(최근 USED_KEEP개)에서 풀려난 옛 fame=1 도시가 계속 재선택돼
+    fame 3~4 도시가 영영 발행되지 않는다(로스터 100 > USED_KEEP 85).
+    """
     excl = {(k or "").lower().strip() for k in (exclude_keys or [])}
+    ever = {(k or "").lower().strip() for k in (ever_used or [])}
+    remaining = [(key, c) for key, c in ANIMALS.items() if key.lower() not in excl]
+    if not remaining:
+        return []
+    fresh = [(key, c) for key, c in remaining if key.lower() not in ever]
+    pool = fresh or remaining          # 전부 한 번씩 돌았으면 재방문 허용(유명도 순은 유지)
+    top_fame = min(_fame(c) for _, c in pool)
+    tier = [(key, c) for key, c in pool if _fame(c) == top_fame]
+    random.shuffle(tier)
+    tier = tier[:limit]
+    log.info(f"로스터 tier: fame={top_fame} 후보 {len(tier)}개 제시 "
+             f"(제외 후 {len(remaining)}개 중 미발행 {len(fresh)}개"
+             f"{'' if fresh else ' → 전량 1순회 완료, 재방문 모드'})")
+    return tier
+
+
+def _roster_lines(exclude_keys: list = None, ever_used: list = None,
+                  limit: int = 40) -> str:
+    """_roster_candidates 결과를 GPT 프롬프트용 목록 문자열로."""
     lines = []
-    for key, c in ANIMALS.items():
-        if key.lower() in excl:
-            continue
+    for key, c in _roster_candidates(exclude_keys, ever_used, limit):
         city = c.get("display") or c.get("single") or key
         country = c.get("country", "")
         lines.append(f"- {city}" + (f", {country}" if country else "") + f" (key: {key})")
-    random.shuffle(lines)
-    return "\n".join(lines[:limit])
+    return "\n".join(lines)
 
 
 def _resolve_roster_key(animal_key: str, single: str = "", display: str = "") -> str:
@@ -912,7 +956,8 @@ def _resolve_roster_key(animal_key: str, single: str = "", display: str = "") ->
 
 
 def pick_random_animal(exclude_keys: list = None, history: dict = None,
-                       avoid_formats: list = None, avoid_angles: list = None) -> dict:
+                       avoid_formats: list = None, avoid_angles: list = None,
+                       ever_used: list = None) -> dict:
     """GPT가 로스터(cities.json)에서 도시 1곳 + 앵글 + 하이라이트 4~5개 메타를 일괄 생성.
 
     콘텐츠 모델: 한 편 = 한 도시 60초 소개. 앵글 1개(iconic_landmarks/best_things_to_do/
@@ -923,6 +968,7 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
     history: content_history dict (재등장 도시 차별화 + per-city angle 회피용).
     avoid_formats: 전역 직전 N편 format (연속 방지).
     avoid_angles: 전역 직전 N편 angle (서로 다른 도시로 같은 앵글 연속 방지, 2026-07-17 배선).
+    ever_used: 발행 전체 이력(used_cities 전량) — 미발행 도시 우선 + fame 게이팅용.
 
     반환: {animal_key(city_key), display(city), single(city), country, category, landmark_lock,
            pexels_keywords, fact_keywords, title_en, description_en, hook, intro, facts, outro,
@@ -930,7 +976,7 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
     """
     if not OPENAI_API_KEY:
         log.warning("OPENAI_API_KEY 없음 — fallback 사전 사용")
-        key = pick_animal(exclude=exclude_keys or [])
+        key = pick_animal(exclude=exclude_keys or [], ever_used=ever_used)
         return _legacy_meta(key)
 
     exclude_str = ", ".join(exclude_keys[-100:]) if exclude_keys else "none"
@@ -939,7 +985,12 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
     # 참고: angle 회피는 프롬프트 advisory + per-city 회피(_differentiate_content)가 방어선.
     # format과 달리 angle은 대본 내용과 결합돼 있어 파싱 후 라벨만 강제 교체하면
     # 앵글-대본 부정합이 생기므로 코드 강제는 하지 않고, 겹치면 경고 로그만 남긴다(하단).
-    roster_block = _roster_lines(exclude_keys)
+    roster_cands = _roster_candidates(exclude_keys, ever_used)
+    allowed_keys = {k for k, _ in roster_cands}   # GPT가 이 tier 밖을 픽하면 코드가 거절
+    roster_block = "\n".join(
+        f"- {(c.get('display') or c.get('single') or k)}"
+        + (f", {c.get('country')}" if c.get("country") else "") + f" (key: {k})"
+        for k, c in roster_cands)
     if not roster_block:
         # USED_KEEP(85) < 로스터(100)라 정상적으로는 도달 불가. 도달 시 off-roster 픽을
         # 유도하지 않고(큐레이션·landmark_lock 상실 방지) 예외 → main의 legacy fallback
@@ -968,7 +1019,10 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
     prompt = f"""You are a viral travel scriptwriter for the YouTube Shorts channel "Wander 60s".
 Pick ONE city from the ROSTER below and write a 60-second city introduction (1-minute Shorts).
 
-ROSTER — pick ONE city from THIS list only (use its exact key). Prefer cities lower in the list / that feel fresh:
+ROSTER — pick ONE city from THIS list only (use its exact key). This list is already
+pre-filtered to the most famous cities still available, so do NOT try to be clever or
+"fresh" by reaching for an obscure destination — pick the one from this list that the
+widest global audience would recognise and click on:
 {roster_block}
 
 AVOID picking these cities (recently used): {exclude_str}{facts_block}{titles_block}
@@ -1059,7 +1113,8 @@ Output STRICT JSON only:
     for attempt in range(4):
         try_prompt = prompt
         if attempt > 0 and rejected:
-            unused = [k for k in ANIMALS.keys() if k.lower() not in exclude_set][:12]
+            # 힌트도 반드시 현재 tier 후보 안에서 (여기서 무명 도시를 추천하면 게이팅이 뚫린다)
+            unused = [k for k, _ in roster_cands if k.lower() not in exclude_set][:12]
             hint = (f"\nPick one of these unused topics instead: {', '.join(unused)}.\n"
                     if unused else "\n")
             try_prompt = (
@@ -1080,7 +1135,7 @@ Output STRICT JSON only:
             cand = json.loads(resp.choices[0].message.content)
         except Exception as e:
             log.warning(f"GPT 도시 픽 실패 → legacy fallback: {e}")
-            key = pick_animal(exclude=exclude_keys or [])
+            key = pick_animal(exclude=exclude_keys or [], ever_used=ever_used)
             return _legacy_meta(key)
 
         cand_key = (cand.get("animal_key") or "").strip().lower().replace(" ", "_")
@@ -1097,6 +1152,16 @@ Output STRICT JSON only:
             if last_pick and last_pick not in rejected:
                 rejected.append(last_pick)
             log.warning(f"[picker try {attempt+1}] GPT가 exclude된 '{last_pick}' 픽 → 재요청")
+            continue
+        # fame 게이팅 강제: 프롬프트로 tier를 제시해도 모델이 로스터 밖/하위 등급 도시를
+        # 집어오는 경우가 있다(우주봇 실측: 프롬프트 무시 반복). 코드로 fail-closed.
+        cand_norm = _resolve_roster_key(cand_key, cand_single, cand_display)
+        if allowed_keys and cand_norm not in allowed_keys:
+            last_pick = cand_norm or cand_key or cand_single
+            if last_pick and last_pick not in rejected:
+                rejected.append(last_pick)
+            log.warning(f"[picker try {attempt+1}] GPT가 현재 tier 밖 '{last_pick}' 픽 "
+                        f"(후보 {len(allowed_keys)}개) → 재요청")
             continue
         # 근거 선행: 위키 SOURCE를 못 구하는 도시는 사실 검증이 불가능하다 → 다른 도시로 재픽.
         # 마지막 시도에서는 SOURCE 없이도 진행해 발행 0을 피한다(보수 모드 팩트체크가 방어).
@@ -1116,8 +1181,8 @@ Output STRICT JSON only:
         break
 
     if d is None:
-        log.warning(f"GPT가 4회 모두 exclude된 도시만 픽 → legacy fallback + expand")
-        key = pick_animal(exclude=exclude_keys or [])
+        log.warning(f"GPT가 4회 모두 exclude/tier 밖 도시만 픽 → legacy fallback + expand")
+        key = pick_animal(exclude=exclude_keys or [], ever_used=ever_used)
         legacy = _legacy_meta(key)
         # 2026-05-08 fix 계승: placeholder facts 그대로 발행 직전까지 가던 것 → expand로 진짜 하이라이트 생성.
         try:

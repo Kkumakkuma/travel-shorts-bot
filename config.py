@@ -100,8 +100,24 @@ USE_PEXELS_PHOTO = True         # Pexels 사진 → Ken Burns 폴백 tier 사용
 CITIES_JSON = os.path.join(BASE_DIR, "cities.json")
 
 
+FAME_MIN, FAME_MAX, FAME_DEFAULT = 1, 4, 3
+
+
+def _fame_of(c: dict) -> int:
+    try:
+        v = int(c.get("fame", FAME_DEFAULT))
+    except (TypeError, ValueError):
+        return FAME_DEFAULT
+    return v if FAME_MIN <= v <= FAME_MAX else FAME_DEFAULT
+
+
 def _load_cities():
-    """cities.json → {city_key: {display, single, country, category, pexels_keywords, landmark_lock, confusion_pair?}}."""
+    """cities.json → {city_key: {display, single, country, fame, category, pexels_keywords, landmark_lock, confusion_pair?}}.
+
+    fame = 유명도 등급 1~4 (1=파리/도쿄급 세계 최상위, 4=니치·숨은 명소).
+    채널 초기에 무명 도시가 나가면 조회수가 안 붙으므로, 낮은 등급이 남아 있는 한
+    높은 숫자 등급은 후보에서 제외한다(pipeline.animals._roster_lines).
+    """
     if not os.path.exists(CITIES_JSON):
         return {}
     with open(CITIES_JSON, encoding="utf-8") as f:
@@ -115,6 +131,8 @@ def _load_cities():
             "display": c.get("display") or c["city"],
             "single": c.get("single") or c["city"],
             "country": c.get("country", ""),
+            # fame 누락/이상값은 3(중간)으로 — 무명 취급해서 영영 안 나가는 일 방지
+            "fame": _fame_of(c),
             "category": c.get("category", "city"),
             "pexels_keywords": c.get("pexels_keywords", []),
             "landmark_lock": c.get("landmark_lock", ""),
