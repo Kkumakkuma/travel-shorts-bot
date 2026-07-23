@@ -67,10 +67,11 @@ def _load_used():
         return []
 
 
-# 2026-07-23: 파일에는 전체 발행 이력을 남긴다(회피용 슬라이스는 compute_exclude가 [-KEEP:]로 수행).
-# 85개로 잘라 저장하면 "한 번이라도 발행한 도시"를 알 수 없어, 로스터(100) > USED_KEEP(85) 구간에서
-# 풀려난 fame=1 도시가 계속 재선택되고 fame 3~4 도시는 영영 발행되지 않는다.
-USED_LOG_MAX = 500  # 파일 무한 증가 방지 상한 (5회전 분량)
+# 2026-07-23: 파일에 최근 USED_LOG_MAX(500)편의 발행 이력을 남긴다 — 로스터 100개의 5회전 분량.
+# (회피용 슬라이스는 compute_exclude가 [-USED_KEEP:]로 따로 수행하므로 회피 동작은 불변.)
+# 기존처럼 85개로 잘라 저장하면 "한 번이라도 발행한 도시"와 "직전 발행 등급"을 알 수 없어,
+# 로스터(100) > USED_KEEP(85) 구간에서 풀려난 도시가 재선택되고 일부 등급은 영영 발행되지 않는다.
+USED_LOG_MAX = 500
 
 
 def _save_used(used):
@@ -794,11 +795,12 @@ def _publish_prepared(meta_json_path: str):
     # 기록 4종은 각각 독립 try — 하나가 실패해도 나머지 기록은 진행(codex P2 반영).
     try:
         if city_key:
+            # 2026-07-23: 재방문(이미 목록에 있는 도시)도 append 한다 — run_once 경로와 동일.
+            # 기록을 건너뛰면 '직전 발행 등급'이 갱신되지 않아 fame 순환이 제자리걸음 한다.
             used = _load_used()
-            if city_key not in used:
-                used.append(city_key)
-                _save_used(used)
-                log.info(f"used_cities.json 갱신: +{city_key}")
+            used.append(city_key)
+            _save_used(used)
+            log.info(f"used_cities.json 갱신: +{city_key}")
     except Exception as e:
         log.warning(f"used_cities 기록 실패 (영상은 정상 발행됨): {e}")
     try:

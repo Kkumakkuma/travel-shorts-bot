@@ -67,8 +67,8 @@ def pick_animal(rng: random.Random = None, exclude: list = None,
 
     2026-05-07 fix: exclude가 ANIMALS dict 전체를 덮으면 pool이 빈 리스트가 되어
     random.choice([]) IndexError 발생 → 빈 pool일 때 exclude 무시하고 전체에서 픽.
-    2026-07-23: 이 fallback 경로도 GPT 경로와 같은 '미발행 우선 + fame 게이팅'을 적용
-    (여기만 안 걸면 GPT 실패 시 무명 도시가 새어 나감).
+    2026-07-23: 이 fallback 경로도 GPT 경로와 같은 '미발행 우선 + fame 등급 순환'을 적용
+    (여기만 안 걸면 GPT 실패 시 순환이 깨지고 무명 도시가 새어 나감).
     """
     rng = rng or random.Random()
     pool = [k for k in ANIMALS.keys() if not exclude or k not in exclude]
@@ -77,8 +77,10 @@ def pick_animal(rng: random.Random = None, exclude: list = None,
     ever = {(k or "").lower().strip() for k in (ever_used or [])}
     fresh = [k for k in pool if k.lower() not in ever]
     pool = fresh or pool
-    top_fame = min((_fame(ANIMALS.get(k)) for k in pool), default=3)
-    pool = [k for k in pool if _fame(ANIMALS.get(k)) == top_fame]
+    fames = {_fame(ANIMALS.get(k)) for k in pool}
+    if fames:
+        target = _next_fame_tier(fames, ever_used)
+        pool = [k for k in pool if _fame(ANIMALS.get(k)) == target]
     return rng.choice(pool)
 
 
@@ -890,18 +892,59 @@ Output STRICT JSON — "facts" MUST contain EXACTLY {len(facts)} items in the sa
     return meta
 
 
+FAME_CYCLE = (1, 2, 3, 4)   # 발행 등급 순환 순서 (쿠마님 2026-07-23 지시: "12341234 순")
+
+
+def _fame_counts(ever_used: list = None) -> dict:
+    """지금까지 발행한 편수를 fame 등급별로 집계 (로스터에 있는 키만). 로그·점검용."""
+    counts = {f: 0 for f in FAME_CYCLE}
+    for k in (ever_used or []):
+        entry = ANIMALS.get((k or "").lower().strip())
+        if entry:
+            counts[_fame(entry)] = counts.get(_fame(entry), 0) + 1
+    return counts
+
+
+def _last_fame(ever_used: list = None) -> int:
+    """직전에 발행한 도시의 fame 등급. 이력이 없거나 전부 로스터 밖이면 0(=다음이 1)."""
+    for k in reversed(ever_used or []):
+        entry = ANIMALS.get((k or "").lower().strip())
+        if entry:
+            return _fame(entry)
+    return 0
+
+
+def _next_fame_tier(available: set, ever_used: list = None) -> int:
+    """다음에 쓸 fame 등급 — **직전 발행 등급의 다음 칸**(1→2→3→4→1…).
+
+    엄격한 라운드로빈이다. 별도 카운터 파일 없이 '마지막으로 발행한 도시의 등급'에서
+    한 칸 돌린다. 이력이 없으면 1(파리·도쿄급)부터 시작한다.
+    후보가 남지 않은 등급은 건너뛰고 그 다음 칸으로 넘어간다(4개 다 없으면 available 최소).
+    """
+    if not available:
+        return FAME_CYCLE[0]
+    start = _last_fame(ever_used)
+    idx = FAME_CYCLE.index(start) if start in FAME_CYCLE else -1
+    for step in range(1, len(FAME_CYCLE) + 1):
+        cand = FAME_CYCLE[(idx + step) % len(FAME_CYCLE)]
+        if cand in available:
+            return cand
+    return min(available)
+
+
 def _roster_candidates(exclude_keys: list = None, ever_used: list = None,
                        limit: int = 40) -> list:
-    """후보 도시 [(key, entry)] — **미발행 우선 → 그 안에서 가장 유명한 fame 등급 하나**만.
+    """후보 도시 [(key, entry)] — **미발행 우선 → 이번 차례의 fame 등급 하나**만.
 
     2026-07-23: 기존엔 100개 전체를 셔플해서 던졌고 프롬프트도 "신선한 도시 선호"라
-    첫 편이 Kanazawa로 나갔다. 채널 초기에 무명 도시는 조회수가 안 붙는다.
-    fame=1(파리·도쿄·뉴욕급)이 하나라도 남아 있으면 fame 2~4는 후보에서 아예 제외하고,
-    등급이 소진되면 자동으로 다음 등급으로 내려간다(cities.json fame 1~4).
+    첫 편이 Kanazawa로 나갔다. 무명 도시로는 조회수가 안 붙는다.
+    → cities.json에 fame 1~4를 부여하고, 한 번에 **한 등급**만 GPT 후보로 제시한다.
+    등급은 1→2→3→4로 순환한다(쿠마님 지시: "12341234 순"). 유명 도시를 초반에 다 태워
+    나중에 무명만 남는 걸 막기 위한 것으로, 4편 중 1편은 항상 파리·도쿄급이 나간다.
 
     ever_used(발행 전체 이력)를 주면 '한 번도 안 쓴 도시'를 먼저 소진한다. 이게 없으면
-    exclude(최근 USED_KEEP개)에서 풀려난 옛 fame=1 도시가 계속 재선택돼
-    fame 3~4 도시가 영영 발행되지 않는다(로스터 100 > USED_KEEP 85).
+    exclude(최근 USED_KEEP개)에서 풀려난 옛 도시가 계속 재선택돼
+    일부 도시가 영영 발행되지 않는다(로스터 100 > USED_KEEP 85).
     """
     excl = {(k or "").lower().strip() for k in (exclude_keys or [])}
     ever = {(k or "").lower().strip() for k in (ever_used or [])}
@@ -909,13 +952,14 @@ def _roster_candidates(exclude_keys: list = None, ever_used: list = None,
     if not remaining:
         return []
     fresh = [(key, c) for key, c in remaining if key.lower() not in ever]
-    pool = fresh or remaining          # 전부 한 번씩 돌았으면 재방문 허용(유명도 순은 유지)
-    top_fame = min(_fame(c) for _, c in pool)
-    tier = [(key, c) for key, c in pool if _fame(c) == top_fame]
+    pool = fresh or remaining          # 전부 한 번씩 돌았으면 재방문 허용(등급 순환은 유지)
+    target = _next_fame_tier({_fame(c) for _, c in pool}, ever_used)
+    tier = [(key, c) for key, c in pool if _fame(c) == target]
     random.shuffle(tier)
     tier = tier[:limit]
-    log.info(f"로스터 tier: fame={top_fame} 후보 {len(tier)}개 제시 "
-             f"(제외 후 {len(remaining)}개 중 미발행 {len(fresh)}개"
+    log.info(f"로스터 tier: 직전 fame={_last_fame(ever_used)} → 이번 차례 fame={target} "
+             f"(등급별 발행 {_fame_counts(ever_used)}) "
+             f"→ 후보 {len(tier)}개 제시 (제외 후 {len(remaining)}개 중 미발행 {len(fresh)}개"
              f"{'' if fresh else ' → 전량 1순회 완료, 재방문 모드'})")
     return tier
 
@@ -1019,10 +1063,10 @@ def pick_random_animal(exclude_keys: list = None, history: dict = None,
     prompt = f"""You are a viral travel scriptwriter for the YouTube Shorts channel "Wander 60s".
 Pick ONE city from the ROSTER below and write a 60-second city introduction (1-minute Shorts).
 
-ROSTER — pick ONE city from THIS list only (use its exact key). This list is already
-pre-filtered to the most famous cities still available, so do NOT try to be clever or
-"fresh" by reaching for an obscure destination — pick the one from this list that the
-widest global audience would recognise and click on:
+ROSTER — pick ONE city from THIS list only (use its exact key). The channel has already
+pre-filtered this list for you, so do NOT try to be clever or "fresh" by reaching for a
+destination outside it — from THIS list, pick the city the widest global audience would
+recognise and click on:
 {roster_block}
 
 AVOID picking these cities (recently used): {exclude_str}{facts_block}{titles_block}

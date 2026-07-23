@@ -3,12 +3,16 @@
 배경: 채널 첫 편이 Kanazawa로 나가 조회수가 안 붙었다(2026-07-23 쿠마님 지적).
 원인은 로스터 100개를 그냥 셔플해 GPT에 던지고 프롬프트가 "fresh한 도시 선호"였던 것.
 
+2차 지시(같은 날): "초반만 관심 가고 나중엔 안 가지 않냐 — 1234 순서대로 12341234"
+→ 최상위부터 소진이 아니라 **fame 1→2→3→4 순환**. 4편 중 1편은 항상 파리·도쿄급.
+
 검증 항목:
 - cities.json fame(1~4) 무결성 (전 도시 부여, 분포)
-- _roster_candidates: 미발행 우선 → 그중 최상위 fame 등급만 후보
-- 등급 소진 시 1 → 2 → 3 → 4 자동 하강, 전량 소진 시 재방문 모드
-- 100편 시뮬레이션: 유명도 오름차순으로 로스터 전량 소진(하위 등급 기아 없음)
-- pick_animal(legacy fallback)도 동일 게이팅
+- _roster_candidates: 미발행 우선 → 이번 차례의 fame 등급만 후보
+- 1→2→3→4 순환, 소진된 등급은 건너뜀, 전량 소진 시 재방문 모드
+- 기울어진 이력(4등급만 2편 발행된 현재 상태)에서 순환이 스스로 균형 회복
+- 100편 시뮬레이션: 중복 없이 로스터 전량 소진(등급 기아 없음)
+- pick_animal(legacy fallback)도 동일 순환
 - GPT가 tier 밖 도시를 픽하면 코드가 거절 (프롬프트 무시 방어)
 - fame 결측/이상값 → 3 폴백
 
@@ -61,54 +65,143 @@ for must in ("paris_france", "tokyo_japan", "new_york_usa", "rome_italy", "londo
 assert A["kanazawa_japan"]["fame"] == 4, "kanazawa 는 니치 등급(4)이어야 함"
 ok("파리/도쿄/뉴욕/로마/런던 = fame1, 카나자와 = fame4")
 
-# --- 2. tier 게이팅 ---------------------------------------------------------
+# --- 2. 등급 순환 -----------------------------------------------------------
 assert set(keys_of(animals._roster_lines([]))) == set(BY_FAME[1])
-ok(f"초기 후보 = fame1 {len(BY_FAME[1])}개만 (무명 도시 노출 없음)")
+ok(f"첫 편 후보 = fame1 {len(BY_FAME[1])}개만 (무명 도시 노출 없음)")
 
-for lo, hi in ((1, 2), (2, 3), (3, 4)):
-    used = [k for f in range(1, lo + 1) for k in BY_FAME[f]]
-    assert set(keys_of(animals._roster_lines(used))) == set(BY_FAME[hi]), f"{lo}→{hi} 하강 실패"
-ok("fame 소진 시 1 → 2 → 3 → 4 자동 하강")
+# 이력이 1편씩 쌓일 때 다음 차례가 2 → 3 → 4 → 1 로 순환하는지
+seq, hist_used = [], []
+for step in range(9):
+    cands = keys_of(animals._roster_lines(hist_used, ever_used=hist_used))
+    f = A[cands[0]]["fame"]
+    assert {A[k]["fame"] for k in cands} == {f}, "후보에 여러 등급이 섞임"
+    seq.append(f)
+    hist_used.append(cands[0])
+assert seq == [1, 2, 3, 4, 1, 2, 3, 4, 1], f"순환 실패: {seq}"
+ok(f"등급 순환 실측 9편: {''.join(map(str, seq))} (1→2→3→4 반복)")
+
+# 소진된 등급은 건너뛴다 (fame1 12개를 다 쓴 뒤에는 2,3,4 만 순환)
+used = list(BY_FAME[1]) + BY_FAME[2][:12] + BY_FAME[3][:12] + BY_FAME[4][:12]
+seq = []
+for step in range(6):
+    cands = keys_of(animals._roster_lines(used, ever_used=used))
+    seq.append(A[cands[0]]["fame"])
+    used.append(cands[0])
+assert 1 not in seq and set(seq) == {2, 3, 4}, f"소진 등급 스킵 실패: {seq}"
+ok(f"fame1 소진 후 남은 등급만 순환: {''.join(map(str, seq))}")
 
 assert animals._roster_lines(list(A.keys())) == "", "전량 exclude 시 빈 블록이어야 함"
 ok("전량 exclude → 빈 후보(GPT 경로는 예외 → legacy fallback 위임)")
 
-assert set(keys_of(animals._roster_lines([k.upper() for k in BY_FAME[1]]))) == set(BY_FAME[2])
-ok("exclude 대소문자 정규화 정상")
+# 대문자 exclude 가 정규화되지 않으면 fame1 이 그대로 후보로 남는다 → fame2 면 정규화 정상
+assert {A[k]["fame"] for k in keys_of(animals._roster_lines([k.upper() for k in BY_FAME[1]]))} == {2}
+ok("exclude 대소문자 정규화 정상(fame1 전량 제외 → 다음 등급으로)")
 
-# --- 3. 미발행 우선 (ever_used) --------------------------------------------
-# exclude는 비었지만 fame1을 이미 전부 발행한 상태 → 재방문 대신 fame2로 내려가야 한다.
+# --- 3. 미발행 우선 + 기울어진 이력 보정 -------------------------------------
 cands = keys_of(animals._roster_lines([], ever_used=BY_FAME[1]))
-assert set(cands) == set(BY_FAME[2]), "발행 이력이 있으면 재방문보다 미발행 도시가 우선"
+assert set(cands) <= set(BY_FAME[2]), "fame1 12편 발행 후 차례는 fame2 (재방문 아님)"
 ok("ever_used 반영: 이미 발행한 fame1 대신 미발행 fame2 제시")
 
+# 현재 채널 실제 상태 — 직전 발행이 jaipur(fame4)이므로 다음은 1, 그 뒤 2·3·4… 순환
+real = ["kanazawa_japan", "jaipur_india"]
+seq, hist_used = [], list(real)
+for step in range(8):
+    cands = keys_of(animals._roster_lines(hist_used, ever_used=hist_used))
+    seq.append(A[cands[0]]["fame"])
+    hist_used.append(cands[0])
+assert seq == [1, 2, 3, 4, 1, 2, 3, 4], f"현재 상태에서 순환 실패: {seq}"
+ok(f"현재 상태(카나자와·자이푸르=4등급 선발행) → 이후 8편 {''.join(map(str, seq))}")
+
+# 직전 등급별 다음 차례 (기대값 하드코딩 — 구현식을 베끼지 않는다)
+for last_key, want in (("paris_france", 2), ("amsterdam_netherlands", 3),
+                       ("seville_spain", 4), ("kanazawa_japan", 1)):
+    got = animals._next_fame_tier({1, 2, 3, 4}, [last_key])
+    assert got == want, f"직전 {last_key}(fame{A[last_key]['fame']}) → {got}, 기대 {want}"
+assert animals._next_fame_tier({1, 2, 3, 4}, []) == 1, "이력 0이면 1부터"
+assert animals._next_fame_tier({1, 2, 3, 4}, ["없는_도시"]) == 1, "로스터 밖 키만 있으면 1부터"
+assert animals._next_fame_tier({2, 4}, ["paris_france"]) == 2, "직전 1 → 남은 것 중 2"
+assert animals._next_fame_tier({1, 3}, ["paris_france"]) == 3, "직전 1, 2 소진 → 3으로 건너뜀"
+assert animals._next_fame_tier({1}, ["seville_spain"]) == 1, "3 이후 4 없으면 한 바퀴 돌아 1"
+assert animals._next_fame_tier(set(), []) == 1, "후보 등급 없음 → 기본 1"
+ok("_next_fame_tier 단위: 직전 등급 다음 칸 + 소진 등급 스킵 (기대값 하드코딩)")
+
+# 1순회 완료 후 재방문 모드에서도 순환이 이어지는지 (기대값을 구현식으로 계산하지 않음)
 all_used = list(A.keys())
 recent = all_used[-85:]                      # compute_exclude 가 넘기는 것과 같은 슬라이스
-cands = keys_of(animals._roster_lines(recent, ever_used=all_used))
 free = [k for k in all_used if k not in recent]
-top = min(A[k]["fame"] for k in free)
-assert set(cands) == {k for k in free if A[k]["fame"] == top}, "재방문 모드 tier 계산 오류"
-ok("로스터 1순회 완료 후 재방문 모드 진입(유명도 순 유지)")
+cands = keys_of(animals._roster_lines(recent, ever_used=all_used))
+last_f = A[all_used[-1]]["fame"]
+want = next(f for f in ((last_f + i) % 4 + 1 for i in range(4)) if f in {A[k]["fame"] for k in free})
+assert {A[k]["fame"] for k in cands} == {want}, "재방문 모드 순환 오류"
+assert set(cands) <= set(free), "재방문 모드가 exclude된 도시를 후보로 냄"
+ok(f"1순회 완료 후 재방문 모드: 직전 fame{last_f} → fame{want} 유지")
 
 # --- 4. 100편 시뮬레이션: 기아 없이 전량 소진 --------------------------------
 USED_KEEP = 85
 used, fames = [], []
-for _ in range(100):
+for _ in range(150):                     # 100편(1순회) + 50편(재방문 구간)까지 밀어본다
     pick = animals.pick_animal(exclude=used[-USED_KEEP:], ever_used=used)
     used.append(pick)
     fames.append(A[pick]["fame"])
-assert len(set(used)) == 100, f"100편 중 중복 발생 ({100 - len(set(used))}건)"
-assert fames == sorted(fames), "유명도 순서가 뒤섞임 (오름차순이어야 함)"
-assert fames[:12] == [1] * 12 and fames[-37:] == [4] * 37
-ok("100편 시뮬: 중복 0, fame 1→4 오름차순으로 로스터 전량 소진(하위 등급 기아 없음)")
+assert len(set(used[:100])) == 100, f"1순회에서 중복 발생 ({100 - len(set(used[:100]))}건)"
+assert fames[:8] == [1, 2, 3, 4, 1, 2, 3, 4], f"초반 순환 깨짐: {fames[:8]}"
+assert fames[:48] == [1, 2, 3, 4] * 12, "fame1 12개가 소진되는 48편까지 완전 순환이 아님"
+for f in (1, 2, 3, 4):
+    assert fames[:100].count(f) == len(BY_FAME[f]), \
+        f"fame{f} 1순회 소진 실패 ({fames[:100].count(f)}/{len(BY_FAME[f])})"
+# 재방문 구간: 같은 도시가 연속 재등장하지 않고(=exclude 유효) 계속 후보가 나온다
+assert len(set(used[100:])) == len(used[100:]), "재방문 구간에서 같은 도시 중복 선택"
+ok("150편 시뮬: 1순회 100개 중복 0 + 48편까지 1234 완전 순환 + 재방문 구간 정상")
+
+# 재방문 구간에서도 4개 등급 후보가 모두 살아있으면 순환은 그대로 1234 (KEEP 작게 잡아 재현)
+revisit, seq2 = list(A.keys()), []
+for _ in range(24):
+    pick = animals.pick_animal(exclude=revisit[-20:], ever_used=revisit)
+    revisit.append(pick)
+    seq2.append(A[pick]["fame"])
+assert seq2 == [1, 2, 3, 4] * 6, f"재방문 구간 순환 깨짐: {seq2}"
+ok(f"재방문(2순회) 24편 순환 실측: {''.join(map(str, seq2))[:12]}… 1234 유지")
+
+# --- 4b. 이력 저장/회피 슬라이스 연동 -----------------------------------------
+import importlib                                                        # noqa: E402
+import pipeline.history as H                                            # noqa: E402
+main_mod = importlib.import_module("main")
+
+long_used = [f"city_{i}" for i in range(600)] + ["paris_france"]
+tmp = os.path.join(_HERE, "_tmp_used.json")
+_real_path = main_mod.USED_PATH
+try:
+    main_mod.USED_PATH = tmp
+    main_mod._save_used(long_used)
+    saved = main_mod._load_used()
+finally:
+    main_mod.USED_PATH = _real_path
+    if os.path.exists(tmp):
+        os.remove(tmp)
+assert len(saved) == main_mod.USED_LOG_MAX == 500, f"이력 상한 적용 실패 ({len(saved)})"
+assert saved[-1] == "paris_france", "최신 발행이 잘려나감 (뒤에서 자르지 않음)"
+ok("used_cities 저장: 최근 500편 보존(오래된 쪽부터 절단, 최신 유지)")
+
+# 회피(exclude)는 저장 이력이 길어져도 최근 USED_KEEP개만 — 기존 동작 불변
+ex, _w = H.compute_exclude({}, list(A.keys()), 85, 120.0, pool=None)
+assert len(ex) == 85 and "paris_france" not in ex, "compute_exclude 가 전량을 차단(회피 슬라이스 붕괴)"
+ok("compute_exclude: 이력 100편이어도 회피는 최근 85편만(전량 보존과 무충돌)")
+
+# 재방문 도시를 다시 append 해도(publish-prepared 경로) 순환은 계속 진행된다
+dup = ["paris_france", "amsterdam_netherlands", "paris_france"]
+assert animals._next_fame_tier({1, 2, 3, 4}, dup) == 2, "중복 append 시 직전 등급 반영 실패"
+ok("재방문 중복 기록도 '직전 발행 등급'으로 정상 반영(순환 제자리걸음 없음)")
 
 picks = {animals.pick_animal(exclude=[]) for _ in range(300)}
-assert picks <= set(BY_FAME[1]), "legacy fallback 이 tier 밖 도시 픽"
+assert picks <= set(BY_FAME[1]), "발행 이력 0인데 fame1 밖을 픽"
 ok(f"pick_animal 300회 전부 fame1 ({len(picks)}종)")
 
 picks = {animals.pick_animal(exclude=list(A.keys())) for _ in range(50)}
-assert picks <= set(BY_FAME[1]), "전량 exclude 시에도 fame1 재사용이어야 함"
+assert picks <= set(BY_FAME[1]), "전량 exclude 시에도 이력 0이면 fame1"
 ok("전량 exclude(IndexError 회귀 케이스) → fame1 재사용")
+
+assert animals._fame_counts(["paris_france", "kanazawa_japan", "not_a_city"]) == {1: 1, 2: 0, 3: 0, 4: 1}
+ok("_fame_counts: 로스터 밖 키 무시하고 등급별 발행 수 집계")
 
 # --- 5. fame 결측/이상값 방어 ----------------------------------------------
 assert animals._fame({}) == 3 and animals._fame({"fame": "x"}) == 3
@@ -119,7 +212,7 @@ ok("fame 결측·이상값 → 3 폴백 (무명 취급으로 영영 미발행되
 # --- 6. 프롬프트 회귀 -------------------------------------------------------
 src = open(os.path.join(_ROOT, "pipeline", "animals.py"), encoding="utf-8").read()
 assert "Prefer cities lower in the list" not in src, "옛 'fresh 선호' 유도 문구 잔존"
-assert "pre-filtered to the most famous cities" in src
+assert "pre-filtered this list for you" in src
 ok("프롬프트에서 'fresh 도시 선호' 유도 제거 확인")
 
 # --- 7. GPT가 tier 밖을 픽하면 코드가 거절 ----------------------------------
