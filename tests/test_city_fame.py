@@ -53,12 +53,37 @@ def keys_of(block):
 
 # --- 1. 로스터 무결성 -------------------------------------------------------
 raw = json.load(open(os.path.join(_ROOT, "cities.json"), encoding="utf-8"))
-assert len(raw) == len(A) == 100, f"로스터 개수 {len(raw)}/{len(A)}"
+ROSTER_N = len(raw)
+assert ROSTER_N == len(A) >= 160, f"로스터 개수 {ROSTER_N}/{len(A)}"
 assert all("fame" in c for c in raw), "fame 필드 누락 도시 존재"
 assert all(1 <= c["fame"] <= 4 for c in raw), "fame 범위 이탈"
-assert len(BY_FAME[1]) >= 10, "fame=1(최상위) 도시가 너무 적다"
-ok(f"cities.json 100개 fame 부여 완료 (분포 {{f: len(v) for ...}} = "
-   f"{ {f: len(v) for f, v in sorted(BY_FAME.items())} })")
+assert len({c["city_key"] for c in raw}) == ROSTER_N, "city_key 중복"
+assert len({c["city"].lower() for c in raw}) == ROSTER_N, "도시명 중복"
+# 등급이 정확히 균등해야 1234 순환이 로스터 끝까지 유지된다 (한 등급이라도 적으면 거기서 깨짐)
+assert set(BY_FAME) == {1, 2, 3, 4} and len({len(v) for v in BY_FAME.values()}) == 1, \
+    f"등급 불균등 — 순환이 일찍 깨진다: { {f: len(v) for f, v in sorted(BY_FAME.items())} }"
+assert ROSTER_N % 4 == 0, f"로스터 개수가 4의 배수가 아님 ({ROSTER_N})"
+ok(f"cities.json {ROSTER_N}개 fame 부여·균형 확인 "
+   f"(분포 { {f: len(v) for f, v in sorted(BY_FAME.items())} }, 키/도시명 중복 0)")
+
+VALID_CAT = {"europe_city", "asia_culture", "beach_tropical", "desert_middleeast",
+             "africa_safari", "latin_america", "north_america", "oceania",
+             "nordic_nature", "historic_ancient"}
+for c in raw:
+    assert c["category"] in VALID_CAT, f"{c['city_key']}: 잘못된 category {c['category']}"
+    assert isinstance(c.get("country"), str) and c["country"].strip(), \
+        f"{c['city_key']}: country 누락 (grounding 국가 게이트가 무력화됨)"
+    assert isinstance(c.get("confusion_pair"), list) and \
+        all(isinstance(x, str) and x.strip() for x in c["confusion_pair"]), \
+        f"{c['city_key']}: confusion_pair 형식 오류"
+    assert c["landmark_lock"], f"{c['city_key']}: landmark_lock 비어있음"
+    assert isinstance(c["pexels_keywords"], list) and len(c["pexels_keywords"]) >= 4, \
+        f"{c['city_key']}: 키워드 부족"
+    tok = "".join(ch for ch in c["city"].split()[0].lower() if ch.isalnum())
+    for kw in c["pexels_keywords"]:
+        flat = "".join(ch for ch in kw.lower() if ch.isalnum())
+        assert tok in flat, f"{c['city_key']}: 키워드에 도시명 없음 → {kw!r}"
+ok(f"{ROSTER_N}개 전부 category 유효 + landmark_lock 존재 + 키워드에 도시명 포함")
 
 for must in ("paris_france", "tokyo_japan", "new_york_usa", "rome_italy", "london_uk"):
     assert A[must]["fame"] == 1, f"{must} 는 fame=1 이어야 함"
@@ -112,18 +137,28 @@ for step in range(8):
 assert seq == [1, 2, 3, 4, 1, 2, 3, 4], f"현재 상태에서 순환 실패: {seq}"
 ok(f"현재 상태(카나자와·자이푸르=4등급 선발행) → 이후 8편 {''.join(map(str, seq))}")
 
-# 직전 등급별 다음 차례 (기대값 하드코딩 — 구현식을 베끼지 않는다)
-for last_key, want in (("paris_france", 2), ("amsterdam_netherlands", 3),
-                       ("seville_spain", 4), ("kanazawa_japan", 1)):
-    got = animals._next_fame_tier({1, 2, 3, 4}, [last_key])
+# 각 등급이 한 번씩 나간 뒤(초기 진입 예외 off) = 순수 라운드로빈 구간
+SEED = ["paris_france", "seville_spain", "colmar_france", "kanazawa_japan"]   # fame 1,2,3,4
+assert [A[k]["fame"] for k in SEED] == [1, 2, 3, 4], "테스트 seed 등급 전제 깨짐"
+for last_key, want in (("paris_france", 2), ("seville_spain", 3),
+                       ("colmar_france", 4), ("kanazawa_japan", 1)):
+    got = animals._next_fame_tier({1, 2, 3, 4}, SEED + [last_key])
     assert got == want, f"직전 {last_key}(fame{A[last_key]['fame']}) → {got}, 기대 {want}"
+assert animals._next_fame_tier({2, 4}, SEED + ["paris_france"]) == 2, "직전 1 → 2"
+assert animals._next_fame_tier({1, 3}, SEED + ["paris_france"]) == 3, "2 소진 → 3으로 건너뜀"
+assert animals._next_fame_tier({1}, SEED + ["colmar_france"]) == 1, "4 없으면 한 바퀴 돌아 1"
+assert animals._next_fame_tier(set(), SEED) == 1, "후보 등급 없음 → 기본 1"
+ok("_next_fame_tier 단위: 직전 등급 다음 칸 + 소진 등급 스킵 (기대값 하드코딩)")
+
+# 초기 진입 예외 — 아직 한 편도 안 나간 등급이 있으면 그중 가장 유명한 등급이 먼저
 assert animals._next_fame_tier({1, 2, 3, 4}, []) == 1, "이력 0이면 1부터"
 assert animals._next_fame_tier({1, 2, 3, 4}, ["없는_도시"]) == 1, "로스터 밖 키만 있으면 1부터"
-assert animals._next_fame_tier({2, 4}, ["paris_france"]) == 2, "직전 1 → 남은 것 중 2"
-assert animals._next_fame_tier({1, 3}, ["paris_france"]) == 3, "직전 1, 2 소진 → 3으로 건너뜀"
-assert animals._next_fame_tier({1}, ["seville_spain"]) == 1, "3 이후 4 없으면 한 바퀴 돌아 1"
-assert animals._next_fame_tier(set(), []) == 1, "후보 등급 없음 → 기본 1"
-ok("_next_fame_tier 단위: 직전 등급 다음 칸 + 소진 등급 스킵 (기대값 하드코딩)")
+assert animals._next_fame_tier({1, 2, 3, 4}, ["kanazawa_japan"]) == 1, "4등급만 나갔으면 다음 1"
+assert animals._next_fame_tier({1, 2, 3, 4}, ["kanazawa_japan", "jaipur_india"]) == 1, \
+    "3·4등급만 나간 현재 채널 상태에서 다음은 1"
+assert animals._next_fame_tier({2, 3, 4}, ["kanazawa_japan"]) == 2, "1등급 후보 없으면 2"
+assert animals._next_fame_tier({1, 2, 3, 4}, SEED) == 1, "한 바퀴 다 돌면 예외 off → 직전4 다음 1"
+ok("초기 진입 예외: 미발행 등급 우선(하위 등급으로 기운 과거 이력 보정) 후 자동 종료")
 
 # 1순회 완료 후 재방문 모드에서도 순환이 이어지는지 (기대값을 구현식으로 계산하지 않음)
 all_used = list(A.keys())
@@ -139,19 +174,20 @@ ok(f"1순회 완료 후 재방문 모드: 직전 fame{last_f} → fame{want} 유
 # --- 4. 100편 시뮬레이션: 기아 없이 전량 소진 --------------------------------
 USED_KEEP = 85
 used, fames = [], []
-for _ in range(150):                     # 100편(1순회) + 50편(재방문 구간)까지 밀어본다
+for _ in range(ROSTER_N + 40):           # 1순회 전량 + 재방문 40편까지 밀어본다
     pick = animals.pick_animal(exclude=used[-USED_KEEP:], ever_used=used)
     used.append(pick)
     fames.append(A[pick]["fame"])
-assert len(set(used[:100])) == 100, f"1순회에서 중복 발생 ({100 - len(set(used[:100]))}건)"
-assert fames[:8] == [1, 2, 3, 4, 1, 2, 3, 4], f"초반 순환 깨짐: {fames[:8]}"
-assert fames[:48] == [1, 2, 3, 4] * 12, "fame1 12개가 소진되는 48편까지 완전 순환이 아님"
+assert len(set(used[:ROSTER_N])) == ROSTER_N, \
+    f"1순회에서 중복 발생 ({ROSTER_N - len(set(used[:ROSTER_N]))}건)"
+full = 4 * min(len(v) for v in BY_FAME.values())     # 가장 적은 등급이 소진될 때까지는 완전 순환
+assert fames[:full] == [1, 2, 3, 4] * (full // 4), f"{full}편까지 1234 완전 순환이 아님"
 for f in (1, 2, 3, 4):
-    assert fames[:100].count(f) == len(BY_FAME[f]), \
-        f"fame{f} 1순회 소진 실패 ({fames[:100].count(f)}/{len(BY_FAME[f])})"
+    assert fames[:ROSTER_N].count(f) == len(BY_FAME[f]), \
+        f"fame{f} 1순회 소진 실패 ({fames[:ROSTER_N].count(f)}/{len(BY_FAME[f])})"
 # 재방문 구간: 같은 도시가 연속 재등장하지 않고(=exclude 유효) 계속 후보가 나온다
-assert len(set(used[100:])) == len(used[100:]), "재방문 구간에서 같은 도시 중복 선택"
-ok("150편 시뮬: 1순회 100개 중복 0 + 48편까지 1234 완전 순환 + 재방문 구간 정상")
+assert len(set(used[ROSTER_N:])) == len(used[ROSTER_N:]), "재방문 구간에서 같은 도시 중복 선택"
+ok(f"{ROSTER_N + 40}편 시뮬: 1순회 {ROSTER_N}개 중복 0 + {full}편까지 1234 완전 순환 + 재방문 정상")
 
 # 재방문 구간에서도 4개 등급 후보가 모두 살아있으면 순환은 그대로 1234 (KEEP 작게 잡아 재현)
 revisit, seq2 = list(A.keys()), []

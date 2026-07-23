@@ -920,9 +920,18 @@ def _next_fame_tier(available: set, ever_used: list = None) -> int:
     엄격한 라운드로빈이다. 별도 카운터 파일 없이 '마지막으로 발행한 도시의 등급'에서
     한 칸 돌린다. 이력이 없으면 1(파리·도쿄급)부터 시작한다.
     후보가 남지 않은 등급은 건너뛰고 그 다음 칸으로 넘어간다(4개 다 없으면 available 최소).
+
+    예외 하나 — **아직 한 편도 안 나간 등급이 있으면 그중 가장 유명한 등급이 먼저**다.
+    순환 도입 전 이력이 하위 등급으로 기울어 있으면(채널 초기 3편이 3~4등급이었다)
+    직전 등급만 보고 돌릴 경우 다음 편도 무명 도시가 된다. 이 예외는 각 등급이 한 번씩
+    나가고 나면 자동으로 꺼지고, 그 뒤로는 순수 라운드로빈이다.
     """
     if not available:
         return FAME_CYCLE[0]
+    counts = _fame_counts(ever_used)
+    never = [f for f in FAME_CYCLE if f in available and counts.get(f, 0) == 0]
+    if never:
+        return never[0]
     start = _last_fame(ever_used)
     idx = FAME_CYCLE.index(start) if start in FAME_CYCLE else -1
     for step in range(1, len(FAME_CYCLE) + 1):
