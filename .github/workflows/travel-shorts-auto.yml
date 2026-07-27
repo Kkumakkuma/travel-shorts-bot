@@ -155,6 +155,9 @@ jobs:
           from datetime import datetime, timedelta, timezone
           KST = timezone(timedelta(hours=9))
           ok = os.environ.get("OUTCOME") == "success"
+          if ok:
+              print("발행 성공 — 개별 알림 생략 (아침·저녁 브리핑 통합, 2026-07-27)")
+              raise SystemExit(0)
           icon = "🚀" if ok else "❌"
 
           yt_url, animal, locales, token_expired = None, None, None, False
