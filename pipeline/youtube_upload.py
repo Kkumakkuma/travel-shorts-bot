@@ -220,6 +220,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
         try:
             tn = MediaFileUpload(thumbnail_path, mimetype="image/jpeg")
             svc.thumbnails().set(videoId=video_id, media_body=tn).execute()
+            log.info("썸네일 업로드 완료")
         except Exception as e:
             log.warning(f"thumbnail 실패: {e}")
 

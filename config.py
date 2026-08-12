@@ -81,6 +81,10 @@ CAPTION_Y_RATIO = 0.60  # 하단 1/3 (피사체 가림 해소 + 쇼츠 UI 회피
 CAPTION_PHRASE_SIZE = 4  # 한 자막에 3-4 단어 묶음
 CAPTION_HIGHLIGHT_NUMBERS = True  # 숫자는 옐로우 강조
 
+# 썸네일 — 완성 영상 프레임 + 도시명 대문자 (pipeline/thumbnail.py, fail-soft: 실패해도 발행 진행)
+ENABLE_THUMBNAIL = True
+THUMBNAIL_FONT_SIZE = 190  # 시작 크기 — 폭 초과 시 14씩 자동 축소 (하한 80)
+
 # BGM — assets/bgm/*.mp3 풀 or GDrive(뮤직봇 큐) read-only. 없으면 BGM 없이 진행
 BGM_VOLUME_DB = -22  # TTS 가리지 않게 작게
 

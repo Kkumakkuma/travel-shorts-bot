@@ -619,6 +619,21 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
                      intro_clip=intro_clip, city=meta.get("single"))
     log.info(f"video: {out_video} ({os.path.getsize(out_video) / 1024 / 1024:.1f}MB)")
 
+    # 4-1) 썸네일 — 완성 영상 프레임 + 도시명 대문자 (fail-soft: 실패해도 발행 진행)
+    thumbnail_path = None
+    if getattr(_cfg, "ENABLE_THUMBNAIL", False):
+        try:
+            from pipeline.thumbnail import generate_thumbnail
+            hook_txt = (meta.get("single") or "").strip().upper()
+            if not hook_txt:
+                # 도시명이 없으면 제목 앞 4단어 대문자
+                hook_txt = " ".join((meta.get("title_en") or "").split()[:4]).upper()
+            tp = os.path.join(work_dir, "thumbnail.jpg")
+            if hook_txt and generate_thumbnail(out_video, tp, text=hook_txt):
+                thumbnail_path = tp
+        except Exception as e:
+            log.warning(f"썸네일 생성 실패(영상은 정상 진행): {e}")
+
     # 5) 7개국 localizations
     locs = translator.translate_for_youtube(meta["title_en"], meta["description_en"])
 
@@ -630,6 +645,8 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             import json as _json
             _pub = {
                 "animal_key": animal_key, "video": out_video,
+                # video 와 동일하게 절대경로 저장 — publish-prepared 가 존재 확인 후 전달(fail-soft)
+                "thumbnail": thumbnail_path,
                 "title_en": meta["title_en"], "description_en": meta["description_en"],
                 "tags": meta.get("tags", []), "locs": locs,
                 "comment": meta.get("comment"), "default_language": "en",
@@ -681,6 +698,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             title=meta["title_en"],
             description=meta["description_en"],
             tags=meta["tags"],
+            thumbnail_path=thumbnail_path,
             localizations=locs,
             default_language="en",
             custom_comment=meta.get("comment"),
@@ -773,11 +791,17 @@ def _publish_prepared(meta_json_path: str):
     if not os.path.exists(video):
         raise FileNotFoundError(f"발행할 영상 없음: {video}")
     log.info(f"검증본 발행 시작: {os.path.basename(video)}")
+    # 썸네일 — dry-run 이 만들어 둔 파일이 있으면 그대로 전달 (없으면 썸네일 없이, fail-soft)
+    thumbnail = pub.get("thumbnail")
+    if thumbnail and not os.path.exists(thumbnail):
+        log.warning(f"publish_meta 썸네일 파일 없음 → 썸네일 없이 발행: {thumbnail}")
+        thumbnail = None
     url = youtube_upload.upload(
         video,
         title=pub["title_en"],
         description=pub["description_en"],
         tags=pub.get("tags", []),
+        thumbnail_path=thumbnail,
         localizations=pub.get("locs", {}),
         default_language=pub.get("default_language", "en"),
         custom_comment=pub.get("comment"),
