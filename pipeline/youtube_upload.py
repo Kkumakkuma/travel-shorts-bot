@@ -3,6 +3,7 @@ import logging
 import os
 import pickle
 import random
+import re
 
 from config import (
     CONTAINS_SYNTHETIC_MEDIA,
@@ -147,13 +148,25 @@ def has_caption_scope() -> bool:
 def _sanitize_tags(tags):
     """YouTube 태그 한도 가드 — invalidTags(400) 시 발행 전체가 죽는 것 방지(2026-07-20).
     규칙: str 만, 태그당 100자 컷, 최대 30개, 합산 480자(공백 포함 태그는 API 가 따옴표
-    2자를 가산하므로 +2로 계산 — 한도 500자에 여유)."""
-    out, budget = [], 480
+    2자를 가산하므로 +2로 계산 — 한도 500자에 여유).
+
+    2026-08-16 위생 강화 — 발행분 태그 실측(YouTube Data API)에서 두 가지를 확인했다.
+      · snake_case 슬러그 8건: long_tail / bird_of_prey / night_vision / color_change …
+        아무도 밑줄 붙은 말로 검색하지 않으므로 검색 유입 0인 채 태그 슬롯만 차지한다.
+      · 대소문자만 다른 중복 13건: ["Supernova", …, "supernova"] 처럼 한 영상에 동시 등장.
+        YouTube 는 태그를 대소문자 구분 없이 취급하므로 슬롯 하나를 그냥 버리는 셈이다.
+    둘 다 GPT 출력단에서 프롬프트로 막았지만, 여기서 결정적으로 한 번 더 정규화한다.
+    태그를 없애는 게 아니라 검색 가능한 형태로 바꾸는 것이라 발행 위험은 없다."""
+    out, seen, budget = [], set(), 480
     for t in (tags or []):
         if not isinstance(t, str):
             continue
-        t = t.strip()[:100]
+        t = re.sub(r"_+", " ", t)          # long_tail → long tail (검색되는 형태로)
+        t = re.sub(r"\s+", " ", t).strip()[:100]
         if not t:
+            continue
+        key = t.lower()
+        if key in seen:                    # 대소문자만 다른 중복 → 슬롯 낭비이므로 제거
             continue
         cost = len(t) + (2 if " " in t else 0)
         if out:
@@ -161,6 +174,7 @@ def _sanitize_tags(tags):
         if cost > budget:
             continue
         out.append(t)
+        seen.add(key)
         budget -= cost
         if len(out) >= 30:
             break
