@@ -206,8 +206,27 @@ def parse_srt(text: str) -> list:
     return out
 
 
+# 번호를 붙여 돌려받은 줄을 원본 인덱스에 맞춰 넣는 최소 커버리지.
+# 이 아래로 빠지면 영어가 너무 많이 섞여 자막 품질이 떨어지므로 그 언어는 포기한다.
+_TR_MIN_COVERAGE = 0.8
+
+
+def _tr_call(client, prompt, timeout):
+    resp = client.chat.completions.create(
+        model=META_MODEL, messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"}, temperature=0.3, max_tokens=1800,
+        timeout=timeout)
+    return json.loads(resp.choices[0].message.content)
+
+
 def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIMEOUT) -> str:
-    """GPT로 SRT의 자막 텍스트만 번역, 타임코드 유지. 실패/개수불일치 시 None."""
+    """GPT로 SRT의 자막 텍스트만 번역, 타임코드 유지.
+
+    모델이 줄을 합치거나 빠뜨려 개수가 어긋나는 일이 잦다(2026-08-20 실측: 8개 언어 중
+    6개가 이 사유로 통째 스킵돼 en·ja만 올라갔다). 개수만 보고 버리면 자막이 사라지므로,
+    2차로 번호를 함께 받아 원본 줄 번호에 맞춰 채운다. 못 채운 줄은 영어 원문을 쓰되
+    커버리지가 낮으면 그 언어는 포기한다(엉뚱한 줄에 붙는 것보다 없는 편이 낫다).
+    """
     if not OPENAI_API_KEY:
         return None
     cues = parse_srt(en_srt_text)
@@ -216,29 +235,58 @@ def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIM
         return None
     from openai import OpenAI
     client = OpenAI(api_key=OPENAI_API_KEY, timeout=timeout)
-    prompt = (
+    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
+    head = (
         f"Translate each numbered English subtitle line to {LANG_NAMES.get(lang, lang)} ({lang}). "
         f"Natural spoken style, concise (fit a short-video caption). Keep the SAME order and EXACT count "
         f"({len(texts)} lines). Do NOT merge, split, add, or drop lines. Translate text only.\n\n"
-        + "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
-        + f"\n\nOutput STRICT JSON: {{\"lines\": [ {len(texts)} translated strings, same order ]}}"
     )
+    prompt = head + numbered + (
+        f"\n\nOutput STRICT JSON: {{\"lines\": [ {len(texts)} translated strings, same order ]}}")
+
+    tr = []
     try:
-        resp = client.chat.completions.create(
-            model=META_MODEL, messages=[{"role": "user", "content": prompt}],
-            response_format={"type": "json_object"}, temperature=0.3, max_tokens=1800,
-            timeout=timeout)
-        tr = json.loads(resp.choices[0].message.content).get("lines") or []
+        tr = _tr_call(client, prompt, timeout).get("lines") or []
     except Exception as e:
         log.warning(f"[{lang}] 자막 번역 호출 실패: {e}")
+
+    if isinstance(tr, list) and len(tr) == len(texts):
+        picked = {i: str(t).strip() for i, t in enumerate(tr) if str(t).strip()}
+    else:
+        if tr:
+            log.info(f"[{lang}] 라인 수 불일치 ({len(tr)}!={len(texts)}) → 번호 매칭으로 재시도")
+        retry = head + numbered + (
+            "\n\nEvery input line number MUST appear exactly once in the output.\n"
+            "Output STRICT JSON: {\"lines\": [{\"n\": <input line number>, \"t\": \"<translation>\"}]}")
+        picked = {}
+        try:
+            items = _tr_call(client, retry, timeout).get("lines") or []
+            for it in items:
+                if not isinstance(it, dict):
+                    continue
+                try:
+                    n = int(it.get("n"))
+                except (TypeError, ValueError):
+                    continue
+                t = str(it.get("t") or "").strip()
+                if t and 1 <= n <= len(texts) and (n - 1) not in picked:
+                    picked[n - 1] = t
+        except Exception as e:
+            log.warning(f"[{lang}] 자막 번역 재시도 실패: {e}")
+
+    if not picked:
+        log.warning(f"[{lang}] 번역 결과 없음 → 스킵")
         return None
-    if not isinstance(tr, list) or len(tr) != len(texts):
-        log.warning(f"[{lang}] 번역 라인 수 불일치 ({len(tr)}!={len(texts)}) → 스킵")
+    coverage = len(picked) / len(texts)
+    if coverage < _TR_MIN_COVERAGE:
+        log.warning(f"[{lang}] 번역 커버리지 부족 ({len(picked)}/{len(texts)}) → 스킵")
         return None
+    if coverage < 1.0:
+        log.info(f"[{lang}] {len(texts) - len(picked)}줄은 영어 원문 유지 ({len(picked)}/{len(texts)})")
+
     out = []
-    for n, (c, t) in enumerate(zip(cues, tr), 1):
-        txt = str(t).strip() or c["text"]
-        out.append(f"{n}\n{c['tc']}\n{txt}\n")
+    for n, c in enumerate(cues, 1):
+        out.append(f"{n}\n{c['tc']}\n{picked.get(n - 1) or c['text']}\n")
     return "\n".join(out).strip() + "\n"
 
 
