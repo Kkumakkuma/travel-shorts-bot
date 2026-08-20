@@ -53,6 +53,8 @@ CUE_EPS = 1e-3
 DEFAULT_CALL_TIMEOUT = 30.0
 # 남은 예산이 이 값(초) 미만이면 새 호출을 시작하지 않고 skip (성공 가망 없는 호출 방지).
 MIN_CALL_BUDGET = 2.0
+# CC 예산 중 자막 업로드(captions.insert 8회) 몫으로 남겨 두는 시간(초).
+CC_UPLOAD_RESERVE = 60.0
 
 
 def _budget_timeout(deadline: float, call_timeout: float, floor: float = MIN_CALL_BUDGET):
@@ -219,13 +221,97 @@ def _tr_call(client, prompt, timeout):
     return json.loads(resp.choices[0].message.content)
 
 
-def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIMEOUT) -> str:
+# 한 번에 30줄을 통째로 넘기면 모델이 줄을 재분배해 번역이 몇 칸씩 밀린다(실측).
+# 문장 경계에서 끊어 보내면 밀림이 그 문장 안에 갇힌다. 한국어처럼 어순이 크게 다른
+# 언어는 문장 중간을 잘라 주면 반드시 재분배가 일어나므로 이 경계가 중요하다.
+_TR_SENT_PER_CALL = 1
+_TR_MAX_GROUP = 6           # 문장부호가 없는 대본이 와도 한 덩어리로 뭉치지 않게
+_TR_MAX_CALLS = 24          # 언어당 호출 상한(쪼개기 폭주 방지)
+_SENT_END = (".", "!", "?", "…", "\"", "'")
+
+
+def _tr_groups(texts: list) -> list:
+    """문장 끝을 기준으로 자막 줄 인덱스를 묶는다.
+
+    마침표가 하나도 없는 대본이 들어오면 전부 한 덩어리가 돼 쪼개기 호출 상한에
+    걸려 뒷부분이 통째로 빠진다. 그래서 줄 수 상한도 함께 둔다.
+    """
+    groups, cur, sents = [], [], 0
+    for i, t in enumerate(texts):
+        cur.append(i)
+        if str(t).rstrip().endswith(_SENT_END):
+            sents += 1
+            if sents >= _TR_SENT_PER_CALL:
+                groups.append(cur)
+                cur, sents = [], 0
+                continue
+        if len(cur) >= _TR_MAX_GROUP:
+            groups.append(cur)
+            cur, sents = [], 0
+    if cur:
+        groups.append(cur)
+    return groups
+
+
+def _tr_chunk(client, lang, texts, idxs, timeout, state):
+    """idxs 구간을 번역해 state["picked"] 에 채운다.
+
+    모델은 줄을 합치거나 쪼개서 개수를 자주 어긴다. 이때 번호(n)를 같이 달라고 해도
+    자기 출력 기준으로 매기는 경우가 있어 엉뚱한 줄에 번역이 붙는다(2026-08-20 실측:
+    ko 15번 자리에 22번 문장의 번역이 들어갔다). 그래서 번호를 신뢰하지 않고,
+    개수가 어긋나면 구간을 반으로 쪼개 다시 물어본다. 1줄까지 내려가면 그 답은
+    그 줄의 번역일 수밖에 없으므로 정렬이 깨질 여지가 없다.
+    """
+    if not idxs or state["calls"] >= _TR_MAX_CALLS or time.monotonic() > state["until"]:
+        return
+    lines = [texts[i] for i in idxs]
+    numbered = "\n".join(f"{k+1}. {t}" for k, t in enumerate(lines))
+    prompt = (
+        f"Translate each numbered English subtitle line to {LANG_NAMES.get(lang, lang)} ({lang}). "
+        f"Natural spoken style, concise (fit a short-video caption). Keep the SAME order and EXACT "
+        f"count ({len(lines)} lines). Do NOT merge, split, add, or drop lines. Translate text only."
+        f"\n\n{numbered}"
+        f"\n\nOutput STRICT JSON: {{\"lines\": [ {len(lines)} translated strings, same order ]}}")
+    state["calls"] += 1
+    try:
+        got = _tr_call(client, prompt, timeout).get("lines")
+    except Exception as e:
+        log.warning(f"[{lang}] 번역 호출 실패({len(lines)}줄): {e}")
+        return
+    got = [str(x).strip() for x in got] if isinstance(got, list) else []
+
+    if len(got) == len(idxs):
+        blanks = []
+        for i, t in zip(idxs, got):
+            if t:
+                state["picked"][i] = t
+            else:
+                blanks.append(i)
+        # 개수는 맞는데 특정 칸만 빈 문자열로 오는 경우가 있다(옆 줄에 뭉쳐 번역).
+        # 그 줄만 따로 물어본다. 1줄짜리 요청에서 또 비면 그냥 포기(무한 재귀 방지).
+        if len(idxs) > 1:
+            for i in blanks:
+                _tr_chunk(client, lang, texts, [i], timeout, state)
+        return
+    if len(idxs) == 1:
+        # 한 줄만 물었으므로 무엇이 오든 그 줄의 번역이다. 쪼개 왔으면 이어 붙인다.
+        t = " ".join(x for x in got if x).strip()
+        if t:
+            state["picked"][idxs[0]] = t
+        return
+    mid = len(idxs) // 2
+    _tr_chunk(client, lang, texts, idxs[:mid], timeout, state)
+    _tr_chunk(client, lang, texts, idxs[mid:], timeout, state)
+
+
+def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIMEOUT,
+                  until: float = None) -> str:
     """GPT로 SRT의 자막 텍스트만 번역, 타임코드 유지.
 
     모델이 줄을 합치거나 빠뜨려 개수가 어긋나는 일이 잦다(2026-08-20 실측: 8개 언어 중
-    6개가 이 사유로 통째 스킵돼 en·ja만 올라갔다). 개수만 보고 버리면 자막이 사라지므로,
-    2차로 번호를 함께 받아 원본 줄 번호에 맞춰 채운다. 못 채운 줄은 영어 원문을 쓰되
-    커버리지가 낮으면 그 언어는 포기한다(엉뚱한 줄에 붙는 것보다 없는 편이 낫다).
+    6개가 이 사유로 통째 스킵돼 en·ja만 올라갔다). 개수만 보고 버리면 자막이 사라지므로
+    _tr_chunk 로 구간을 쪼개 가며 채운다. 못 채운 줄은 영어 원문을 쓰되 커버리지가
+    낮으면 그 언어는 포기한다(엉뚱한 줄에 붙는 것보다 없는 편이 낫다).
     """
     if not OPENAI_API_KEY:
         return None
@@ -235,44 +321,14 @@ def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIM
         return None
     from openai import OpenAI
     client = OpenAI(api_key=OPENAI_API_KEY, timeout=timeout)
-    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
-    head = (
-        f"Translate each numbered English subtitle line to {LANG_NAMES.get(lang, lang)} ({lang}). "
-        f"Natural spoken style, concise (fit a short-video caption). Keep the SAME order and EXACT count "
-        f"({len(texts)} lines). Do NOT merge, split, add, or drop lines. Translate text only.\n\n"
-    )
-    prompt = head + numbered + (
-        f"\n\nOutput STRICT JSON: {{\"lines\": [ {len(texts)} translated strings, same order ]}}")
 
-    tr = []
-    try:
-        tr = _tr_call(client, prompt, timeout).get("lines") or []
-    except Exception as e:
-        log.warning(f"[{lang}] 자막 번역 호출 실패: {e}")
-
-    if isinstance(tr, list) and len(tr) == len(texts):
-        picked = {i: str(t).strip() for i, t in enumerate(tr) if str(t).strip()}
-    else:
-        if tr:
-            log.info(f"[{lang}] 라인 수 불일치 ({len(tr)}!={len(texts)}) → 번호 매칭으로 재시도")
-        retry = head + numbered + (
-            "\n\nEvery input line number MUST appear exactly once in the output.\n"
-            "Output STRICT JSON: {\"lines\": [{\"n\": <input line number>, \"t\": \"<translation>\"}]}")
-        picked = {}
-        try:
-            items = _tr_call(client, retry, timeout).get("lines") or []
-            for it in items:
-                if not isinstance(it, dict):
-                    continue
-                try:
-                    n = int(it.get("n"))
-                except (TypeError, ValueError):
-                    continue
-                t = str(it.get("t") or "").strip()
-                if t and 1 <= n <= len(texts) and (n - 1) not in picked:
-                    picked[n - 1] = t
-        except Exception as e:
-            log.warning(f"[{lang}] 자막 번역 재시도 실패: {e}")
+    wall = time.monotonic() + max(timeout, 20.0) * 3
+    if until is not None:
+        wall = min(wall, until)
+    state = {"picked": {}, "calls": 0, "until": wall}
+    for g in _tr_groups(texts):
+        _tr_chunk(client, lang, texts, g, timeout, state)
+    picked = state["picked"]
 
     if not picked:
         log.warning(f"[{lang}] 번역 결과 없음 → 스킵")
@@ -310,20 +366,33 @@ def generate_all(tts_lines: list, work_dir: str,
         log.warning(f"en SRT 생성 실패 → 자막 전체 스킵 (영상 정상): {e}")
         return {}
     en_text = open(en_path, encoding="utf-8").read()
-    for lang in langs:
+
+    # 언어는 서로 독립이다. 조각을 잘게 끊으면서 순차로 돌면 180초 예산을 넘기므로
+    # 언어끼리는 병렬로 돌린다(언어별 fail-soft는 그대로).
+    # 번역이 예산을 끝까지 먹으면 업로드할 시간이 남지 않는다. 마감의 일부는 업로드 몫.
+    gen_until = None if deadline is None else deadline - CC_UPLOAD_RESERVE
+
+    def _one(lang):
         eff = _budget_timeout(deadline, call_timeout)
         if eff is None:
-            log.warning(f"CC 예산 소진 → 남은 언어 번역 skip (마지막: {lang})")
-            break
+            log.warning(f"[{lang}] CC 예산 소진 → 번역 skip")
+            return lang, None
         try:
-            srt = translate_srt(en_text, lang, timeout=eff)
-            if srt:
-                p = os.path.join(work_dir, f"cc_{lang}.srt")
-                with open(p, "w", encoding="utf-8") as f:
-                    f.write(srt)
-                result[lang] = p
+            return lang, translate_srt(en_text, lang, timeout=eff, until=gen_until)
         except Exception as e:
             log.warning(f"[{lang}] SRT 생성 실패 (계속): {e}")
+            return lang, None
+
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=min(4, max(1, len(langs)))) as ex:
+        done = list(ex.map(_one, langs))
+    for lang, srt in done:
+        if not srt:
+            continue
+        p = os.path.join(work_dir, f"cc_{lang}.srt")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(srt)
+        result[lang] = p
     log.info(f"CC SRT 생성: {len(result)}개 언어 ({','.join(result.keys())})")
     return result
 

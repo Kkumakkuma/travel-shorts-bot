@@ -128,6 +128,78 @@ parsed = C.parse_srt(srt)
 check("parse 2블록", len(parsed) == 2)
 check("텍스트 보존", parsed[0]["text"] == "hi" and parsed[1]["text"] == "there")
 
+
+# == 9. 번역 조각내기 (_tr_groups / _tr_chunk) — 가짜 클라이언트, 네트워크 없음 ==
+print("== 9. 번역 조각내기 ==")
+
+_G = C._tr_groups(["A a", "b c.", "D d", "e f.", "G g."])
+check("문장 끝에서 끊음", _G == [[0, 1], [2, 3], [4]], str(_G))
+check("문장부호 없어도 마지막 조각 살림", C._tr_groups(["x", "y"]) == [[0, 1]])
+_G2 = C._tr_groups(["w%d" % i for i in range(13)])
+check("마침표 없는 대본도 줄 수 상한으로 쪼갬",
+      _G2 == [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12]], str(_G2))
+check("모든 인덱스가 한 번씩만 들어감",
+      sorted(i for g in _G2 for i in g) == list(range(13)))
+
+
+class _FakeClient:
+    """요청받은 줄 수에 대해 정해진 개수만 돌려주는 가짜 OpenAI 클라이언트."""
+
+    def __init__(self, plan):
+        self.plan = plan          # {요청줄수: 반환리스트}
+        self.calls = []
+
+    class _Msg:
+        def __init__(self, content):
+            self.message = type("M", (), {"content": content})
+
+    def _make(self, **kw):
+        prompt = kw["messages"][0]["content"]
+        import re as _re
+        asked = len(_re.findall(r"^\d+\. ", prompt, flags=_re.M))
+        self.calls.append(asked)
+        out = self.plan.get(asked, [])
+        return type("R", (), {"choices": [_FakeClient._Msg(
+            __import__("json").dumps({"lines": out}))]})
+
+    @property
+    def chat(self):
+        return type("C2", (), {"completions": type("C3", (), {"create": self._make})})
+
+
+def _run(plan, texts):
+    st = {"picked": {}, "calls": 0, "until": C.time.monotonic() + 30}
+    cl = _FakeClient(plan)
+    C._tr_chunk(cl, "ko", texts, list(range(len(texts))), 5, st)
+    return st, cl
+
+
+_TX = ["one.", "two.", "three.", "four."]
+
+st, cl = _run({4: ["1", "2", "3", "4"]}, _TX)
+check("개수 맞으면 1회 호출", cl.calls == [4] and len(st["picked"]) == 4)
+check("순서대로 배정", [st["picked"][i] for i in range(4)] == ["1", "2", "3", "4"])
+
+# 4줄 요청에 3줄만 → 2+2로 쪼개 다시 물어봄
+st, cl = _run({4: ["a", "b", "c"], 2: ["x", "y"]}, _TX)
+check("개수 어긋나면 반으로 쪼갬", cl.calls == [4, 2, 2], str(cl.calls))
+check("쪼갠 결과로 전부 채움", len(st["picked"]) == 4)
+
+# 끝까지 어긋나면 1줄씩 — 1줄 요청의 답은 무엇이든 그 줄의 번역
+st, cl = _run({4: ["a"], 2: ["b"], 1: ["only", "extra"]}, _TX)
+check("1줄까지 내려가 채움", len(st["picked"]) == 4, str(st["picked"]))
+check("1줄 답이 쪼개져 오면 합침", st["picked"][0] == "only extra")
+
+# 개수는 맞는데 빈 칸이 섞인 경우 → 그 줄만 재요청
+st, cl = _run({4: ["a", "", "c", "d"], 1: ["B"]}, _TX)
+check("빈 칸만 재요청", cl.calls == [4, 1] and st["picked"][1] == "B", str(cl.calls))
+
+# 호출 상한을 넘기면 멈춘다(폭주 방지)
+st = {"picked": {}, "calls": C._TR_MAX_CALLS, "until": C.time.monotonic() + 30}
+cl = _FakeClient({4: ["a", "b", "c", "d"]})
+C._tr_chunk(cl, "ko", _TX, [0, 1, 2, 3], 5, st)
+check("호출 상한에서 중단", cl.calls == [] and st["picked"] == {})
+
 print(f"\n=== 결과: {_passed} PASS / {_failed} FAIL ===")
 if __name__ == "__main__":
     # 모듈 최상위 sys.exit는 unittest discover/pytest의 import 단계에서 SystemExit을 일으켜
