@@ -54,5 +54,122 @@
     "Istanbul Grand Bazaar lamps shops",
     "Bosphorus ferry Istanbul skyline",
     "Galata Tower Istanbul view"
-  ]
+  ],
+  "clips": [
+    [
+      31802398,
+      38491579
+    ],
+    [
+      35519826,
+      34444617
+    ],
+    [
+      36403076,
+      36326064
+    ],
+    [
+      30884033,
+      36194560
+    ],
+    [
+      31821993,
+      18602768
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 이스탄불: 아침은 유럽에서, 점심은 아시아에서",
+      "description": "아야 소피아, 블루 모스크, 그랜드 바자르, 그리고 두 대륙을 잇는 시내 페리까지. 이스탄불을 하루에 보는 방법을 정리했습니다. #여행 #이스탄불 #튀르키예 #유럽여행"
+    },
+    "ja": {
+      "title": "60秒でイスタンブール：朝はヨーロッパ、昼はアジアで",
+      "description": "アヤソフィア、ブルーモスク、グランドバザール、そして二つの大陸を結ぶ通勤フェリーまで。イスタンブールを1日で楽しむ方法をまとめました。#旅行 #イスタンブール #トルコ #ヨーロッパ旅行"
+    },
+    "es": {
+      "title": "Estambul en 60 segundos: desayuno en Europa, almuerzo en Asia",
+      "description": "Santa Sofía, la Mezquita Azul, el Gran Bazar y un ferri de cercanías entre dos continentes. Así se ve Estambul en un día. #viajes #estambul #turquia #europa"
+    },
+    "pt": {
+      "title": "Istambul em 60 segundos: café da manhã na Europa, almoço na Ásia",
+      "description": "Hagia Sophia, a Mesquita Azul, o Grande Bazar e uma balsa entre dois continentes. Veja como conhecer Istambul em um dia. #viagem #istambul #turquia #europa"
+    },
+    "de": {
+      "title": "Istanbul in 60 Sekunden: Frühstück in Europa, Mittagessen in Asien",
+      "description": "Hagia Sophia, Blaue Moschee, Großer Basar und eine Pendlerfähre zwischen zwei Kontinenten. So siehst du Istanbul an einem Tag. #reisen #istanbul #tuerkei #europa"
+    },
+    "fr": {
+      "title": "Istanbul en 60 secondes : petit-déjeuner en Europe, déjeuner en Asie",
+      "description": "Sainte-Sophie, la Mosquée bleue, le Grand Bazar et un ferry de banlieue entre deux continents. Voici comment voir Istanbul en une journée. #voyage #istanbul #turquie #europe"
+    },
+    "hi": {
+      "title": "60 सेकंड में इस्तांबुल: नाश्ता यूरोप में, लंच एशिया में",
+      "description": "हागिया सोफिया, ब्लू मस्जिद, ग्रैंड बाजार और दो महाद्वीपों के बीच की फेरी। एक दिन में इस्तांबुल कैसे देखें, यहां है। #travel #istanbul #turkey #europe"
+    }
+  },
+  "captions": {
+    "ko": [
+      "이스탄불은 두 대륙에 걸친 유일한 대도시라, 아침은 유럽에서, 점심은 아시아에서 먹을 수 있습니다.",
+      "아야 소피아에서 시작하세요, 거의 1,500년 전 교회로 지어져 나중에 모스크가 됐고, 거의 천 년 동안 지구에서 가장 큰 대성당이었습니다.",
+      "광장 건너편 블루 모스크는 2만 장 넘는 손으로 그린 타일로 빛나는데, 지금도 예배하는 모스크라 옷차림을 단정히 하고 기도 시간은 피하세요.",
+      "그랜드 바자르에서 길을 잃어 보세요, 1450년대부터 금과 카펫, 도자기, 램프를 팔아 온 약 4천 개 상점의 지붕 덮인 미로입니다.",
+      "투어 보트 대신 시민들이 타는 보스포루스 페리를 타세요, 버스 요금 정도면 점심 먹으러 아시아에 내려 줍니다.",
+      "마무리는 갈라타 탑 전망, 그리고 다리 옆에서 생선 샌드위치를 드세요, 머리 위 난간엔 낚시꾼들이 줄지어 서 있습니다.",
+      "이스탄불 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "イスタンブールは二つの大陸にまたがる唯一の大都市なので、朝食はヨーロッパで、昼食はアジアで食べられます。",
+      "アヤソフィアから始めましょう。1,500年近く前に教会として建てられ、のちにモスクとなり、ほぼ千年間、地球最大の大聖堂でした。",
+      "広場の向かいのブルーモスクは2万枚以上の手描きタイルで輝きます。現役のモスクなので、服装は控えめに、礼拝の時間は避けましょう。",
+      "グランドバザールで迷子になってみてください。1450年代から金や絨毯、陶器、ランプを売り続ける約4千店の屋根付き迷路です。",
+      "観光船ではなく通勤フェリーでボスポラス海峡を渡りましょう。バス代ほどの料金で、昼食のためにアジア側へ着きます。",
+      "締めはガラタ塔からの眺め、そして橋のそばで魚のサンドイッチを。頭上の手すりには釣り人が並んでいます。",
+      "イスタンブール旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Estambul es la única gran ciudad en dos continentes, así que puedes desayunar en Europa y almorzar en Asia.",
+      "Empieza en Santa Sofía, construida hace casi 1.500 años como iglesia, luego mezquita, y la catedral más grande de la Tierra durante casi mil años.",
+      "Al otro lado de la plaza, la Mezquita Azul brilla con más de veinte mil azulejos pintados a mano; es una mezquita en uso, así que vístete con modestia y evita las horas de oración.",
+      "Piérdete en el Gran Bazar, un laberinto cubierto de unas cuatro mil tiendas que venden oro, alfombras, cerámica y lámparas desde la década de 1450.",
+      "Toma el ferri público de cercanías por el Bósforo en vez de un barco turístico; cuesta como un billete de autobús y te deja en Asia para almorzar.",
+      "Termina en la Torre de Gálata por las vistas, y luego come un bocadillo de pescado junto al puente mientras los pescadores se alinean en la barandilla sobre ti.",
+      "Guarda esto para tu viaje a Estambul."
+    ],
+    "pt": [
+      "Istambul é a única grande cidade em dois continentes, então você pode tomar café na Europa e almoçar na Ásia.",
+      "Comece na Hagia Sophia, construída há quase 1.500 anos como igreja, depois mesquita, e a maior catedral da Terra por quase mil anos.",
+      "Do outro lado da praça, a Mesquita Azul brilha com mais de vinte mil azulejos pintados à mão; é uma mesquita em funcionamento, então vista-se com modéstia e evite os horários de oração.",
+      "Perca-se no Grande Bazar, um labirinto coberto de cerca de quatro mil lojas vendendo ouro, tapetes, cerâmica e lâmpadas desde os anos 1450.",
+      "Pegue a balsa pública pelo Bósforo em vez de um barco turístico; custa o preço de um ônibus e deixa você na Ásia para o almoço.",
+      "Termine na Torre de Gálata pela vista, depois coma um sanduíche de peixe perto da ponte enquanto os pescadores se enfileiram no parapeito acima de você.",
+      "Salve isto para a sua viagem a Istambul."
+    ],
+    "de": [
+      "Istanbul ist die einzige Großstadt auf zwei Kontinenten, du kannst also in Europa frühstücken und in Asien zu Mittag essen.",
+      "Beginne in der Hagia Sophia, vor fast 1.500 Jahren als Kirche gebaut, später Moschee, und fast tausend Jahre lang die größte Kathedrale der Erde.",
+      "Gegenüber leuchtet die Blaue Moschee mit über zwanzigtausend handbemalten Kacheln; sie ist eine aktive Moschee, also kleide dich dezent und meide die Gebetszeiten.",
+      "Verlauf dich im Großen Basar, einem überdachten Labyrinth aus rund viertausend Läden, die seit den 1450ern Gold, Teppiche, Keramik und Lampen verkaufen.",
+      "Nimm die öffentliche Pendlerfähre über den Bosporus statt eines Ausflugsboots; sie kostet etwa einen Busfahrschein und bringt dich zum Mittagessen nach Asien.",
+      "Beende den Tag am Galata-Turm für die Aussicht und iss dann ein Fischbrot an der Brücke, während sich über dir die Angler am Geländer reihen.",
+      "Speicher dir das für deine Istanbul-Reise."
+    ],
+    "fr": [
+      "Istanbul est la seule grande ville sur deux continents, vous pouvez donc prendre le petit-déjeuner en Europe et déjeuner en Asie.",
+      "Commencez par Sainte-Sophie, bâtie il y a près de 1 500 ans comme église, puis mosquée, et la plus grande cathédrale de la Terre pendant près de mille ans.",
+      "De l'autre côté de la place, la Mosquée bleue brille de plus de vingt mille carreaux peints à la main ; c'est une mosquée en activité, alors habillez-vous sobrement et évitez les heures de prière.",
+      "Perdez-vous dans le Grand Bazar, un labyrinthe couvert d'environ quatre mille boutiques vendant or, tapis, céramiques et lampes depuis les années 1450.",
+      "Prenez le ferry public sur le Bosphore plutôt qu'un bateau touristique ; il coûte le prix d'un ticket de bus et vous dépose en Asie pour le déjeuner.",
+      "Finissez à la tour de Galata pour la vue, puis mangez un sandwich au poisson près du pont pendant que les pêcheurs s'alignent au-dessus de vous.",
+      "Enregistrez ceci pour votre voyage à Istanbul."
+    ],
+    "hi": [
+      "इस्तांबुल दो महाद्वीपों पर बसा इकलौता बड़ा शहर है, इसलिए आप नाश्ता यूरोप में और लंच एशिया में कर सकते हैं।",
+      "हागिया सोफिया से शुरू कीजिए, जो करीब 1,500 साल पहले चर्च के रूप में बनी, बाद में मस्जिद बनी, और लगभग हजार साल तक धरती का सबसे बड़ा कैथेड्रल रही।",
+      "चौक के उस पार ब्लू मस्जिद बीस हजार से ज्यादा हाथ से रंगी टाइलों से चमकती है; यह चालू मस्जिद है, इसलिए शालीन कपड़े पहनें और नमाज के समय से बचें।",
+      "ग्रैंड बाजार में खो जाइए, करीब चार हजार दुकानों की ढकी भूलभुलैया जहां 1450 के दशक से सोना, कालीन, चीनी मिट्टी और लैंप बिकते हैं।",
+      "टूर बोट की जगह बोस्फोरस पार करने वाली सार्वजनिक फेरी लीजिए; इसका किराया बस जितना है और यह आपको लंच के लिए एशिया में उतार देती है।",
+      "अंत में गलाटा टावर से नजारा देखिए, फिर पुल के पास मछली का सैंडविच खाइए, जबकि ऊपर रेलिंग पर मछुआरे कतार में खड़े होते हैं।",
+      "अपनी इस्तांबुल यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
