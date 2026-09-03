@@ -24,7 +24,152 @@
   "description_en": "Jemaa el-Fnaa by day and night, the souks, the Koutoubia minaret, Majorelle Garden, and a rooftop tagine. Here is Marrakech in one day. #shorts #travel #marrakech #morocco #wander",
   "description_ko": "낮과 밤의 제마 엘프나 광장, 수크 골목, 쿠투비아 첨탑, 마조렐 정원, 그리고 루프탑 타진까지. 마라케시를 하루에 보는 방법을 정리했습니다. #여행 #마라케시 #모로코 #아프리카여행",
   "comment": "Marrakech: would you brave the souks without a map?",
-  "tags": ["shorts", "travel", "marrakech", "morocco", "things to do", "city guide", "wander", "travel tips", "africa", "medina"],
-  "pexels_keywords": ["Jemaa el-Fnaa Marrakech", "Koutoubia Mosque Marrakech", "Majorelle Garden Marrakech", "Bahia Palace Marrakech", "Marrakech medina souk", "Marrakech rooftop sunset", "Marrakech spices market", "Marrakech lanterns shop", "Marrakech mint tea", "Marrakech Morocco aerial"],
-  "fact_keywords": ["Marrakech Jemaa el-Fnaa square night crowd", "Marrakech souk alley lanterns spices", "Marrakech Koutoubia minaret tower", "Marrakech Majorelle Garden blue", "Marrakech rooftop mint tea sunset"]
+  "tags": [
+    "shorts",
+    "travel",
+    "marrakech",
+    "morocco",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "africa",
+    "medina"
+  ],
+  "pexels_keywords": [
+    "Jemaa el-Fnaa Marrakech",
+    "Koutoubia Mosque Marrakech",
+    "Majorelle Garden Marrakech",
+    "Bahia Palace Marrakech",
+    "Marrakech medina souk",
+    "Marrakech rooftop sunset",
+    "Marrakech spices market",
+    "Marrakech lanterns shop",
+    "Marrakech mint tea",
+    "Marrakech Morocco aerial"
+  ],
+  "fact_keywords": [
+    "Marrakech Jemaa el-Fnaa square night crowd",
+    "Marrakech souk alley lanterns spices",
+    "Marrakech Koutoubia minaret tower",
+    "Marrakech Majorelle Garden blue",
+    "Marrakech rooftop mint tea sunset"
+  ],
+  "clips": [
+    [
+      15159394,
+      35283028
+    ],
+    [
+      35220521,
+      7912634
+    ],
+    [
+      18604916,
+      37601122
+    ],
+    [
+      32404344,
+      34512280
+    ],
+    [
+      20225586,
+      36132263
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 마라케시: 붉은 도시와 수크, 그리고 노을 속 민트티",
+      "description": "낮과 밤의 제마 엘프나 광장, 수크 골목, 쿠투비아 첨탑, 마조렐 정원, 그리고 루프탑 타진까지. 마라케시를 하루에 보는 방법을 정리했습니다. #여행 #마라케시 #모로코 #아프리카여행"
+    },
+    "ja": {
+      "title": "60秒でマラケシュ：赤い街とスーク、夕暮れのミントティー",
+      "description": "昼と夜のジャマ・エル・フナ広場、スークの路地、クトゥビアの尖塔、マジョレル庭園、そして屋上のタジンまで。マラケシュを1日で楽しむ方法をまとめました。#旅行 #マラケシュ #モロッコ #アフリカ旅行"
+    },
+    "es": {
+      "title": "Marrakech en 60 segundos: la ciudad roja, sus zocos y té de menta al atardecer",
+      "description": "Jemaa el-Fnaa de día y de noche, los zocos, el minarete de la Kutubía, el Jardín Majorelle y un tajín en la azotea. Así se ve Marrakech en un día. #viajes #marrakech #marruecos #africa"
+    },
+    "pt": {
+      "title": "Marrakech em 60 segundos: a cidade vermelha, seus souks e chá de menta ao pôr do sol",
+      "description": "Jemaa el-Fnaa de dia e de noite, os souks, o minarete da Koutoubia, o Jardim Majorelle e um tajine no rooftop. Veja como conhecer Marrakech em um dia. #viagem #marrakech #marrocos #africa"
+    },
+    "de": {
+      "title": "Marrakesch in 60 Sekunden: die rote Stadt, ihre Souks und Minztee bei Sonnenuntergang",
+      "description": "Jemaa el-Fnaa bei Tag und Nacht, die Souks, das Koutoubia-Minarett, der Jardin Majorelle und eine Tajine auf dem Dach. So siehst du Marrakesch an einem Tag. #reisen #marrakesch #marokko #afrika"
+    },
+    "fr": {
+      "title": "Marrakech en 60 secondes : la ville rouge, ses souks et le thé à la menthe au coucher du soleil",
+      "description": "Jemaa el-Fna de jour et de nuit, les souks, le minaret de la Koutoubia, le jardin Majorelle et un tajine sur un rooftop. Voici comment voir Marrakech en une journée. #voyage #marrakech #maroc #afrique"
+    },
+    "hi": {
+      "title": "60 सेकंड में मराकेश: लाल शहर, उसके सूक और सूर्यास्त की मिंट टी",
+      "description": "दिन और रात का जमा अल-फना चौक, सूक, कुतुबिया मीनार, माजोरेल गार्डन और छत पर ताजीन। एक दिन में मराकेश कैसे देखें, यहां है। #travel #marrakech #morocco #africa"
+    }
+  },
+  "captions": {
+    "ko": [
+      "마라케시는 사막 빛깔로 칠해진 천 년 된 도시이고, 그 성벽 안에는 미로가 숨어 있습니다.",
+      "큰 광장 제마 엘프나에서 시작하세요, 아침엔 오렌지 주스 노점만 있어 조용하지만, 밤이 되면 북 치는 사람과 이야기꾼, 연기 나는 음식 노점의 서커스가 됩니다.",
+      "그 뒤 수크에서는 일부러 길을 잃어 보세요, 랜턴과 가죽, 완벽한 원뿔로 쌓아 올린 향신료를 파는 지붕 덮인 골목이 몇 킬로미터나 이어집니다.",
+      "77미터 높이에 거의 900년 된 쿠투비아 첨탑을 올려다보세요, 멀리 세비야의 탑까지 본떠 만든 원형입니다.",
+      "더위는 이브 생 로랑이 사서 지켜낸 코발트블루 정원 마조렐과, 조각된 삼나무 천장의 바히아 궁전에서 피하세요.",
+      "해 질 녘엔 루프탑 카페에 올라 높이 들어 따르는 민트티를 마신 뒤, 아침부터 천천히 끓여 온 타진을 드세요.",
+      "마라케시 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "マラケシュは砂漠の色に塗られた千年の街で、その城壁の中には迷路が隠れています。",
+      "大広場ジャマ・エル・フナから始めましょう。朝はオレンジジュースの屋台だけで静かですが、夜には太鼓叩きや語り部、煙を上げる屋台のサーカスになります。",
+      "その裏のスークではわざと道に迷ってみてください。ランタンや革製品、きれいな円錐に積まれた香辛料を売る屋根付きの路地が何キロも続きます。",
+      "高さ77メートル、900年近い歴史のクトゥビアの尖塔を見上げましょう。遠くセビリアの塔の手本にもなりました。",
+      "暑さはイヴ・サンローランが買い取って守ったコバルトブルーの庭マジョレルと、彫刻された杉の天井を持つバヒア宮殿でしのぎましょう。",
+      "夕暮れには屋上カフェに上り、高い位置から注ぐミントティーを飲んで、朝からじっくり煮込んだタジンを食べましょう。",
+      "マラケシュ旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Marrakech es una ciudad de mil años pintada del color del desierto, y sus murallas esconden un laberinto.",
+      "Empieza en Jemaa el-Fnaa, la gran plaza, tranquila por la mañana con puestos de zumo de naranja, y de noche un circo de tamborileros, cuentacuentos y puestos de comida humeantes.",
+      "Piérdete a propósito en los zocos de detrás, kilómetros de callejones cubiertos que venden farolillos, cuero y especias apiladas en conos perfectos.",
+      "Mira hacia arriba al minarete de la Kutubía, de 77 metros y casi 900 años, el modelo de torres tan lejanas como la de Sevilla.",
+      "Escapa del calor en el Jardín Majorelle, el jardín azul cobalto que Yves Saint Laurent compró y salvó, y en los techos de cedro tallado del Palacio Bahía.",
+      "Al atardecer sube a una azotea para tomar té de menta servido desde lo alto, y luego come un tajín que lleva cocinándose a fuego lento desde la mañana.",
+      "Guarda esto para tu viaje a Marrakech."
+    ],
+    "pt": [
+      "Marrakech é uma cidade de mil anos pintada da cor do deserto, e suas muralhas escondem um labirinto.",
+      "Comece em Jemaa el-Fnaa, a grande praça, calma de manhã com barracas de suco de laranja, e à noite um circo de tocadores de tambor, contadores de histórias e barracas de comida fumegantes.",
+      "Perca-se de propósito nos souks atrás dela, quilômetros de vielas cobertas vendendo lanternas, couro e especiarias empilhadas em cones perfeitos.",
+      "Olhe para cima, para o minarete da Koutoubia, com 77 metros e quase 900 anos, o modelo de torres tão distantes quanto a de Sevilha.",
+      "Fuja do calor no Jardim Majorelle, o jardim azul cobalto que Yves Saint Laurent comprou e salvou, e nos tetos de cedro entalhado do Palácio Bahia.",
+      "Ao pôr do sol suba a um café no terraço para um chá de menta servido do alto, depois coma um tajine que cozinha devagar desde a manhã.",
+      "Salve isto para a sua viagem a Marrakech."
+    ],
+    "de": [
+      "Marrakesch ist eine tausend Jahre alte Stadt in der Farbe der Wüste, und hinter ihren Mauern verbirgt sich ein Labyrinth.",
+      "Beginne auf dem Jemaa el-Fnaa, dem großen Platz, morgens ruhig mit Orangensaftständen und nachts ein Zirkus aus Trommlern, Geschichtenerzählern und rauchenden Essensständen.",
+      "Verlauf dich absichtlich in den Souks dahinter, kilometerlange überdachte Gassen mit Laternen, Leder und Gewürzen, die zu perfekten Kegeln aufgetürmt sind.",
+      "Schau hinauf zum Koutoubia-Minarett, 77 Meter hoch und fast 900 Jahre alt, das Vorbild für Türme bis nach Sevilla.",
+      "Entflieh der Hitze im Jardin Majorelle, dem kobaltblauen Garten, den Yves Saint Laurent kaufte und rettete, und unter den geschnitzten Zederndecken des Bahia-Palasts.",
+      "Steig bei Sonnenuntergang in ein Dachcafé für Minztee, der aus der Höhe eingegossen wird, und iss dann eine Tajine, die seit dem Morgen langsam vor sich hin kocht.",
+      "Speicher dir das für deine Marrakesch-Reise."
+    ],
+    "fr": [
+      "Marrakech est une ville millénaire peinte de la couleur du désert, et ses remparts cachent un labyrinthe.",
+      "Commencez par Jemaa el-Fna, la grande place, calme le matin avec ses stands de jus d'orange, et la nuit un cirque de tambours, de conteurs et d'échoppes fumantes.",
+      "Perdez-vous exprès dans les souks derrière, des kilomètres de ruelles couvertes vendant lanternes, cuir et épices empilées en cônes parfaits.",
+      "Levez les yeux vers le minaret de la Koutoubia, 77 mètres de haut et près de 900 ans, le modèle de tours jusqu'à Séville.",
+      "Fuyez la chaleur au jardin Majorelle, le jardin bleu cobalt qu'Yves Saint Laurent a acheté et sauvé, et sous les plafonds de cèdre sculpté du palais de la Bahia.",
+      "Au coucher du soleil, montez sur un café en terrasse pour un thé à la menthe versé de haut, puis mangez un tajine qui mijote depuis le matin.",
+      "Enregistrez ceci pour votre voyage à Marrakech."
+    ],
+    "hi": [
+      "मराकेश रेगिस्तान के रंग में रंगा हजार साल पुराना शहर है, और इसकी दीवारों के अंदर एक भूलभुलैया छिपी है।",
+      "बड़े चौक जमा अल-फना से शुरू कीजिए, सुबह संतरे के जूस के ठेलों के साथ शांत, और रात में ढोल बजाने वालों, कहानी सुनाने वालों और धुआं उठाते खाने के ठेलों का सर्कस।",
+      "इसके पीछे के सूकों में जानबूझकर खो जाइए, किलोमीटरों लंबी ढकी गलियां जहां लालटेन, चमड़ा और सही शंकु में लगे मसाले बिकते हैं।",
+      "77 मीटर ऊंची और करीब 900 साल पुरानी कुतुबिया मीनार को देखिए, जो सेविल जैसे दूर शहरों की मीनारों का नमूना बनी।",
+      "गर्मी से बचने के लिए माजोरेल गार्डन जाइए, कोबाल्ट नीला बगीचा जिसे यवेस सां लोरां ने खरीदकर बचाया, और बाहिया पैलेस की नक्काशीदार देवदार की छतें देखिए।",
+      "सूर्यास्त पर किसी रूफटॉप कैफे में ऊंचाई से डाली गई मिंट टी पीजिए, फिर वह ताजीन खाइए जो सुबह से धीमी आंच पर पक रहा है।",
+      "अपनी मराकेश यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
