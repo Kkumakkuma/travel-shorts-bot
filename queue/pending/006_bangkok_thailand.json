@@ -24,7 +24,152 @@
   "description_en": "The Grand Palace, the reclining Buddha at Wat Pho, a ferry to Wat Arun, Chinatown street food, and a rooftop at night. Here is Bangkok in one day. #shorts #travel #bangkok #thailand #wander",
   "description_ko": "왕궁, 왓 포의 와불, 왓 아룬행 페리, 차이나타운 길거리 음식, 그리고 밤의 루프탑까지. 방콕을 하루에 보는 방법을 정리했습니다. #여행 #방콕 #태국 #동남아여행",
   "comment": "Bangkok: temples first or straight to the street food?",
-  "tags": ["shorts", "travel", "bangkok", "thailand", "things to do", "city guide", "wander", "travel tips", "asia", "street food"],
-  "pexels_keywords": ["Grand Palace Bangkok", "Wat Arun Bangkok", "Wat Pho reclining Buddha Bangkok", "Bangkok Chao Phraya river temples", "Bangkok Chinatown street food night", "Bangkok tuk tuk street", "Bangkok skyline rooftop night", "Bangkok temple golden roof", "Bangkok floating market", "Bangkok Thailand aerial"],
-  "fact_keywords": ["Bangkok Grand Palace golden temple roofs", "Bangkok Wat Pho reclining Buddha", "Bangkok Wat Arun Chao Phraya ferry sunset", "Bangkok Chinatown Yaowarat street food night", "Bangkok rooftop skyline tuk tuk night"]
+  "tags": [
+    "shorts",
+    "travel",
+    "bangkok",
+    "thailand",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "asia",
+    "street food"
+  ],
+  "pexels_keywords": [
+    "Grand Palace Bangkok",
+    "Wat Arun Bangkok",
+    "Wat Pho reclining Buddha Bangkok",
+    "Bangkok Chao Phraya river temples",
+    "Bangkok Chinatown street food night",
+    "Bangkok tuk tuk street",
+    "Bangkok skyline rooftop night",
+    "Bangkok temple golden roof",
+    "Bangkok floating market",
+    "Bangkok Thailand aerial"
+  ],
+  "fact_keywords": [
+    "Bangkok Grand Palace golden temple roofs",
+    "Bangkok Wat Pho reclining Buddha",
+    "Bangkok Wat Arun Chao Phraya ferry sunset",
+    "Bangkok Chinatown Yaowarat street food night",
+    "Bangkok rooftop skyline tuk tuk night"
+  ],
+  "clips": [
+    [
+      10807384,
+      34759562
+    ],
+    [
+      38782921,
+      29544759
+    ],
+    [
+      36401542,
+      36401541
+    ],
+    [
+      31387500,
+      35783803
+    ],
+    [
+      34587627,
+      36771609
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 방콕: 황금 사원, 강 페리, 그리고 자정의 길거리 음식",
+      "description": "왕궁, 왓 포의 와불, 왓 아룬행 페리, 차이나타운 길거리 음식, 그리고 밤의 루프탑까지. 방콕을 하루에 보는 방법을 정리했습니다. #여행 #방콕 #태국 #동남아여행"
+    },
+    "ja": {
+      "title": "60秒でバンコク：黄金の寺院、川のフェリー、深夜の屋台",
+      "description": "王宮、ワット・ポーの涅槃仏、ワット・アルンへのフェリー、チャイナタウンの屋台、そして夜のルーフトップまで。バンコクを1日で楽しむ方法をまとめました。#旅行 #バンコク #タイ #東南アジア旅行"
+    },
+    "es": {
+      "title": "Bangkok en 60 segundos: templos dorados, ferris por el río y comida callejera de madrugada",
+      "description": "El Gran Palacio, el Buda reclinado de Wat Pho, un ferri a Wat Arun, la comida callejera de Chinatown y una azotea de noche. Así se ve Bangkok en un día. #viajes #bangkok #tailandia #asia"
+    },
+    "pt": {
+      "title": "Bangkok em 60 segundos: templos dourados, balsas no rio e comida de rua à meia-noite",
+      "description": "O Grande Palácio, o Buda reclinado de Wat Pho, uma balsa até Wat Arun, a comida de rua de Chinatown e um rooftop à noite. Veja como conhecer Bangkok em um dia. #viagem #bangkok #tailandia #asia"
+    },
+    "de": {
+      "title": "Bangkok in 60 Sekunden: goldene Tempel, Flussfähren und Streetfood um Mitternacht",
+      "description": "Der Große Palast, der liegende Buddha im Wat Pho, eine Fähre zum Wat Arun, Streetfood in Chinatown und eine Rooftop-Bar bei Nacht. So siehst du Bangkok an einem Tag. #reisen #bangkok #thailand #asien"
+    },
+    "fr": {
+      "title": "Bangkok en 60 secondes : temples dorés, ferries sur le fleuve et street food à minuit",
+      "description": "Le Grand Palais, le Bouddha couché du Wat Pho, un ferry vers le Wat Arun, la street food de Chinatown et un rooftop la nuit. Voici comment voir Bangkok en une journée. #voyage #bangkok #thailande #asie"
+    },
+    "hi": {
+      "title": "60 सेकंड में बैंकॉक: सुनहरे मंदिर, नदी की फेरी और आधी रात का स्ट्रीट फूड",
+      "description": "ग्रैंड पैलेस, वाट फो का लेटा हुआ बुद्ध, वाट अरुण की फेरी, चाइनाटाउन का स्ट्रीट फूड और रात का रूफटॉप। एक दिन में बैंकॉक कैसे देखें, यहां है। #travel #bangkok #thailand #asia"
+    }
+  },
+  "captions": {
+    "ko": [
+      "방콕은 지구에서 가장 많이 찾는 도시로 꼽힌 적이 있는데, 아직도 1달러면 저녁을 먹습니다.",
+      "문 여는 시간에 왕궁부터 가세요, 에메랄드 불상이 황금 제단에 앉아 있고, 지붕은 수백만 개의 작은 거울 타일로 덮여 있습니다.",
+      "바로 옆 왓 포에는 길이 46미터의 와불이 전각을 가득 채우고 있는데, 이 사원은 전통 타이 마사지가 태어난 곳입니다.",
+      "몇 밧짜리 페리로 짜오프라야강을 건너 왓 아룬으로 가세요, 첨탑이 깨진 중국 도자기 조각으로 덮여 있어 노을에 반짝입니다.",
+      "저녁은 쇼핑몰 말고 차이나타운 야오와랏으로 가세요, 노점에서 구운 해산물과 망고 찹쌀밥을 자정 넘어까지 팝니다.",
+      "마무리는 수쿰윗 위 루프탑 바에서, 그리고 툭툭을 타고 돌아가되 타기 전에 꼭 가격부터 정하세요.",
+      "방콕 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "バンコクは世界で最も訪問者の多い都市に選ばれたことがあり、今も1ドルで夕食が食べられます。",
+      "開門時間に王宮から始めましょう。エメラルド仏が黄金の祭壇に座り、屋根は何百万もの小さな鏡のタイルで覆われています。",
+      "隣のワット・ポーでは長さ46メートルの涅槃仏が堂内いっぱいに横たわり、この寺はタイ古式マッサージ発祥の地です。",
+      "数バーツのフェリーでチャオプラヤー川を渡りワット・アルンへ。尖塔は割れた中国の陶器で覆われ、夕日にきらめきます。",
+      "夕食はモールではなくチャイナタウンのヤワラートへ。屋台で焼き海鮮やマンゴースティッキーライスが深夜過ぎまで食べられます。",
+      "締めはスクンビットのルーフトップバー、そしてトゥクトゥクで帰りましょう。乗る前に必ず値段を決めること。",
+      "バンコク旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Bangkok ha sido clasificada como la ciudad más visitada del planeta, y un dólar todavía te compra la cena.",
+      "Empieza en el Gran Palacio cuando abre, donde el Buda de Esmeralda se sienta en un altar dorado y los tejados están cubiertos de millones de diminutos azulejos de espejo.",
+      "Al lado, en Wat Pho, un Buda reclinado de 46 metros se extiende por la sala, y el templo es la cuna del masaje tradicional tailandés.",
+      "Cruza el Chao Phraya en un ferri que cuesta unos pocos baht hasta Wat Arun, cuya aguja está cubierta de porcelana china rota que brilla al atardecer.",
+      "Para cenar olvida los centros comerciales y ve a Yaowarat, el barrio chino, donde los puestos callejeros sirven marisco a la parrilla y arroz con mango hasta pasada la medianoche.",
+      "Termina en una azotea sobre Sukhumvit, vuelve en tuk-tuk y acuerda siempre el precio antes de subir.",
+      "Guarda esto para tu viaje a Bangkok."
+    ],
+    "pt": [
+      "Bangkok já foi eleita a cidade mais visitada do planeta, e um dólar ainda compra o seu jantar.",
+      "Comece no Grande Palácio na hora da abertura, onde o Buda de Esmeralda fica num altar dourado e os telhados são cobertos por milhões de minúsculos azulejos espelhados.",
+      "Ao lado, em Wat Pho, um Buda reclinado de 46 metros se estende pelo salão, e o templo é o berço da massagem tailandesa tradicional.",
+      "Atravesse o Chao Phraya numa balsa que custa poucos baht até Wat Arun, cuja torre é coberta de porcelana chinesa quebrada que brilha ao pôr do sol.",
+      "Para o jantar pule os shoppings e vá a Yaowarat, a Chinatown, onde as barracas de rua servem frutos do mar grelhados e arroz com manga até depois da meia-noite.",
+      "Termine num rooftop acima de Sukhumvit, depois volte de tuk-tuk, e sempre combine o preço antes de subir.",
+      "Salve isto para a sua viagem a Bangkok."
+    ],
+    "de": [
+      "Bangkok wurde schon zur meistbesuchten Stadt der Welt gekürt, und ein Dollar reicht immer noch fürs Abendessen.",
+      "Beginne im Großen Palast zur Öffnungszeit, wo der Smaragd-Buddha auf einem goldenen Altar sitzt und die Dächer mit Millionen winziger Spiegelkacheln bedeckt sind.",
+      "Nebenan im Wat Pho streckt sich ein 46 Meter langer liegender Buddha durch die Halle, und der Tempel ist die Geburtsstätte der traditionellen Thai-Massage.",
+      "Überquere den Chao Phraya mit einer Fähre für ein paar Baht zum Wat Arun, dessen Turm mit zerbrochenem chinesischem Porzellan bedeckt ist, das im Sonnenuntergang glitzert.",
+      "Zum Abendessen lass die Malls links liegen und geh nach Yaowarat, Chinatown, wo Straßenstände bis nach Mitternacht gegrillte Meeresfrüchte und Mango mit Klebreis servieren.",
+      "Beende den Abend in einer Rooftop-Bar über Sukhumvit, fahr dann mit dem Tuk-Tuk heim und mach den Preis immer vor dem Einsteigen aus.",
+      "Speicher dir das für deine Bangkok-Reise."
+    ],
+    "fr": [
+      "Bangkok a déjà été classée ville la plus visitée du monde, et un dollar suffit encore pour dîner.",
+      "Commencez par le Grand Palais à l'ouverture, où le Bouddha d'Émeraude trône sur un autel doré et où les toits sont couverts de millions de minuscules carreaux de miroir.",
+      "Juste à côté, au Wat Pho, un Bouddha couché de 46 mètres s'étire dans la salle, et le temple est le berceau du massage thaï traditionnel.",
+      "Traversez le Chao Phraya sur un ferry à quelques bahts jusqu'au Wat Arun, dont la flèche est couverte de porcelaine chinoise brisée qui scintille au coucher du soleil.",
+      "Pour dîner, oubliez les centres commerciaux et allez à Yaowarat, le quartier chinois, où les stands de rue servent fruits de mer grillés et riz gluant à la mangue jusqu'après minuit.",
+      "Finissez sur un rooftop au-dessus de Sukhumvit, puis rentrez en tuk-tuk, en fixant toujours le prix avant de monter.",
+      "Enregistrez ceci pour votre voyage à Bangkok."
+    ],
+    "hi": [
+      "बैंकॉक को धरती का सबसे ज्यादा घूमा जाने वाला शहर माना गया है, और एक डॉलर में आज भी रात का खाना मिल जाता है।",
+      "खुलते ही ग्रैंड पैलेस से शुरू कीजिए, जहां एमराल्ड बुद्ध सुनहरी वेदी पर विराजमान हैं और छतें लाखों नन्हीं शीशे की टाइलों से ढकी हैं।",
+      "बगल के वाट फो में 46 मीटर लंबा लेटा हुआ बुद्ध पूरे हॉल में फैला है, और यह मंदिर पारंपरिक थाई मालिश का जन्मस्थान है।",
+      "कुछ बात की फेरी से चाओ फ्राया पार कर वाट अरुण जाइए, जिसका शिखर टूटे चीनी चीनी मिट्टी के बर्तनों से ढका है और सूर्यास्त में चमकता है।",
+      "रात के खाने के लिए मॉल छोड़िए और चाइनाटाउन यावारात जाइए, जहां सड़क के ठेले आधी रात के बाद तक ग्रिल्ड सीफूड और मैंगो स्टिकी राइस परोसते हैं।",
+      "सुखुमवित के ऊपर किसी रूफटॉप बार पर खत्म कीजिए, फिर टुक-टुक से घर लौटिए, और बैठने से पहले हमेशा किराया तय कर लीजिए।",
+      "अपनी बैंकॉक यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
