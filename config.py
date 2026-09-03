@@ -41,6 +41,13 @@ if os.path.exists(_env):
             os.environ.setdefault(k.strip(), v.strip())
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
+
+def no_openai_mode() -> bool:
+    """NO_OPENAI=1 이면 OpenAI 를 한 번도 부르지 않는 대기열 전용 모드(2026-09-03, 크레딧 0·충전 금지).
+    클립은 대본의 clips(사람이 고른 Pexels id), 제목·설명은 localizations, 자막은 captions 로 대체한다.
+    호출 시점에 환경변수를 읽는다(import 시 상수로 굳히지 않음 — 테스트·워크플로 모두 안전)."""
+    return (os.environ.get("NO_OPENAI", "") or "").strip().lower() not in ("", "0", "false", "no")
 PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY", "")
 
 # YouTube — 기존 음악 채널을 여행으로 리브랜드해 재사용. 음악 채널 토큰을 여기 넣는다.

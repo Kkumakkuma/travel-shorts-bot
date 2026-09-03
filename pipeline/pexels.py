@@ -493,3 +493,66 @@ def fetch_photos(keywords: list, output_dir: str, n: int = 1,
     if skipped_slug:
         log.info(f"pexels photo slug filter: {skipped_slug}개 후보 사전 차단")
     return paths
+
+
+PEXELS_VIDEO_BY_ID = "https://api.pexels.com/videos/videos/{id}"
+
+
+def fetch_by_id(video_id, output_dir: str):
+    """대기열 대본이 잠근 Pexels 클립 1개를 id 로 내려받는다(2026-09-03 NO_OPENAI 잠금 경로).
+
+    vision 검증을 대신해 사람이 포스터를 보고 고른 id 라, 검색·slug 필터·dedup 을 타지 않는다.
+    반환: 파일 경로(pexels_<id>.mp4) / 실패 None (호출 측이 슬롯 폴백 처리). 부분 파일은 지운다.
+    """
+    try:
+        vid = int(str(video_id).strip())
+    except (TypeError, ValueError):
+        log.warning(f"pexels by-id: id 형식 오류 {video_id!r}")
+        return None
+    if not PEXELS_API_KEY:
+        raise RuntimeError("PEXELS_API_KEY 없음")
+    os.makedirs(output_dir, exist_ok=True)
+    out = os.path.join(output_dir, f"pexels_{vid}.mp4")
+    try:
+        r = requests.get(PEXELS_VIDEO_BY_ID.format(id=vid),
+                         headers={"Authorization": PEXELS_API_KEY}, timeout=20)
+        r.raise_for_status()
+        v = r.json()
+    except Exception as e:
+        log.warning(f"pexels by-id {vid}: 조회 실패 {e}")
+        return None
+    if not isinstance(v, dict) or str(v.get("id")) != str(vid):
+        log.warning(f"pexels by-id {vid}: 응답 id 불일치 {getattr(v, 'get', lambda k: None)('id')!r}")
+        return None
+    files = [f for f in (v.get("video_files") or []) if isinstance(f, dict) and f.get("link")]
+    portrait = [f for f in files
+                if (f.get("width") or 0) <= (f.get("height") or 0)
+                and (f.get("file_type") == "video/mp4" or "mp4" in (f.get("link") or ""))]
+    if not portrait:
+        portrait = [f for f in files if f.get("file_type") == "video/mp4"]
+    if not portrait:
+        log.warning(f"pexels by-id {vid}: mp4 파일 없음")
+        return None
+    portrait.sort(key=lambda f: abs((f.get("width") or 0) - 1080))
+    try:
+        with requests.get(portrait[0]["link"], stream=True, timeout=60) as resp:
+            resp.raise_for_status()
+            with open(out, "wb") as fh:
+                for chunk in resp.iter_content(chunk_size=1 << 20):
+                    fh.write(chunk)
+    except Exception as e:
+        log.warning(f"pexels by-id {vid}: 다운로드 실패 {e}")
+        try:
+            os.remove(out)
+        except OSError:
+            pass
+        return None
+    if not _media_ok(out):
+        log.warning(f"pexels by-id {vid}: 손상/잘린 클립 폐기")
+        try:
+            os.remove(out)
+        except OSError:
+            pass
+        return None
+    log.info(f"pexels by-id: id={vid} dur={v.get('duration')}s → {os.path.basename(out)}")
+    return out

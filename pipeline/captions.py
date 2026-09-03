@@ -28,7 +28,7 @@ import re
 import socket
 import time
 
-from config import META_MODEL, OPENAI_API_KEY
+from config import META_MODEL, OPENAI_API_KEY, no_openai_mode
 
 log = logging.getLogger("shortsbot.captions")
 
@@ -313,6 +313,8 @@ def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIM
     _tr_chunk 로 구간을 쪼개 가며 채운다. 못 채운 줄은 영어 원문을 쓰되 커버리지가
     낮으면 그 언어는 포기한다(엉뚱한 줄에 붙는 것보다 없는 편이 낫다).
     """
+    if no_openai_mode():
+        raise RuntimeError("NO_OPENAI 모드에서 translate_srt 호출 — 대본 captions(generate_from_lines) 를 써야 한다")
     if not OPENAI_API_KEY:
         return None
     cues = parse_srt(en_srt_text)
@@ -344,6 +346,138 @@ def translate_srt(en_srt_text: str, lang: str, timeout: float = DEFAULT_CALL_TIM
     for n, c in enumerate(cues, 1):
         out.append(f"{n}\n{c['tc']}\n{picked.get(n - 1) or c['text']}\n")
     return "\n".join(out).strip() + "\n"
+
+
+MAX_PIECES_PER_LINE = 2  # 번역 자막: TTS 라인당 최대 조각 수(generate_from_lines)
+
+
+def _split_balanced(text: str, k: int) -> list:
+    """번역 문장 1개를 k 조각으로 나눈다 — 길이 균형 + 공백·구두점 경계 우선(2026-09-03 NO_OPENAI).
+
+    공백이 있는 언어는 단어 단위, 없는 언어(ja 등)는 글자 단위. 빈 조각은 만들지 않는다.
+    토큰이 k 개보다 적으면 있는 만큼만 돌려준다(남는 cue 는 호출 측이 빈 텍스트로 버림).
+    """
+    text = (text or "").strip()
+    if not text:
+        return []
+    if k <= 1:
+        return [text]
+    if " " in text:
+        toks, joiner = text.split(" "), " "
+    else:
+        toks, joiner = list(text), ""
+    toks = [t for t in toks if t != ""]
+    if len(toks) <= k:
+        return toks
+    cum, acc = [], 0
+    for t in toks:
+        acc += len(t) + len(joiner)
+        cum.append(acc)
+    total = cum[-1]
+    punct = tuple("、。,.!?;:，．！？")
+    window = total * 0.25  # 목표점 ±25% 안의 구두점 경계는 균형점보다 우선(문장 중간 절단 방지)
+    cuts, prev = [], 0
+    for j in range(1, k):
+        target = total * j / k
+        best, best_score = None, None
+        # 토큰 i 뒤에서 자른다. 뒤에 남는 컷(k-j)마다 토큰이 최소 1개는 남도록 상한을 둔다.
+        for i in range(prev + 1, len(toks) - (k - j) + 1):
+            score = abs(cum[i - 1] - target)
+            if toks[i - 1].endswith(punct) and score <= window:
+                score -= total  # 창 안의 구두점 경계가 항상 이긴다(그중 목표점에 가장 가까운 것)
+            if best_score is None or score < best_score:
+                best, best_score = i, score
+        if best is None:
+            break
+        cuts.append(best)
+        prev = best
+    pieces, start = [], 0
+    for c in cuts + [len(toks)]:
+        pieces.append(joiner.join(toks[start:c]).strip())
+        start = c
+    return [p for p in pieces if p]
+
+
+def build_cues_by_line(tts_lines: list, pad_between: float = DEFAULT_PAD_BETWEEN) -> list:
+    """build_cues 와 같은 타이밍 규칙으로, 라인 경계를 보존한 cue 목록([[cue,...] per line], 불변식 적용 전)."""
+    per_line, cursor = [], 0.0
+    for line in tts_lines:
+        words = line.get("words") or []
+        dur = float(line.get("duration") or 0.0)
+        cues = []
+        if words:
+            cues = _cue_from_words(words, cursor)
+        else:
+            txt = (line.get("text") or "").strip()
+            if txt:
+                cues = [{"start": cursor, "end": cursor + max(0.6, dur), "text": txt}]
+        per_line.append(cues)
+        cursor += dur + pad_between
+    return per_line
+
+
+def generate_from_lines(tts_lines: list, work_dir: str, line_translations: dict,
+                        pad_between: float = DEFAULT_PAD_BETWEEN, total_dur: float = None) -> dict:
+    """OpenAI 없이 CC 생성(2026-09-03 NO_OPENAI). 반환 {lang: srt_path} — en 은 항상.
+
+    en 은 TTS 단어 타이밍으로 만들고, 다른 언어는 대본이 준 라인별 번역(줄 수 = tts_lines 수)을
+    그 라인이 만든 cue 개수만큼 길이 균형으로 나눠 **같은 타임코드**에 붙인다. 줄 수가 안 맞거나
+    빈 줄이 있으면 그 언어만 스킵(경고). 타이밍이 언어마다 같으므로 병합·clamp 결과도 같다.
+    """
+    os.makedirs(work_dir, exist_ok=True)
+    result = {}
+    per_line = build_cues_by_line(tts_lines, pad_between)
+
+    def _finish(cues):
+        cues = [c for c in cues if str(c.get("text", "")).strip()]
+        cues = _enforce_srt_invariants(cues)
+        if total_dur is not None:
+            cues = _clamp_to_total(cues, total_dur)
+        return cues
+
+    en_cues = _finish([c for cs in per_line for c in cs])
+    if not en_cues:
+        log.warning("en cue 없음 → 자막 전체 스킵 (영상 정상)")
+        return {}
+    en_path = os.path.join(work_dir, "cc_en.srt")
+    with open(en_path, "w", encoding="utf-8") as f:
+        f.write(cues_to_srt(en_cues))
+    result["en"] = en_path
+
+    n_lines = len(tts_lines)
+    for lang in CAPTION_LANGS:
+        lines = (line_translations or {}).get(lang)
+        if lines is None:
+            continue
+        if not isinstance(lines, list) or len(lines) != n_lines or not all(
+                isinstance(t, str) and t.strip() for t in lines):
+            got = len(lines) if isinstance(lines, list) else "?"
+            log.warning(f"[{lang}] 라인 번역 줄 수/내용 불일치({got}/{n_lines}) → 스킵")
+            continue
+        cues = []
+        for li, lcues in enumerate(per_line):
+            if not lcues:
+                continue
+            # 어순이 다른 언어(ko/ja/hi)는 en cue 단위로 잘게 나누면 음성과 뜻이 어긋나고 짧은 조각이
+            # 깜빡인다. 라인당 최대 MAX_PIECES_PER_LINE 조각으로 묶고, 각 조각은 en cue 묶음의 구간을 통째로 쓴다.
+            g = min(len(lcues), MAX_PIECES_PER_LINE)
+            pieces = _split_balanced(lines[li], g)
+            g = min(g, len(pieces))
+            if g <= 0:
+                continue
+            bounds = [round(len(lcues) * j / g) for j in range(g + 1)]
+            for j in range(g):
+                span = lcues[bounds[j]:bounds[j + 1]] or [lcues[min(bounds[j], len(lcues) - 1)]]
+                cues.append({"start": span[0]["start"], "end": span[-1]["end"], "text": pieces[j]})
+        cues = _finish(cues)
+        if not cues:
+            continue
+        p = os.path.join(work_dir, f"cc_{lang}.srt")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(cues_to_srt(cues))
+        result[lang] = p
+    log.info(f"CC SRT 생성(무API): {len(result)}개 언어 ({','.join(result.keys())})")
+    return result
 
 
 def generate_all(tts_lines: list, work_dir: str,

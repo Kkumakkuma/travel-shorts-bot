@@ -24,7 +24,7 @@ import re
 import subprocess
 import time
 
-from config import OPENAI_API_KEY
+from config import OPENAI_API_KEY, no_openai_mode
 
 log = logging.getLogger("travelbot.vision")
 
@@ -152,6 +152,8 @@ def verify_city(video_path: str, city: str, country: str = "",
     confusion_pair: 혼동 도시 목록 — 그 도시들의 상징 랜드마크가 명백하면 reject.
     fail-CLOSED: 검증할 수 없는 클립은 발행하지 않는다. rate limit 429만 backoff 재시도 (3회).
     """
+    if no_openai_mode():
+        raise RuntimeError("NO_OPENAI 모드에서 vision 검증 호출 — 대본 clips 잠금 경로를 써야 한다")
     if not OPENAI_API_KEY:
         log.error("OPENAI_API_KEY 없음 — vision 검증 불가 → REJECT (fail-closed). "
                   "main.py 시작 시 fail-fast로도 차단되지만 방어층으로 여기서도 거절.")

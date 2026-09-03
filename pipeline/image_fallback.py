@@ -181,6 +181,9 @@ def _try_gpt_image2(prompts: List[str], output_dir: str) -> List[str]:
 
     os.makedirs(output_dir, exist_ok=True)
     out_paths = []
+    from config import no_openai_mode
+    if no_openai_mode():
+        raise RuntimeError("NO_OPENAI 모드에서 AI 이미지 폴백 호출")
     client = OpenAI(api_key=api_key)
     import base64
 

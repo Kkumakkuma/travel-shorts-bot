@@ -53,5 +53,122 @@
     "Lisbon Belem Tower pastel de nata",
     "Lisbon Jeronimos Monastery cloister",
     "Lisbon Bairro Alto night street"
-  ]
+  ],
+  "clips": [
+    [
+      34155132,
+      20065698
+    ],
+    [
+      35742602,
+      35444015
+    ],
+    [
+      34168417,
+      34168397
+    ],
+    [
+      35872493,
+      34168425
+    ],
+    [
+      14940677,
+      35583333
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 리스본: 타일 골목과 노란 트램, 그리고 에그타르트",
+      "description": "28번 트램, 노을 전망대, 원조 에그타르트, 바이루 알투의 밤거리까지. 리스본을 하루에 보는 방법을 정리했습니다. #여행 #리스본 #포르투갈 #유럽여행"
+    },
+    "ja": {
+      "title": "60秒でリスボン：タイルの坂道、黄色いトラム、エッグタルト",
+      "description": "28番トラム、夕日の展望台、元祖パステル・デ・ナタ、バイロ・アルトの夜まで。リスボンを1日で楽しむ方法をまとめました。#旅行 #リスボン #ポルトガル #ヨーロッパ旅行"
+    },
+    "es": {
+      "title": "Lisboa en 60 segundos: colinas de azulejos, tranvías amarillos y pasteles de nata",
+      "description": "El tranvía 28, un mirador al atardecer, el pastel de nata original y una noche en el Bairro Alto. Así se ve Lisboa en un día. #viajes #lisboa #portugal #europa"
+    },
+    "pt": {
+      "title": "Lisboa em 60 segundos: colinas de azulejos, elétricos amarelos e pastéis de nata",
+      "description": "O elétrico 28, um miradouro ao pôr do sol, o pastel de nata original e uma noite no Bairro Alto. Veja como conhecer Lisboa em um dia. #viagem #lisboa #portugal #europa"
+    },
+    "de": {
+      "title": "Lissabon in 60 Sekunden: Kachelhügel, gelbe Trams und Pastéis de Nata",
+      "description": "Tram 28, ein Aussichtspunkt bei Sonnenuntergang, das originale Pastel de Nata und eine Nacht im Bairro Alto. So siehst du Lissabon an einem Tag. #reisen #lissabon #portugal #europa"
+    },
+    "fr": {
+      "title": "Lisbonne en 60 secondes : collines d'azulejos, trams jaunes et pastéis de nata",
+      "description": "Le tram 28, un belvédère au coucher du soleil, le pastel de nata original et une soirée au Bairro Alto. Voici comment voir Lisbonne en une journée. #voyage #lisbonne #portugal #europe"
+    },
+    "hi": {
+      "title": "60 सेकंड में लिस्बन: टाइल वाली पहाड़ियां, पीली ट्राम और कस्टर्ड टार्ट",
+      "description": "ट्राम 28, सूर्यास्त का व्यूपॉइंट, असली पास्टेल डे नाटा और बैरो आल्टो की रात। एक दिन में लिस्बन कैसे देखें, यहां है। #travel #lisbon #portugal #europe"
+    }
+  },
+  "captions": {
+    "ko": [
+      "리스본은 서유럽에서 가장 가성비 좋은 수도 중 하나인데, 여전히 영화 세트장처럼 보입니다.",
+      "가장 오래된 동네 알파마를 노란 28번 트램으로 지나가 보세요, 골목이 너무 좁아서 트램이 타일 벽을 스칠 듯합니다.",
+      "해 질 녘엔 도시에서 가장 높은 전망대 세뇨라 두 몬트에 올라, 지붕들과 붉은 다리가 금빛으로 물드는 걸 보세요.",
+      "벨렝에서는 1837년부터 같은 비밀 레시피를 쓰는 빵집에서 따뜻한 파스텔 드 나타를 먹고, 강가의 탑까지 걸어가세요.",
+      "제로니무스 수도원은 향신료 무역으로 번 돈으로 100년에 걸쳐 지어졌고, 조각된 돌 회랑은 포르투갈에서 가장 아름다운 안뜰입니다.",
+      "마무리는 바이루 알투에서 비뉴 베르드 한 잔, 그리고 6월부터 9월 사이라면 골목 노점 그릴에서 구운 정어리입니다.",
+      "리스본 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "リスボンは西ヨーロッパで最もコスパの良い首都のひとつで、今も映画のセットのような街並みです。",
+      "最古の地区アルファマを黄色い28番トラムで抜けてみてください。通りが狭すぎて、トラムがタイルの壁をかすめそうになります。",
+      "夕暮れには街で一番高い展望台セニョーラ・ド・モンテに登り、屋根並みと赤い橋が金色に染まるのを眺めましょう。",
+      "ベレンでは1837年から同じ秘伝のレシピを守るお店で温かいパステル・デ・ナタを食べ、川沿いの塔まで歩きましょう。",
+      "ジェロニモス修道院は香辛料貿易の富で100年かけて建てられ、彫刻を施した石の回廊はポルトガルで最も美しい中庭です。",
+      "締めはバイロ・アルトでヴィーニョ・ヴェルデを一杯、6月から9月なら路地の屋台で焼いたイワシを。",
+      "リスボン旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Lisboa es una de las capitales con mejor relación calidad-precio de Europa occidental, y sigue pareciendo un plató de cine.",
+      "Sube al tranvía amarillo 28 por Alfama, el barrio más antiguo, donde las calles son tan estrechas que el tranvía casi roza las paredes de azulejos.",
+      "Al atardecer sube al Miradouro da Senhora do Monte, el punto más alto de la ciudad, y mira cómo los tejados y el puente rojo se vuelven dorados.",
+      "En Belém come un pastel de nata caliente en la pastelería que usa la misma receta secreta desde 1837, y luego camina hasta la torre junto al río.",
+      "El Monasterio de los Jerónimos tardó cien años en construirse con dinero del comercio de especias, y su claustro de piedra tallada es el patio más bello de Portugal.",
+      "Termina en el Bairro Alto con una copa de vinho verde y, entre junio y septiembre, sardinas asadas en una parrilla callejera de los callejones.",
+      "Guarda esto para tu viaje a Lisboa."
+    ],
+    "pt": [
+      "Lisboa é uma das capitais com melhor custo-benefício da Europa Ocidental, e ainda parece um cenário de cinema.",
+      "Pegue o elétrico amarelo 28 por Alfama, o bairro mais antigo, onde as ruas são tão estreitas que o elétrico quase roça nas paredes de azulejos.",
+      "Ao pôr do sol suba ao Miradouro da Senhora do Monte, o ponto mais alto da cidade, e veja os telhados e a ponte vermelha ficarem dourados.",
+      "Em Belém coma um pastel de nata quente na pastelaria que usa a mesma receita secreta desde 1837, e depois caminhe até a torre à beira do rio.",
+      "O Mosteiro dos Jerónimos levou cem anos para ser construído com dinheiro do comércio de especiarias, e seu claustro de pedra esculpida é o pátio mais bonito de Portugal.",
+      "Termine no Bairro Alto com um copo de vinho verde e, entre junho e setembro, sardinhas assadas numa grelha de rua nas vielas.",
+      "Salve isto para a sua viagem a Lisboa."
+    ],
+    "de": [
+      "Lissabon ist eine der günstigsten Hauptstädte Westeuropas, und sie sieht immer noch aus wie eine Filmkulisse.",
+      "Fahr mit der gelben Tram 28 durch Alfama, das älteste Viertel, wo die Gassen so eng sind, dass die Tram fast die gekachelten Wände streift.",
+      "Steig bei Sonnenuntergang zum Miradouro da Senhora do Monte hinauf, dem höchsten Aussichtspunkt der Stadt, und sieh zu, wie Dächer und rote Brücke golden werden.",
+      "Iss in Belém ein warmes Pastel de Nata in der Bäckerei, die seit 1837 dasselbe Geheimrezept benutzt, und lauf dann zum Turm am Fluss.",
+      "Das Hieronymus-Kloster wurde in hundert Jahren mit Geld aus dem Gewürzhandel gebaut, und sein kunstvoll gemeißelter Kreuzgang ist der schönste Innenhof Portugals.",
+      "Beende den Tag im Bairro Alto mit einem Glas Vinho Verde und, zwischen Juni und September, gegrillten Sardinen vom Straßengrill in den Gassen.",
+      "Speicher dir das für deine Lissabon-Reise."
+    ],
+    "fr": [
+      "Lisbonne est l'une des capitales au meilleur rapport qualité-prix d'Europe de l'Ouest, et elle ressemble encore à un décor de cinéma.",
+      "Prenez le tram jaune 28 à travers l'Alfama, le plus vieux quartier, où les rues sont si étroites que le tram frôle presque les murs d'azulejos.",
+      "Au coucher du soleil, montez au Miradouro da Senhora do Monte, le point le plus haut de la ville, et regardez les toits et le pont rouge se teinter d'or.",
+      "À Belém, mangez un pastel de nata tiède dans la pâtisserie qui garde la même recette secrète depuis 1837, puis marchez jusqu'à la tour au bord du fleuve.",
+      "Le monastère des Hiéronymites a demandé cent ans de construction, payés par le commerce des épices, et son cloître de pierre sculptée est la plus belle cour du Portugal.",
+      "Finissez au Bairro Alto avec un verre de vinho verde et, entre juin et septembre, des sardines grillées sur un gril de rue dans les ruelles.",
+      "Enregistrez ceci pour votre voyage à Lisbonne."
+    ],
+    "hi": [
+      "लिस्बन पश्चिमी यूरोप की सबसे किफायती राजधानियों में से एक है, और यह आज भी किसी फिल्म सेट जैसा दिखता है।",
+      "सबसे पुराने मोहल्ले अल्फामा से पीली ट्राम 28 में गुजरिए, जहां गलियां इतनी संकरी हैं कि ट्राम टाइल वाली दीवारों को लगभग छू जाती है।",
+      "सूर्यास्त पर शहर के सबसे ऊंचे व्यूपॉइंट मिरादोरो दा सेन्योरा दो मोंते पर चढ़िए और छतों और लाल पुल को सुनहरा होते देखिए।",
+      "बेलेम में उस बेकरी का गर्म पास्टेल डे नाटा खाइए जो 1837 से एक ही गुप्त रेसिपी इस्तेमाल करती है, फिर नदी किनारे के टावर तक चलिए।",
+      "जेरोनिमोस मठ मसाला व्यापार के पैसे से सौ साल में बना, और इसका नक्काशीदार पत्थर का आंगन पुर्तगाल का सबसे सुंदर आंगन है।",
+      "अंत में बैरो आल्टो में एक गिलास विन्हो वर्दे, और जून से सितंबर के बीच गलियों में सड़क की ग्रिल पर भुनी सार्डिन का मजा लीजिए।",
+      "अपनी लिस्बन यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }

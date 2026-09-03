@@ -26,7 +26,7 @@ import sys
 import time
 from datetime import datetime, timezone
 
-if sys.platform == "win32":
+if sys.platform == "win32" and "pytest" not in sys.modules:  # pytest 캡처를 깨지 않는다
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True)
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace", line_buffering=True)
 
@@ -169,6 +169,9 @@ def queue_pending_files() -> list:
             for f in sorted(os.listdir(QUEUE_PENDING_DIR)) if f.endswith(".json")]
 
 
+QUEUE_UNLOCKED_PREFIX = "[unlocked] "  # NO_OPENAI 잠금 정보(clips/localizations)만 아직 없는 대본 — failed 가 아니라 pending 유지
+
+
 def validate_queue_meta(data, filename: str) -> list:
     """대기열 대본 스키마 검증. 문제 사유 리스트를 돌려준다(빈 리스트 = 통과).
 
@@ -226,6 +229,42 @@ def validate_queue_meta(data, filename: str) -> list:
         v = data.get(k)
         if v is not None and (not isinstance(v, str) or not v.strip()):
             r.append(f"{k}: 값이 있으나 문자열이 아니거나 비어있음")
+
+    # 2026-09-03 NO_OPENAI: clips(잠금 Pexels id)·localizations(7개국) 는 NO_OPENAI 면 필수, 아니면 선택.
+    n_facts = len(facts) if isinstance(facts, list) and facts else QUEUE_FACTS_N
+    clips = data.get("clips")
+    if clips is not None or _cfg.no_openai_mode():
+        ok = (isinstance(clips, list) and len(clips) == n_facts and all(
+            isinstance(sl, list) and 1 <= len(sl) <= 2
+            and all(isinstance(c, int) and not isinstance(c, bool) and c > 0 for c in sl)
+            for sl in clips))
+        if not ok:
+            r.append((QUEUE_UNLOCKED_PREFIX if clips is None else "")
+                     + f"clips 가 facts 수({n_facts})만큼의 [양의 정수 id 1~2개] 슬롯이 아님")
+        else:
+            flat = [c for sl in clips for c in sl]
+            if len(flat) != len(set(flat)):
+                r.append("clips 에 같은 id 가 두 번 들어감(영상 내 중복)")
+    locs = data.get("localizations")
+    if locs is not None or _cfg.no_openai_mode():
+        need = ("ko", "ja", "es", "pt", "de", "fr", "hi")
+        good = isinstance(locs, dict) and all(
+            isinstance(locs.get(c), dict)
+            and isinstance(locs[c].get("title"), str) and locs[c]["title"].strip()
+            and len(locs[c]["title"]) <= 95
+            and isinstance(locs[c].get("description"), str) and locs[c]["description"].strip()
+            for c in need)
+        if not good:
+            r.append((QUEUE_UNLOCKED_PREFIX if locs is None else "")
+                     + "localizations 가 7개 언어(ko/ja/es/pt/de/fr/hi) 모두 title(≤95자)·description 문자열을 갖지 않음")
+    caps = data.get("captions")
+    if caps is not None:
+        n_lines = n_facts + 2  # TTS 라인 = intro + facts + outro
+        good = isinstance(caps, dict) and caps and all(
+            isinstance(v, list) and len(v) == n_lines and all(isinstance(t, str) and t.strip() for t in v)
+            for v in caps.values())
+        if not good:
+            r.append(f"captions 가 언어별 {n_lines}줄(intro+facts+outro) 비어있지 않은 문자열 배열이 아님")
     return r
 
 
@@ -375,6 +414,10 @@ def try_queue_script(used_pexels: list, recent_clips, budget: list = None):
             queue_mark_done(path, str(data["video_id"]), data.get("video_url", ""))
             continue
         reasons = validate_queue_meta(data, name)
+        if reasons and all(x.startswith(QUEUE_UNLOCKED_PREFIX) for x in reasons):
+            # 아직 clips/localizations 를 못 채운 대본 — 고장이 아니라 미완성. pending 에 두고 다음 파일로.
+            log.warning(f"[queue] {name}: 잠금 정보 없음(NO_OPENAI) → pending 유지, 다음 대본 시도")
+            continue
         if reasons:
             _queue_move_failed(path, reasons)
             continue
@@ -395,6 +438,78 @@ def try_queue_script(used_pexels: list, recent_clips, budget: list = None):
             continue
         return meta, key, wd, groups, cids, path
     return None
+
+
+def _fetch_locked_backgrounds(meta: dict, work_dir: str, locked: list, n: int,
+                              exclude_pexels_ids=None, exclude_clip_ids=None):
+    """대본이 잠근 Pexels id 로만 배경을 채운다 — vision·NASA·AI 폴백 전부 건너뜀(2026-09-03 NO_OPENAI).
+
+    id 는 사람이 포스터를 보고 고른 것이라 최근 사용 dedup(used_pexels/recent_clips)보다 우선한다(경고만).
+    기존 안전선은 유지: 슬롯 min(n,3)개 이상 채워져야 하고, 빈 슬롯은 이웃 슬롯 클립을 빌린다.
+    반환 (bg_groups, clip_ids) — fetch_verified_backgrounds 와 동일 형식.
+    """
+    import time as _time
+    from pipeline import pexels
+    _t0 = _time.monotonic()
+    if not isinstance(locked, list) or len(locked) != n:
+        got = len(locked) if isinstance(locked, list) else "?"
+        raise RuntimeError(f"clips 슬롯 수({got}) != facts({n})")
+    soft = {str(c) for c in (exclude_pexels_ids or [])}
+    hard = {str(c) for c in (exclude_clip_ids or set())}
+    want = max(1, int(getattr(_cfg, "CLIPS_PER_FACT", 1)))
+    slots = [[] for _ in range(n)]
+    seen = set()
+    for i, ids in enumerate(locked):
+        for cid in list(ids or [])[:want]:
+            cid = str(cid)
+            if cid in seen:
+                log.warning(f"clips fact[{i}] id={cid} 영상 내 중복 → 건너뜀")
+                continue
+            if cid in hard or cid in soft:
+                log.warning(f"clips fact[{i}] id={cid} 는 최근 사용 풋티지 — 대본 잠금이 우선(허용)")
+            path = pexels.fetch_by_id(cid, work_dir)
+            if path:
+                slots[i].append((path, cid))
+                seen.add(cid)
+    filled_idx = [i for i in range(n) if slots[i]]
+    min_pass = min(n, 3)
+    if len(filled_idx) < min_pass:
+        for i in filled_idx:
+            for path, _ in slots[i]:
+                try:
+                    os.remove(path)
+                except Exception:
+                    pass
+        raise RuntimeError(f"잠금 클립 다운로드 부족 ({len(filled_idx)}/{n}, min={min_pass})")
+    bg_groups = []
+    for i in range(n):
+        if slots[i]:
+            bg_groups.append(list(slots[i]))
+            continue
+        j = min(filled_idx, key=lambda x: (abs(x - i), x))
+        log.warning(f"fact[{i}] 잠금 클립 없음 → fact[{j}] 클립 재사용 (fact↔영상 정렬 유지)")
+        bg_groups.append([slots[j][0]])
+    ids = list(dict.fromkeys(cid for i in filled_idx for _, cid in slots[i]))
+    log.info(f"배경 확보(잠금): fact {len(filled_idx)}/{n} 슬롯, 컷 {sum(len(g) for g in bg_groups)}개 "
+             f"(슬롯별 {[len(g) for g in bg_groups]}, vision 0회)")
+    log.info(f"[timing] media={_time.monotonic() - _t0:.1f} (locked)")
+    return bg_groups, ids
+
+
+def _meta_localizations(meta: dict):
+    """대본이 준 localizations({lang: {title, description}}) 를 YouTube 형식으로 정리. 없으면 None."""
+    raw = meta.get("localizations")
+    if not isinstance(raw, dict) or not raw:
+        return None
+    out = {}
+    for code, e in raw.items():
+        if not isinstance(e, dict):
+            continue
+        title = (e.get("title") or "").strip()
+        desc = (e.get("description") or "").strip()
+        if title:
+            out[str(code)] = {"title": title[:95], "description": desc[:4900]}
+    return out or None
 
 
 def fetch_verified_backgrounds(meta: dict, work_dir: str,
@@ -432,6 +547,12 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str,
     angle = (meta.get("angle") or "").strip().lower()
     facts = meta.get("facts") or []
     n = max(1, len(facts))  # 배경 수 = 하이라이트 수
+
+    # 대기열 대본(author=claude)이 clips 로 Pexels id 를 잠갔으면 vision 없이 그 id 만 쓴다(NO_OPENAI).
+    if meta.get("author") == "claude" and meta.get("clips"):
+        return _fetch_locked_backgrounds(meta, work_dir, meta.get("clips"), n,
+                                         exclude_pexels_ids=exclude_pexels_ids,
+                                         exclude_clip_ids=exclude_clip_ids)
 
     ordered_kw = [k for k in (meta.get("fact_keywords") or []) if isinstance(k, str) and k.strip()]
     generic_kw = [g for g in (meta.get("pexels_keywords") or []) if isinstance(g, str) and g.strip()]
@@ -695,8 +816,15 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     # 2026-07-17: 필수 API 키 fail-fast — 시크릿 누락/오타 상태로 vision 0회 검증 발행이
     # 조용히 성공하는 것을 차단(verify_visual도 무키 reject하지만 여기서 시작 자체를 막아
     # GPT/Pexels 호출 낭비 없이 명확한 에러로 실패시킨다).
-    _missing = [k for k in ("OPENAI_API_KEY", "PEXELS_API_KEY")
-                if not (getattr(_cfg, k, "") or "").strip()]
+    _required = ("OPENAI_API_KEY", "PEXELS_API_KEY")
+    if _cfg.no_openai_mode():
+        # 2026-09-03: OpenAI 를 한 번도 부르지 않는 모드 — 대본이 clips/localizations/captions 를 제공한다.
+        # GPT 갈래가 열려 있으면 안 되므로 QUEUE_ONLY 가 같이 켜져 있어야 한다.
+        if not queue_only_mode():
+            raise RuntimeError("NO_OPENAI=1 인데 QUEUE_ONLY 가 아님 — GPT 갈래 차단을 위해 QUEUE_ONLY=1 필요")
+        log.info("NO_OPENAI=1 — OpenAI 무호출 모드(클립 잠금·localizations·captions 는 대본 제공)")
+        _required = ("PEXELS_API_KEY",)
+    _missing = [k for k in _required if not (getattr(_cfg, k, "") or "").strip()]
     if _missing:
         raise RuntimeError(f"필수 API 키 누락: {', '.join(_missing)} — fail-fast (무검증 발행 차단)")
 
@@ -785,6 +913,8 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             retry_used = list(dynamic_exclude_list)  # (D) 완화 없는 전체 exclude
             for attempt in range(5):
                 try:  # (G) pick 자체 예외도 다음 시도로
+                    if _cfg.no_openai_mode():
+                        raise RuntimeError("NO_OPENAI 모드에서 GPT 대본 갈래 도달 — 대기열이 비었거나 QUEUE_ONLY 누락")
                     try_meta = animals.pick_random_animal(
                         exclude_keys=retry_used, history=hist, avoid_formats=avoid_formats,
                         avoid_angles=avoid_angles, ever_used=used)
@@ -972,7 +1102,15 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         log.info(f"[timing] thumbnail={time.monotonic() - _t:.1f}")
 
     # 5) 7개국 localizations — 대기열 대본에 한국어 메타가 있으면 번역 대신 그 값을 쓴다.
-    locs = translator.translate_for_youtube(meta["title_en"], meta["description_en"])
+    locs = _meta_localizations(meta)
+    if locs is None:
+        if _cfg.no_openai_mode():
+            log.warning("NO_OPENAI 인데 대본 localizations 없음 → 번역 없이 발행")
+            locs = {}
+        else:
+            locs = translator.translate_for_youtube(meta["title_en"], meta["description_en"])
+    else:
+        log.info(f"localizations 를 대본 값으로 사용(번역 호출 없음): {','.join(locs.keys())}")
     ko_title = (meta.get("title_ko") or "").strip()
     ko_desc = (meta.get("description_ko") or "").strip()
     if ko_title or ko_desc:
@@ -1130,10 +1268,16 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
                     _actual_dur = float(_vc.duration)
             except Exception:
                 _actual_dur = composer.final_video_duration()
-            srts = captions.generate_all(
-                tts_lines, work_dir,
-                total_dur=_actual_dur, deadline=cc_deadline,
-            )
+            line_tr = meta.get("captions") if isinstance(meta.get("captions"), dict) else None
+            if line_tr or _cfg.no_openai_mode():
+                # 대본이 준 라인별 번역으로 CC 생성 — OpenAI 무호출(없는 언어는 en 만)
+                srts = captions.generate_from_lines(
+                    tts_lines, work_dir, line_tr or {}, total_dur=_actual_dur)
+            else:
+                srts = captions.generate_all(
+                    tts_lines, work_dir,
+                    total_dur=_actual_dur, deadline=cc_deadline,
+                )
             cap_ok = captions.upload_captions(video_id, srts, deadline=cc_deadline)
             n_ok = sum(1 for v in cap_ok.values() if v)
             log.info(f"CC 자막: {n_ok}/{captions.EXPECTED_CC_LANGS} 언어 등록")

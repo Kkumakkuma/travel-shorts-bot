@@ -8,3 +8,9 @@
 4. Pexels 소재를 못 구하면(비전 검증 부족) 그 파일은 `pending/` 에 그대로 두고 다음 파일로 넘어간다 — 손대지 말고 다음 회차를 기다리면 된다.
 5. 내레이션이 길어 음성이 잘리는 대본(59.5초 초과)은 렌더 전에 `failed/(narration_too_long)` 로 빠진다. 하이라이트 5개 합계 150단어 안쪽이 안전선이다(실측: 150단어 ≈ 55초).
 6. 실제 업로드가 videoId 를 받은 뒤에만 `done/` 으로 옮겨지고 `published_at`·`video_id`·`video_url` 이 덧붙는다. `--dry-run`/`--no-upload` 는 대기열을 소비하지 않는다.
+
+## OpenAI 무호출 모드 (NO_OPENAI=1, 2026-09-03부터 기본)
+- `clips`: facts(하이라이트) 순서로 5슬롯, 슬롯당 Pexels 동영상 id 1~2개(`[[id, id], ...]`). 포스터를 사람이 보고 고른다(=vision 대체). 봇은 이 id 만 내려받고 검색·검증을 하지 않는다. 첫 슬롯 첫 클립이 도입샷·썸네일 소스가 된다.
+- `localizations`: `{ko, ja, es, pt, de, fr, hi: {title(≤95자), description}}` 7개 전부 필수.
+- `captions`(선택): `{lang: [7줄]}` — intro, facts 5개, outro 순서의 번역. 있는 언어만 CC 등록(en 은 항상). 줄 수가 다르면 그 언어만 건너뛴다.
+- NO_OPENAI 인데 clips/localizations 가 없으면 `[unlocked]` 로 pending 에 남고 다음 대본을 시도한다(failed 로 보내지 않음).

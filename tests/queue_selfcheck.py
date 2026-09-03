@@ -1,3 +1,4 @@
+# 스크립트형 자체점검(대기열 갈래 29항목). pytest 수집 대상이 아니라 직접 실행한다: python tests/queue_selfcheck.py
 #!/usr/bin/env python3
 """대기열(queue/) 수명주기 회귀 테스트 — 중복 발행 0 방어선.
 

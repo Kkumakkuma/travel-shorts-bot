@@ -2,7 +2,7 @@
 import json
 import logging
 
-from config import META_MODEL, OPENAI_API_KEY
+from config import META_MODEL, OPENAI_API_KEY, no_openai_mode
 
 log = logging.getLogger("travelbot.translator")
 
@@ -18,6 +18,8 @@ LOCALIZATION_LANGS = [
 
 
 def translate_for_youtube(title_en: str, description_en: str) -> dict:
+    if no_openai_mode():
+        raise RuntimeError("NO_OPENAI 모드에서 translate_for_youtube 호출 — 대본 localizations 를 써야 한다")
     if not OPENAI_API_KEY:
         log.warning("OPENAI_API_KEY 없음 — localizations 스킵")
         return {}

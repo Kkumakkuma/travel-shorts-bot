@@ -77,6 +77,8 @@ jobs:
           # 대본은 Claude 가 queue/pending 에 채운다. 비어 있으면 GPT 로 아무거나 만들지 말고
           # QUEUE_EMPTY 마커만 남기고 정상 종료(발행 스킵) — 저품질 대본 발행 차단.
           QUEUE_ONLY: "1"
+          # 2026-09-03: OpenAI 무호출 — 클립(clips)·7개국 제목(localizations)·자막(captions) 전부 대본이 제공.
+          NO_OPENAI: "1"
         run: |
           set -o pipefail
           python main.py 2>&1 | tee run_stdout.log
