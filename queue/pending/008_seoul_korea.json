@@ -24,7 +24,152 @@
   "description_en": "Gyeongbokgung in a hanbok, Bukchon's hanok alleys, Gwangjang Market street food, N Seoul Tower at dusk, and chicken and beer by the Han River. Here is Seoul in one day. #shorts #travel #seoul #korea #wander",
   "description_ko": "한복 입고 경복궁, 북촌 한옥 골목, 광장시장 먹거리, 해 질 녘 남산타워, 그리고 한강 치맥까지. 서울을 하루에 보는 방법을 정리했습니다. #여행 #서울 #한국 #서울여행",
   "comment": "Seoul: palace in a hanbok or chicken by the river, which one first?",
-  "tags": ["shorts", "travel", "seoul", "south korea", "things to do", "city guide", "wander", "travel tips", "asia", "korea travel"],
-  "pexels_keywords": ["Gyeongbokgung Seoul", "Bukchon Hanok Village Seoul", "Gwangjang Market Seoul", "N Seoul Tower", "Seoul Han River night", "Seoul night skyline", "Seoul street", "Seoul palace guard", "Seoul hanok alley", "Seoul Korea aerial"],
-  "fact_keywords": ["Seoul Gyeongbokgung palace hanbok", "Seoul Bukchon Hanok Village alley roofs", "Seoul Gwangjang Market street food", "Seoul N Seoul Tower Namsan dusk", "Seoul Han River night picnic skyline"]
+  "tags": [
+    "shorts",
+    "travel",
+    "seoul",
+    "south korea",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "asia",
+    "korea travel"
+  ],
+  "pexels_keywords": [
+    "Gyeongbokgung Seoul",
+    "Bukchon Hanok Village Seoul",
+    "Gwangjang Market Seoul",
+    "N Seoul Tower",
+    "Seoul Han River night",
+    "Seoul night skyline",
+    "Seoul street",
+    "Seoul palace guard",
+    "Seoul hanok alley",
+    "Seoul Korea aerial"
+  ],
+  "fact_keywords": [
+    "Seoul Gyeongbokgung palace hanbok",
+    "Seoul Bukchon Hanok Village alley roofs",
+    "Seoul Gwangjang Market street food",
+    "Seoul N Seoul Tower Namsan dusk",
+    "Seoul Han River night picnic skyline"
+  ],
+  "clips": [
+    [
+      36603607,
+      30012658
+    ],
+    [
+      30120707,
+      36947447
+    ],
+    [
+      36718309,
+      34983118
+    ],
+    [
+      36949165,
+      11390244
+    ],
+    [
+      37763965,
+      32036076
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 서울: 궁궐과 한옥 골목, 그리고 한강 치맥",
+      "description": "한복 입고 경복궁, 북촌 한옥 골목, 광장시장 먹거리, 해 질 녘 남산타워, 그리고 한강 치맥까지. 서울을 하루에 보는 방법을 정리했습니다. #여행 #서울 #한국 #서울여행"
+    },
+    "ja": {
+      "title": "60秒でソウル：宮殿と韓屋の路地、そして漢江でチキン",
+      "description": "韓服を着て景福宮、北村の韓屋の路地、広蔵市場の屋台グルメ、夕暮れのNソウルタワー、そして漢江でチキンとビール。ソウルを1日で楽しむ方法をまとめました。#旅行 #ソウル #韓国 #ソウル旅行"
+    },
+    "es": {
+      "title": "Seúl en 60 segundos: palacios, callejones hanok y pollo junto al río",
+      "description": "Gyeongbokgung con hanbok, los callejones hanok de Bukchon, la comida callejera del mercado Gwangjang, la Torre N de Seúl al anochecer y pollo con cerveza junto al río Han. Así se ve Seúl en un día. #viajes #seul #corea #asia"
+    },
+    "pt": {
+      "title": "Seul em 60 segundos: palácios, vielas hanok e frango à beira do rio",
+      "description": "Gyeongbokgung de hanbok, as vielas hanok de Bukchon, a comida de rua do mercado Gwangjang, a N Seoul Tower ao anoitecer e frango com cerveja no rio Han. Veja como conhecer Seul em um dia. #viagem #seul #coreia #asia"
+    },
+    "de": {
+      "title": "Seoul in 60 Sekunden: Paläste, Hanok-Gassen und Hähnchen am Fluss",
+      "description": "Gyeongbokgung im Hanbok, die Hanok-Gassen von Bukchon, Streetfood auf dem Gwangjang-Markt, der N Seoul Tower in der Dämmerung und Hähnchen mit Bier am Han-Fluss. So siehst du Seoul an einem Tag. #reisen #seoul #korea #asien"
+    },
+    "fr": {
+      "title": "Séoul en 60 secondes : palais, ruelles hanok et poulet au bord du fleuve",
+      "description": "Gyeongbokgung en hanbok, les ruelles hanok de Bukchon, la street food du marché Gwangjang, la N Seoul Tower au crépuscule et du poulet avec une bière au bord du fleuve Han. Voici comment voir Séoul en une journée. #voyage #seoul #coree #asie"
+    },
+    "hi": {
+      "title": "60 सेकंड में सियोल: महल, हानोक गलियां और नदी किनारे चिकन",
+      "description": "हानबोक पहनकर ग्योंगबोकगुंग, बुकचोन की हानोक गलियां, ग्वांगजांग मार्केट का स्ट्रीट फूड, शाम में एन सियोल टावर और हान नदी किनारे चिकन-बीयर। एक दिन में सियोल कैसे देखें, यहां है। #travel #seoul #korea #asia"
+    }
+  },
+  "captions": {
+    "ko": [
+      "서울은 5G로 돌아가는 600년 된 수도이고, 저녁 한 끼가 5달러면 됩니다.",
+      "1395년에 지은 으뜸 궁궐 경복궁에서 시작하세요, 수문장 교대식을 보고, 근처에서 한복을 빌려 입으면 입장권이 공짜입니다.",
+      "북촌 한옥마을로 걸어 올라가세요, 600년 된 기와집들이 언덕을 채운 곳인데 지금도 사람이 살고 있으니 골목에선 목소리를 낮추세요.",
+      "점심은 100년 넘은 광장시장에서, 줄이 가장 긴 노점의 빈대떡과 칼국수를 드세요.",
+      "해 질 녘 케이블카로 남산에 올라 N서울타워에서 사랑의 자물쇠를 걸고, 2,500만 명의 불빛이 켜지는 걸 내려다보세요.",
+      "마무리는 한강에서, 돗자리까지 배달되는 치킨과 맥주, 이보다 서울다운 건 없습니다.",
+      "서울 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "ソウルは5Gで動く600年の歴史ある首都で、夕食は5ドルで済むこともあります。",
+      "1395年建立の正宮・景福宮から始めましょう。守門将交代式を見て、近くで韓服を借りれば入場料が無料になります。",
+      "北村韓屋村へ歩いて上りましょう。600年前の瓦屋根の家々が丘に並び、今も人が暮らしているので、路地では声を抑えて。",
+      "昼食は100年以上の歴史を持つ広蔵市場で、一番行列の長い屋台の緑豆チヂミと手打ちカルグクスを。",
+      "夕暮れにケーブルカーで南山に上り、Nソウルタワーで愛の南京錠をかけて、2,500万人の街の灯りがともるのを見下ろしましょう。",
+      "締めは漢江で、ピクニックシートまで届くチキンとビール。これ以上ソウルらしいことはありません。",
+      "ソウル旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Seúl es una capital de 600 años que funciona con 5G, y la cena puede costar cinco dólares.",
+      "Empieza en Gyeongbokgung, el palacio real principal de 1395, mira el cambio de guardia y alquila un hanbok cerca para que tu entrada sea gratis.",
+      "Sube a la aldea hanok de Bukchon, una ladera de casas de tejas de 600 años donde todavía vive gente, así que baja la voz en los callejones.",
+      "Para almorzar ve al mercado Gwangjang, de más de 100 años, y come tortitas de judía mungo y fideos cortados a cuchillo en los puestos con las colas más largas.",
+      "Sube en teleférico a Namsan hasta la Torre N de Seúl al anochecer, cuelga un candado del amor en la valla y mira encenderse las luces de 25 millones de personas.",
+      "Termina en el río Han con pollo frito y cerveza entregados en tu manta de picnic, lo más seulita que puedes hacer.",
+      "Guarda esto para tu viaje a Seúl."
+    ],
+    "pt": [
+      "Seul é uma capital de 600 anos que funciona em 5G, e o jantar pode custar cinco dólares.",
+      "Comece em Gyeongbokgung, o palácio real principal de 1395, veja a troca da guarda e alugue um hanbok ali perto para entrar de graça.",
+      "Suba até a vila hanok de Bukchon, uma encosta de casas de telhado de 600 anos onde ainda mora gente, então fale baixo nas vielas.",
+      "No almoço vá ao mercado Gwangjang, com mais de 100 anos, e coma panquecas de feijão mungo e macarrão cortado à faca nas barracas de fila mais longa.",
+      "Suba de teleférico ao Namsan até a N Seoul Tower ao anoitecer, pendure um cadeado do amor na grade e veja as luzes de 25 milhões de pessoas se acenderem.",
+      "Termine no rio Han com frango frito e cerveja entregues na sua toalha de piquenique, a coisa mais Seul que você pode fazer.",
+      "Salve isto para a sua viagem a Seul."
+    ],
+    "de": [
+      "Seoul ist eine 600 Jahre alte Hauptstadt, die mit 5G läuft, und das Abendessen kann fünf Dollar kosten.",
+      "Beginne im Gyeongbokgung, dem Hauptpalast von 1395, schau dir die Wachablösung an und leih dir in der Nähe einen Hanbok, dann ist dein Ticket gratis.",
+      "Steig hinauf ins Hanok-Dorf Bukchon, einen Hang voller 600 Jahre alter Ziegeldachhäuser, in denen noch Menschen wohnen, also sprich leise in den Gassen.",
+      "Zum Mittagessen geh auf den über 100 Jahre alten Gwangjang-Markt und iss Mungbohnen-Pfannkuchen und handgeschnittene Nudeln an den Ständen mit den längsten Schlangen.",
+      "Fahr mit der Seilbahn auf den Namsan zum N Seoul Tower in der Dämmerung, häng ein Liebesschloss an den Zaun und sieh zu, wie die Lichter von 25 Millionen Menschen angehen.",
+      "Beende den Tag am Han-Fluss mit Brathähnchen und Bier, die direkt zu deiner Picknickdecke geliefert werden, das Seoul-typischste, was es gibt.",
+      "Speicher dir das für deine Seoul-Reise."
+    ],
+    "fr": [
+      "Séoul est une capitale de 600 ans qui tourne à la 5G, et le dîner peut coûter cinq dollars.",
+      "Commencez par Gyeongbokgung, le palais royal principal de 1395, assistez à la relève de la garde et louez un hanbok à côté pour que l'entrée soit gratuite.",
+      "Montez dans le village hanok de Bukchon, une colline de maisons aux toits de tuiles vieilles de 600 ans où l'on vit encore, alors parlez bas dans les ruelles.",
+      "Pour déjeuner, allez au marché Gwangjang, plus que centenaire, et mangez des galettes de haricot mungo et des nouilles coupées au couteau aux stands où la file est la plus longue.",
+      "Prenez le téléphérique du Namsan jusqu'à la N Seoul Tower au crépuscule, accrochez un cadenas d'amour au grillage et regardez s'allumer les lumières de 25 millions d'habitants.",
+      "Finissez au bord du fleuve Han avec du poulet frit et une bière livrés sur votre natte de pique-nique, ce qu'il y a de plus séoulite au monde.",
+      "Enregistrez ceci pour votre voyage à Séoul."
+    ],
+    "hi": [
+      "सियोल 600 साल पुरानी राजधानी है जो 5G पर चलती है, और रात का खाना पांच डॉलर में हो सकता है।",
+      "1395 के मुख्य शाही महल ग्योंगबोकगुंग से शुरू कीजिए, गार्ड बदलने की रस्म देखिए, और पास में हानबोक किराए पर लीजिए ताकि टिकट मुफ्त हो जाए।",
+      "बुकचोन हानोक गांव तक चढ़िए, 600 साल पुराने खपरैल छत वाले घरों की पहाड़ी जहां लोग आज भी रहते हैं, इसलिए गलियों में धीरे बोलिए।",
+      "लंच के लिए 100 साल से पुराने ग्वांगजांग मार्केट जाइए, और सबसे लंबी कतार वाले ठेलों पर मूंग दाल के पैनकेक और हाथ से कटे नूडल खाइए।",
+      "शाम को केबल कार से नामसान चढ़कर एन सियोल टावर जाइए, बाड़ पर प्यार का ताला लगाइए, और ढाई करोड़ लोगों की बत्तियां जलते देखिए।",
+      "अंत में हान नदी पर, पिकनिक चटाई तक पहुंचाए गए फ्राइड चिकन और बीयर के साथ, इससे ज्यादा सियोल जैसा कुछ नहीं।",
+      "अपनी सियोल यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
