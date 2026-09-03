@@ -58,8 +58,8 @@ VIDEO_DURATION_SEC = 60
 # 40→55 상향. 데드타임 방지는 '하한을 낮춤'이 아니라 '내레이션을 55s+로 길게'로 해결한다
 # (하이라이트 26~34단어 x5 + TTS_RATE 완화). 짧게 나오면 이 하한이 55s를 보장한다.
 MIN_VIDEO_DURATION_SEC = 55
-VIDEO_BITRATE = "4500k"
-VIDEO_PRESET = "veryfast"
+VIDEO_BITRATE = "7000k"   # 2026-09-03 화질 강화: 4500k → 7000k (쇼츠 재인코딩 여유)
+VIDEO_PRESET = "fast"     # veryfast → fast (같은 비트레이트에서 디테일 보존)
 VIDEO_THREADS = 8
 
 # 영문 채널이라 영문 sans-serif 굵은 폰트 우선
@@ -71,8 +71,10 @@ SCRIPT_MODEL = "gpt-4o"         # 도시 픽 + 하이라이트 생성 (사실 �
 FACTCHECK_MODEL = "gpt-4.1"     # 적대적 검증 — 생성 모델과 다른 계열
 
 # edge-tts voice (영문)
-TTS_VOICE = "en-US-AriaNeural"  # 자연스러운 여성 보이스
-TTS_RATE = "+2%"  # 55~60s 길이 확보 위해 완화(2026-07-18, 기존 +12%는 44s로 짧게 끝남). 또렷함↑
+TTS_VOICE = "en-US-AndrewMultilingualNeural"  # 2026-09-03: 남성 내레이션(다큐 톤)으로 교체
+# +2% → +5%. Andrew 는 Aria 보다 느려서 같은 대본이 길어진다 — 실측(하이라이트 5개, 141~150단어)
+# 발화 종료 52.1~53.9s 로 방어선 59.5s 안쪽. 사실 전달 명료도 우선.
+TTS_RATE = "+5%"
 TTS_PITCH = "+0Hz"
 
 # 자막 스타일
@@ -81,7 +83,11 @@ CAPTION_Y_RATIO = 0.60  # 하단 1/3 (피사체 가림 해소 + 쇼츠 UI 회피
 CAPTION_PHRASE_SIZE = 4  # 한 자막에 3-4 단어 묶음
 CAPTION_HIGHLIGHT_NUMBERS = True  # 숫자는 옐로우 강조
 
-# 썸네일 — 완성 영상 프레임 + 도시명 대문자 (pipeline/thumbnail.py, fail-soft: 실패해도 발행 진행)
+# 컷 페이싱 — 하이라이트 1개당 배경 클립 수 (2026-09-03). 수집이 모자라면 자동으로 1개로 폴백.
+# 클립 사이는 하드컷(크로스페이드 금지 — Actions 러너 메모리 보호).
+CLIPS_PER_FACT = 2
+
+# 썸네일 — 도입샷/첫 배경 클립 1.0초 프레임 + 상단 후크 (pipeline/thumbnail.py, fail-soft: 실패해도 발행 진행)
 ENABLE_THUMBNAIL = True
 THUMBNAIL_FONT_SIZE = 190  # 시작 크기 — 폭 초과 시 14씩 자동 축소 (하한 80)
 

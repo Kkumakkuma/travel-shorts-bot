@@ -21,7 +21,7 @@ concurrency:
 jobs:
   generate-and-upload:
     runs-on: ubuntu-latest
-    timeout-minutes: 40  # 2026-05-07 25→40 변경: GitHub Actions apt-get 22분 지연 사고로 timeout. 영상 12분 + 여유
+    timeout-minutes: 60  # 2026-09-03 40→60: 하이라이트당 컷 2개 + preset fast 로 인코딩 시간이 늘었다
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,29 +73,44 @@ jobs:
 
       - name: Generate + Upload
         id: generate
+        env:
+          # 대본은 Claude 가 queue/pending 에 채운다. 비어 있으면 GPT 로 아무거나 만들지 말고
+          # QUEUE_EMPTY 마커만 남기고 정상 종료(발행 스킵) — 저품질 대본 발행 차단.
+          QUEUE_ONLY: "1"
         run: |
           set -o pipefail
           python main.py 2>&1 | tee run_stdout.log
 
       # 발행 이력을 리포에 되돌려 쓴다. 이게 없으면 다음 실행이 과거를 모른다.
-      # 발행이 성공했을 때만 커밋 — 실패한 회차의 토픽을 "사용함"으로 태우지 않는다.
+      # 이력(used_*/content_history)은 발행 성공 시에만 — 실패한 회차의 토픽을 "사용함"으로 태우지 않는다.
+      # 대기열(queue/)은 **실패해도** 커밋한다. 안 그러면 스키마 위반으로 failed 로 뺀 대본이
+      # 임시 체크아웃과 함께 사라져 다음 cron 에 또 걸리고, 업로드 후 크래시한 회차의
+      # done 이동도 유실돼 같은 대본이 중복 발행된다(codex 지적, 2026-09-03).
       - name: Persist publish history to repo
-        if: steps.generate.outcome == 'success'
+        if: always() && !cancelled() && steps.generate.outcome != 'skipped'
+        env:
+          OUTCOME: ${{ steps.generate.outcome }}
         run: |
           set -uo pipefail   # -e 제외: git diff --cached --quiet 의 exit 1을 정상 분기로 쓴다
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 존재하는 파일만 add — 없는 파일은 건너뛴다(git add 는 pathspec 부재 시 exit 128).
           # '|| true' 로 뭉개면 저장 실패가 성공처럼 보이므로(codex 지적) 파일별로 판단한다.
-          FILES=""
-          for f in used_cities.json used_comments.json content_history.json used_pexels.json used_bgm.json; do
-            [ -f "$f" ] && FILES="$FILES $f"
-          done
-          if [ -z "$FILES" ]; then
-            echo "::warning::이력 파일이 하나도 없음 — 생성 로직 점검 필요"
-            exit 0
+          if [ "$OUTCOME" = "success" ]; then
+            FILES=""
+            for f in used_cities.json used_comments.json content_history.json used_pexels.json used_bgm.json; do
+              [ -f "$f" ] && FILES="$FILES $f"
+            done
+            if [ -z "$FILES" ]; then
+              echo "::warning::이력 파일이 하나도 없음 — 생성 로직 점검 필요"
+            else
+              git add -- $FILES
+            fi
+          else
+            echo "발행 실패 회차 — 이력 파일은 커밋하지 않고 queue/ 상태만 저장"
           fi
-          git add -- $FILES
+          # 대기열 상태(pending 소비 / done·failed 이동)도 리포가 정본이다.
+          if [ -d queue ]; then git add -A -- queue/; fi
           if git diff --cached --quiet; then
             echo "이력 변경 없음 — 커밋 skip"
             exit 0
@@ -155,7 +170,24 @@ jobs:
           from datetime import datetime, timedelta, timezone
           KST = timezone(timedelta(hours=9))
           ok = os.environ.get("OUTCOME") == "success"
+
+          def _send(msg):
+              tg = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage"
+              payload = urllib.parse.urlencode(
+                  {"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": msg}).encode()
+              urllib.request.urlopen(urllib.request.Request(tg, data=payload), timeout=15)
+              print(msg)
+
           if ok:
+              # 성공이어도 대기열이 비어 발행을 건너뛴 회차는 반드시 알린다(대본 보충 신호).
+              try:
+                  log_txt = open("run_stdout.log", encoding="utf-8", errors="ignore").read()
+              except Exception:
+                  log_txt = ""
+              if "QUEUE_EMPTY" in log_txt:
+                  _send("🌍 여행봇: 대기열이 비어 발행을 건너뜀 — 대본 보충 필요\n"
+                        f"📅 {datetime.now(KST).strftime('%Y-%m-%d %H:%M')} KST")
+                  raise SystemExit(0)
               print("발행 성공 — 개별 알림 생략 (아침·저녁 브리핑 통합, 2026-07-27)")
               raise SystemExit(0)
           icon = "🚀" if ok else "❌"
@@ -190,9 +222,5 @@ jobs:
               if token_expired:
                   lines.append("🔑 OAuth 토큰 만료/폐지 — PC에서 travel-shorts-bot 폴더의 python auth.py 실행해 재발급하세요")
 
-          text = "\n".join(lines)
-          tg = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage"
-          payload = urllib.parse.urlencode({"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": text}).encode()
-          urllib.request.urlopen(urllib.request.Request(tg, data=payload), timeout=15)
-          print(text)
+          _send("\n".join(lines))
           PY

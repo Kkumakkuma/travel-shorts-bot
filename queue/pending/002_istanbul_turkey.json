@@ -1,0 +1,58 @@
+{
+  "author": "claude",
+  "animal_key": "istanbul_turkey",
+  "display": "Istanbul",
+  "single": "Istanbul",
+  "country": "Turkey",
+  "category": "historic_ancient",
+  "landmark_lock": "Istanbul, Turkey — Hagia Sophia, Blue Mosque, Grand Bazaar, Bosphorus, Galata Tower",
+  "angle": "iconic_landmarks",
+  "format": "classic_trivia",
+  "hook_line": "Istanbul is the only major city on two continents, so you can have breakfast in Europe and lunch in Asia.",
+  "hook": "TWO CONTINENTS, ONE CITY",
+  "intro": "Istanbul is the only major city on two continents, so you can have breakfast in Europe and lunch in Asia.",
+  "facts": [
+    "Start at Hagia Sophia, built nearly 1,500 years ago as a church, later a mosque, and the largest cathedral on Earth for almost a thousand years.",
+    "Across the square, the Blue Mosque glows with more than twenty thousand hand-painted tiles; it is a working mosque, so dress modestly and avoid prayer times.",
+    "Get lost in the Grand Bazaar, a covered maze of about four thousand shops trading gold, carpets, ceramics, and lamps since the 1450s.",
+    "Take the public commuter ferry across the Bosphorus instead of a tour boat; it costs about a bus fare and lands you in Asia for lunch.",
+    "End at Galata Tower for the view, then eat a fish sandwich by the bridge while fishermen line the railings above you."
+  ],
+  "outro": "Save this for your Istanbul trip.",
+  "title_en": "Istanbul in 60 Seconds: Breakfast in Europe, Lunch in Asia",
+  "title_ko": "60초 이스탄불: 아침은 유럽에서, 점심은 아시아에서",
+  "description_en": "Hagia Sophia, the Blue Mosque, the Grand Bazaar, and a commuter ferry between two continents. Here is Istanbul in one day. #shorts #travel #istanbul #turkey #wander",
+  "description_ko": "아야 소피아, 블루 모스크, 그랜드 바자르, 그리고 두 대륙을 잇는 시내 페리까지. 이스탄불을 하루에 보는 방법을 정리했습니다. #여행 #이스탄불 #튀르키예",
+  "comment": "Istanbul: which side would you sleep on, Europe or Asia?",
+  "tags": [
+    "shorts",
+    "travel",
+    "istanbul",
+    "turkey",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "europe",
+    "asia"
+  ],
+  "pexels_keywords": [
+    "Istanbul Turkey",
+    "Hagia Sophia Istanbul",
+    "Blue Mosque Istanbul",
+    "Grand Bazaar Istanbul",
+    "Bosphorus ferry Istanbul",
+    "Galata Tower Istanbul",
+    "Istanbul skyline sunset",
+    "Istanbul street market",
+    "Istanbul mosque interior",
+    "Istanbul fish sandwich bridge"
+  ],
+  "fact_keywords": [
+    "Istanbul Hagia Sophia dome exterior",
+    "Istanbul Blue Mosque tiles interior",
+    "Istanbul Grand Bazaar lamps shops",
+    "Bosphorus ferry Istanbul skyline",
+    "Galata Tower Istanbul view"
+  ]
+}
