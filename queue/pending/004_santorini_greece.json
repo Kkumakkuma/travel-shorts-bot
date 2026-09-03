@@ -54,5 +54,122 @@
     "Santorini cliff path Fira Oia",
     "Santorini black sand beach",
     "Santorini vineyard wine food"
-  ]
+  ],
+  "clips": [
+    [
+      38087413,
+      32500600
+    ],
+    [
+      28156169,
+      10748269
+    ],
+    [
+      10748208,
+      29896688
+    ],
+    [
+      9248107,
+      32500594
+    ],
+    [
+      6421453,
+      8849304
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 산토리니: 화산 분화구 위에서 자는 섬",
+      "description": "칼데라 절벽 위 하얀 마을, 사람 없는 노을 명당, 피라에서 이아까지 절벽길, 검은 모래 해변, 그리고 화산 토양 와인까지. 산토리니를 하루에 보는 방법을 정리했습니다. #여행 #산토리니 #그리스 #유럽여행"
+    },
+    "ja": {
+      "title": "60秒でサントリーニ：火山の火口の上で眠る島",
+      "description": "カルデラの断崖に立つ白い村、混まない夕日スポット、フィラからイアへの崖の道、黒砂のビーチ、そして火山の土壌で育ったワイン。サントリーニを1日で楽しむ方法をまとめました。#旅行 #サントリーニ #ギリシャ #ヨーロッパ旅行"
+    },
+    "es": {
+      "title": "Santorini en 60 segundos: la isla donde duermes sobre un volcán",
+      "description": "Pueblos blancos al borde de la caldera, un atardecer sin multitudes, el sendero del acantilado de Fira a Oia, playas de arena negra y vino de suelo volcánico. Así se ve Santorini en un día. #viajes #santorini #grecia #europa"
+    },
+    "pt": {
+      "title": "Santorini em 60 segundos: a ilha onde você dorme em cima de um vulcão",
+      "description": "Vilas brancas à beira da caldeira, um pôr do sol sem multidão, a trilha do penhasco de Fira a Oia, praias de areia preta e vinho de solo vulcânico. Veja como conhecer Santorini em um dia. #viagem #santorini #grecia #europa"
+    },
+    "de": {
+      "title": "Santorin in 60 Sekunden: die Insel, auf der du auf einem Vulkan schläfst",
+      "description": "Weiße Dörfer am Rand der Caldera, ein Sonnenuntergang ohne Gedränge, der Klippenweg von Fira nach Oia, schwarze Sandstrände und Wein aus Vulkanboden. So siehst du Santorin an einem Tag. #reisen #santorin #griechenland #europa"
+    },
+    "fr": {
+      "title": "Santorin en 60 secondes : l'île où l'on dort sur un volcan",
+      "description": "Villages blancs au bord de la caldeira, un coucher de soleil sans la foule, le sentier des falaises de Fira à Oia, des plages de sable noir et du vin de sol volcanique. Voici comment voir Santorin en une journée. #voyage #santorin #grece #europe"
+    },
+    "hi": {
+      "title": "60 सेकंड में सैंटोरिनी: वह द्वीप जहां आप ज्वालामुखी के ऊपर सोते हैं",
+      "description": "काल्डेरा की चट्टान पर सफेद गांव, भीड़ रहित सूर्यास्त, फिरा से ओइया तक चट्टानी रास्ता, काली रेत के समुद्र तट और ज्वालामुखी की मिट्टी की वाइन। एक दिन में सैंटोरिनी कैसे देखें, यहां है। #travel #santorini #greece #europe"
+    }
+  },
+  "captions": {
+    "ko": [
+      "산토리니는 3,600년 전에 폭발한 화산의 꼭대기이고, 여러분은 그 분화구 가장자리에서 잠을 잡니다.",
+      "초승달 모양의 이 섬은 역사상 가장 큰 분화 중 하나가 남긴 칼데라의 가장자리이고, 하얀 마을들은 절벽 끝에 바로 올라앉아 있습니다.",
+      "성 유적이 몇 시간 전부터 꽉 차는 이아의 노을 인파는 건너뛰고 이메로비글리로 걸어가세요, 같은 칼데라, 같은 빛, 사람은 훨씬 적습니다.",
+      "피라에서 이아까지 칼데라 가장자리를 따라 약 10킬로미터 절벽길을 걸으면, 투어 예약 없이도 파란 돔들을 지나게 됩니다.",
+      "해변은 검고 붉은 화산 모래라 샌들을 챙기세요, 페리사와 카마리가 가장 가기 쉽고, 어두운 돌은 오후 내내 따뜻합니다.",
+      "화산 토양에서 자란 토마토 튀김과 파바를 먹고, 바람을 피해 바구니 모양으로 낮게 감아 키운 포도로 만든 화이트 와인을 마셔 보세요.",
+      "산토리니 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "サントリーニは3,600年前に噴火した火山の頂上で、あなたはその火口の縁で眠ります。",
+      "三日月形のこの島は、史上最大級の噴火が残したカルデラの縁で、白い村々は断崖のすぐ端に建っています。",
+      "城跡が何時間も前から埋まるイアの夕日の混雑は避けて、イメロヴィグリまで歩きましょう。同じカルデラ、同じ光で、人はずっと少ないです。",
+      "フィラからイアまで、カルデラの縁に沿って約10キロの崖の道を歩けば、ツアーを予約しなくても青いドームのそばを通ります。",
+      "ビーチは黒と赤の火山砂なのでサンダルを持って。ペリッサとカマリが一番行きやすく、暗い石は午後中ずっと温かいままです。",
+      "火山の土壌で育ったトマトのフリッターとファバを食べ、風を避けて低くかごの形に巻いた蔓から作る白ワインを試してみてください。",
+      "サントリーニ旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Santorini es la cima de un volcán que estalló hace 3.600 años, y tú duermes en su borde.",
+      "La isla en forma de media luna es el borde de una caldera dejada por una de las mayores erupciones de la historia, y los pueblos blancos se asientan justo al filo del acantilado.",
+      "Sáltate el agobio del atardecer en Oia, donde las ruinas del castillo se llenan horas antes, y camina hasta Imerovigli: la misma caldera, la misma luz, mucha menos gente.",
+      "Recorre el sendero del acantilado de Fira a Oia, unos diez kilómetros por el borde de la caldera, y pasarás junto a las cúpulas azules sin reservar ningún tour.",
+      "Las playas son de arena volcánica negra y roja, así que lleva sandalias; Perissa y Kamari son las más fáciles de alcanzar, y la piedra oscura se mantiene caliente toda la tarde.",
+      "Come buñuelos de tomate y fava cultivados en suelo volcánico, y prueba el vino blanco de vides enroscadas en cestas a ras de suelo contra el viento.",
+      "Guarda esto para tu viaje a Santorini."
+    ],
+    "pt": [
+      "Santorini é o topo de um vulcão que explodiu há 3.600 anos, e você dorme na borda dele.",
+      "A ilha em forma de meia-lua é a borda de uma caldeira deixada por uma das maiores erupções da história, e as vilas brancas ficam bem na beira do penhasco.",
+      "Pule o aperto do pôr do sol em Oia, onde as ruínas do castelo lotam horas antes, e caminhe até Imerovigli: a mesma caldeira, a mesma luz, muito menos gente.",
+      "Percorra a trilha do penhasco de Fira a Oia, cerca de dez quilômetros pela borda da caldeira, e você passa pelas cúpulas azuis sem reservar nenhum tour.",
+      "As praias são de areia vulcânica preta e vermelha, então leve sandálias; Perissa e Kamari são as mais fáceis de chegar, e a pedra escura fica quente a tarde inteira.",
+      "Coma bolinhos de tomate e fava cultivados em solo vulcânico, e prove o vinho branco de videiras enroladas em cestos rente ao chão contra o vento.",
+      "Salve isto para a sua viagem a Santorini."
+    ],
+    "de": [
+      "Santorin ist die Spitze eines Vulkans, der vor 3.600 Jahren explodierte, und du schläfst auf seinem Rand.",
+      "Die sichelförmige Insel ist der Rand einer Caldera, die einer der größten Ausbrüche der Geschichte hinterließ, und die weißen Dörfer sitzen direkt an der Klippenkante.",
+      "Lass das Sonnenuntergangs-Gedränge in Oia aus, wo die Burgruine Stunden vorher voll ist, und geh nach Imerovigli: dieselbe Caldera, dasselbe Licht, viel weniger Leute.",
+      "Lauf den Klippenweg von Fira nach Oia, etwa zehn Kilometer am Calderarand entlang, und du kommst ohne jede Tourbuchung an den blauen Kuppeln vorbei.",
+      "Die Strände bestehen aus schwarzem und rotem Vulkansand, also nimm Sandalen mit; Perissa und Kamari sind am leichtesten zu erreichen, und der dunkle Stein bleibt den ganzen Nachmittag warm.",
+      "Iss Tomatenbällchen und Fava aus Vulkanboden, und probier den Weißwein von Reben, die als Schutz vor dem Wind zu niedrigen Körben gewunden werden.",
+      "Speicher dir das für deine Santorin-Reise."
+    ],
+    "fr": [
+      "Santorin est le sommet d'un volcan qui a explosé il y a 3 600 ans, et vous dormez sur son bord.",
+      "L'île en croissant est le bord d'une caldeira laissée par l'une des plus grandes éruptions de l'histoire, et les villages blancs sont perchés au ras de la falaise.",
+      "Évitez la cohue du coucher de soleil à Oia, où les ruines du château se remplissent des heures à l'avance, et marchez jusqu'à Imerovigli : même caldeira, même lumière, bien moins de monde.",
+      "Parcourez le sentier des falaises de Fira à Oia, environ dix kilomètres le long de la caldeira, et vous passerez devant les dômes bleus sans réserver la moindre excursion.",
+      "Les plages sont de sable volcanique noir et rouge, alors prenez des sandales ; Perissa et Kamari sont les plus faciles d'accès, et la pierre sombre reste chaude tout l'après-midi.",
+      "Mangez des beignets de tomate et de la fava cultivés en sol volcanique, et goûtez le vin blanc issu de vignes enroulées en paniers au ras du sol contre le vent.",
+      "Enregistrez ceci pour votre voyage à Santorin."
+    ],
+    "hi": [
+      "सैंटोरिनी उस ज्वालामुखी की चोटी है जो 3,600 साल पहले फटा था, और आप उसके किनारे पर सोते हैं।",
+      "अर्धचंद्र आकार का यह द्वीप इतिहास के सबसे बड़े विस्फोटों में से एक द्वारा छोड़े गए काल्डेरा का किनारा है, और सफेद गांव सीधे चट्टान के किनारे पर बसे हैं।",
+      "ओइया की सूर्यास्त भीड़ छोड़िए, जहां किले के खंडहर घंटों पहले भर जाते हैं, और इमेरोविग्ली तक चलिए: वही काल्डेरा, वही रोशनी, कहीं कम लोग।",
+      "फिरा से ओइया तक काल्डेरा के किनारे करीब दस किलोमीटर का चट्टानी रास्ता चलिए, और बिना कोई टूर बुक किए आप नीले गुंबदों के पास से गुजरेंगे।",
+      "समुद्र तट काली और लाल ज्वालामुखी रेत के हैं, इसलिए सैंडल लाइए; पेरिसा और कमारी तक पहुंचना सबसे आसान है, और गहरा पत्थर पूरी दोपहर गर्म रहता है।",
+      "ज्वालामुखी की मिट्टी में उगे टमाटर के पकौड़े और फावा खाइए, और हवा से बचाने के लिए जमीन के पास टोकरी की तरह लपेटी बेलों की सफेद वाइन चखिए।",
+      "अपनी सैंटोरिनी यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
