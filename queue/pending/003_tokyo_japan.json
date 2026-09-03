@@ -53,5 +53,122 @@
     "Tokyo ramen bowl counter",
     "Tokyo skyline observation deck",
     "Tokyo Shinjuku Omoide Yokocho alley night"
-  ]
+  ],
+  "clips": [
+    [
+      37570306,
+      28883548
+    ],
+    [
+      37688859,
+      27739943
+    ],
+    [
+      31387608,
+      34579622
+    ],
+    [
+      31310968,
+      31044170
+    ],
+    [
+      29156761,
+      19743526
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 도쿄: 시부야 스크램블, 센소지, 그리고 카운터 라멘",
+      "description": "시부야 스크램블, 아사쿠사 센소지, 츠키지 장외시장의 라멘과 초밥, 무료 전망대, 그리고 골든가이의 밤까지. 도쿄를 하루에 보는 방법을 정리했습니다. #여행 #도쿄 #일본여행"
+    },
+    "ja": {
+      "title": "60秒で東京：渋谷スクランブル、浅草寺、そしてカウンターのラーメン",
+      "description": "渋谷スクランブル交差点、浅草寺、築地場外市場のラーメンと寿司、無料の展望台、そしてゴールデン街の夜まで。東京を1日で楽しむ方法をまとめました。#旅行 #東京 #日本旅行"
+    },
+    "es": {
+      "title": "Tokio en 60 segundos: el cruce de Shibuya, Senso-ji y ramen de barra",
+      "description": "El cruce de Shibuya, el templo Senso-ji, ramen y sushi en el mercado exterior de Tsukiji, un mirador gratis y una noche en Golden Gai. Así se ve Tokio en un día. #viajes #tokio #japon #asia"
+    },
+    "pt": {
+      "title": "Tóquio em 60 segundos: o cruzamento de Shibuya, Senso-ji e ramen no balcão",
+      "description": "O cruzamento de Shibuya, o templo Senso-ji, ramen e sushi no mercado externo de Tsukiji, um mirante grátis e uma noite em Golden Gai. Veja como conhecer Tóquio em um dia. #viagem #toquio #japao #asia"
+    },
+    "de": {
+      "title": "Tokio in 60 Sekunden: Shibuya-Kreuzung, Senso-ji und Ramen an der Theke",
+      "description": "Die Shibuya-Kreuzung, der Senso-ji-Tempel, Ramen und Sushi auf dem Tsukiji-Außenmarkt, eine kostenlose Aussichtsplattform und eine Nacht in Golden Gai. So siehst du Tokio an einem Tag. #reisen #tokio #japan #asien"
+    },
+    "fr": {
+      "title": "Tokyo en 60 secondes : le carrefour de Shibuya, Senso-ji et des ramen au comptoir",
+      "description": "Le carrefour de Shibuya, le temple Senso-ji, ramen et sushis au marché extérieur de Tsukiji, un observatoire gratuit et une soirée à Golden Gai. Voici comment voir Tokyo en une journée. #voyage #tokyo #japon #asie"
+    },
+    "hi": {
+      "title": "60 सेकंड में टोक्यो: शिबुया क्रॉसिंग, सेंसो-जी और काउंटर का रामेन",
+      "description": "शिबुया क्रॉसिंग, सेंसो-जी मंदिर, सुकिजी बाहरी बाजार का रामेन और सुशी, मुफ्त ऑब्जर्वेशन डेक और गोल्डन गाई की रात। एक दिन में टोक्यो कैसे देखें, यहां है। #travel #tokyo #japan #asia"
+    }
+  },
+  "captions": {
+    "ko": [
+      "도쿄는 지구상 어떤 도시보다 미슐랭 별이 많은데, 최고의 음식 중 일부는 여전히 카운터에서 잔돈으로 팝니다.",
+      "출근 시간에 시부야 스크램블을 건너 보세요, 한 번에 최대 3,000명이 건너는데, 그다음엔 위층 카페 창가에서 다시 내려다보세요.",
+      "아사쿠사 센소지는 도쿄에서 가장 오래된 절이니 일찍 일어나서 가세요, 인파와 향 연기가 몰리기 전에 등불 늘어선 거리를 걸을 수 있습니다.",
+      "현지인처럼 드세요, 츠키지 장외시장의 카운터 라멘이나 서서 먹는 초밥은 어떤 파인다이닝 코스보다 훨씬 쌉니다.",
+      "전망은 스카이트리 매표 줄 대신 도쿄도청 전망대로 올라가세요, 표가 필요 없습니다.",
+      "밤에는 골든가이나 오모이데 요코초의 6석짜리 바에 비집고 들어가세요, 겨우 걸을 만한 골목에 야키토리 연기가 가득합니다.",
+      "도쿄 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "東京は地球上のどの都市よりミシュランの星が多いのに、最高の料理の一部は今もカウンターで小銭で食べられます。",
+      "ラッシュ時に渋谷スクランブル交差点を渡りましょう。一度に最大3,000人が渡り、そのあと上のカフェの窓からもう一度眺めてください。",
+      "早起きして浅草の浅草寺へ。東京最古の寺で、人混みと線香の煙が来る前に提灯の並ぶ通りを歩けます。",
+      "地元の人のように食べましょう。築地場外市場のカウンターラーメンや立ち食い寿司は、どんな高級コースよりずっと安いです。",
+      "眺めはスカイツリーのチケット行列を避けて東京都庁へ。展望台はチケット不要です。",
+      "夜はゴールデン街や思い出横丁の6席のバーに潜り込みましょう。やっと歩ける幅の路地に焼き鳥の煙が満ちています。",
+      "東京旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Tokio tiene más estrellas Michelin que ninguna otra ciudad de la Tierra, y parte de su mejor comida aún se sirve en una barra por calderilla.",
+      "Cruza el cruce de Shibuya en hora punta, cuando hasta 3.000 personas cruzan a la vez, y luego míralo otra vez desde la ventana de un café en lo alto.",
+      "Madruga para Senso-ji en Asakusa, el templo más antiguo de Tokio, y recorre la calle de farolillos antes de que lleguen las multitudes y el incienso.",
+      "Come donde comen los locales: el ramen de barra o el sushi de pie en el mercado exterior de Tsukiji cuesta una fracción de cualquier menú de alta cocina.",
+      "Para las vistas, sáltate las colas del Skytree y sube al Edificio del Gobierno Metropolitano de Tokio, donde el mirador no necesita entrada.",
+      "De noche métete en un bar de seis asientos en Golden Gai u Omoide Yokocho, donde el humo del yakitori llena callejones apenas anchos para caminar.",
+      "Guarda esto para tu viaje a Tokio."
+    ],
+    "pt": [
+      "Tóquio tem mais estrelas Michelin que qualquer cidade da Terra, e parte da melhor comida ainda é servida no balcão por trocados.",
+      "Atravesse o cruzamento de Shibuya na hora do rush, quando até 3.000 pessoas cruzam de uma vez, e depois veja tudo de novo da janela de um café lá em cima.",
+      "Acorde cedo para o Senso-ji em Asakusa, o templo mais antigo de Tóquio, e caminhe pela rua de lanternas antes que a multidão e o incenso cheguem.",
+      "Coma onde os locais comem: ramen no balcão ou sushi em pé no mercado externo de Tsukiji custa uma fração de qualquer menu de alta gastronomia.",
+      "Para a vista, pule as filas do Skytree e suba no Edifício do Governo Metropolitano de Tóquio, onde o mirante não precisa de ingresso.",
+      "À noite se esprema num bar de seis lugares em Golden Gai ou Omoide Yokocho, onde a fumaça de yakitori enche vielas mal largas o bastante para andar.",
+      "Salve isto para a sua viagem a Tóquio."
+    ],
+    "de": [
+      "Tokio hat mehr Michelin-Sterne als jede andere Stadt der Erde, und einiges vom besten Essen gibt es immer noch an der Theke für Kleingeld.",
+      "Überquere die Shibuya-Kreuzung zur Rushhour, wenn bis zu 3.000 Menschen auf einmal gehen, und schau es dir dann noch einmal aus einem Caféfenster von oben an.",
+      "Steh früh auf für den Senso-ji in Asakusa, Tokios ältesten Tempel, und lauf die Laternenstraße entlang, bevor Menschenmassen und Räucherwerk kommen.",
+      "Iss, wo die Einheimischen essen: Ramen an der Theke oder Sushi im Stehen auf dem Tsukiji-Außenmarkt kostet einen Bruchteil jedes Feinschmeckermenüs.",
+      "Für die Aussicht lass die Ticketschlangen am Skytree aus und fahr auf das Tokioter Rathaus, dessen Aussichtsplattform kein Ticket braucht.",
+      "Nachts zwäng dich in eine Sechs-Plätze-Bar in Golden Gai oder Omoide Yokocho, wo Yakitori-Rauch Gassen füllt, die kaum breit genug zum Gehen sind.",
+      "Speicher dir das für deine Tokio-Reise."
+    ],
+    "fr": [
+      "Tokyo compte plus d'étoiles Michelin que n'importe quelle ville sur Terre, et une partie de sa meilleure cuisine se sert encore au comptoir pour trois fois rien.",
+      "Traversez le carrefour de Shibuya à l'heure de pointe, quand jusqu'à 3 000 personnes traversent en même temps, puis regardez-le à nouveau depuis la vitre d'un café à l'étage.",
+      "Levez-vous tôt pour le Senso-ji à Asakusa, le plus vieux temple de Tokyo, et parcourez la rue bordée de lanternes avant l'arrivée de la foule et de l'encens.",
+      "Mangez où mangent les locaux : les ramen au comptoir ou les sushis debout au marché extérieur de Tsukiji coûtent une fraction de n'importe quel menu gastronomique.",
+      "Pour la vue, évitez les files du Skytree et montez au siège du gouvernement métropolitain de Tokyo, dont l'observatoire ne demande aucun billet.",
+      "Le soir, glissez-vous dans un bar de six places à Golden Gai ou Omoide Yokocho, où la fumée des yakitori emplit des ruelles à peine assez larges pour marcher.",
+      "Enregistrez ceci pour votre voyage à Tokyo."
+    ],
+    "hi": [
+      "टोक्यो में धरती के किसी भी शहर से ज्यादा मिशेलिन स्टार हैं, फिर भी इसका कुछ बेहतरीन खाना आज भी काउंटर पर चंद सिक्कों में मिलता है।",
+      "भीड़ के समय शिबुया क्रॉसिंग पार कीजिए, जब एक साथ 3,000 तक लोग सड़क पार करते हैं, फिर ऊपर के कैफे की खिड़की से इसे दोबारा देखिए।",
+      "असाकुसा के सेंसो-जी के लिए जल्दी उठिए, टोक्यो का सबसे पुराना मंदिर, और भीड़ और अगरबत्ती के धुएं से पहले लालटेन वाली गली में चलिए।",
+      "वहां खाइए जहां स्थानीय लोग खाते हैं: सुकिजी बाहरी बाजार का काउंटर रामेन या खड़े होकर खाई जाने वाली सुशी किसी भी फाइन-डाइनिंग मेन्यू से कहीं सस्ती है।",
+      "नजारे के लिए स्काईट्री की टिकट कतार छोड़िए और टोक्यो मेट्रोपॉलिटन गवर्नमेंट बिल्डिंग पर चढ़िए, जहां ऑब्जर्वेशन डेक के लिए टिकट नहीं लगता।",
+      "रात में गोल्डन गाई या ओमोइदे योकोचो के छह सीटों वाले बार में घुसिए, जहां याकितोरी का धुआं उन गलियों में भर जाता है जो चलने भर चौड़ी हैं।",
+      "अपनी टोक्यो यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
 }
