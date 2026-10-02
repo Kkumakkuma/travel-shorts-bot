@@ -1,0 +1,175 @@
+{
+  "author": "claude",
+  "animal_key": "paris_france",
+  "display": "Paris",
+  "single": "Paris",
+  "country": "France",
+  "category": "europe_city",
+  "landmark_lock": "Paris, France — Eiffel Tower, Louvre, Notre-Dame, Arc de Triomphe",
+  "angle": "best_things_to_do",
+  "format": "classic_trivia",
+  "hook_line": "One day in Paris, from the Seine to sunset in Montmartre.",
+  "hook": "ONE DAY, FIVE STOPS",
+  "intro": "One day in Paris, from the Seine to sunset in Montmartre.",
+  "facts": [
+    "Start on the Seine with a one hour cruise past the Louvre and Notre-Dame, along riverbanks that UNESCO made a World Heritage Site in 1991.",
+    "Ride up the Eiffel Tower to 276 meters; it was built for the 1889 World's Fair on a 20 year permit, and radio saved it from demolition.",
+    "Cross the river to the Arc de Triomphe, ordered by Napoleon in 1806, and climb 284 steps to watch twelve avenues fan out like a star.",
+    "Then step inside the 1875 Palais Garnier, with its Chagall ceiling; the water tank beneath it, called the underground lake, inspired The Phantom of the Opera.",
+    "End in the lanes of Montmartre, where Picasso painted Les Demoiselles d'Avignon in 1907, then watch the sunset over Paris from the steps of Sacré-Coeur."
+  ],
+  "outro": "Save this for your Paris trip.",
+  "title_en": "Paris in 60 Seconds: Eiffel Tower, the Phantom's Opera House, and Sunset in Montmartre",
+  "title_ko": "60초 파리: 에펠탑과 '오페라의 유령' 극장, 그리고 몽마르트 노을",
+  "description_en": "A Seine cruise past Notre-Dame, the Eiffel Tower's 276-meter top floor, the Arc de Triomphe rooftop, the Palais Garnier, and sunset in Montmartre. Here is Paris in one day. #shorts #travel #paris #france #wander",
+  "description_ko": "노트르담을 지나는 센강 유람선, 에펠탑 276m 전망대, 개선문 꼭대기, 오페라 가르니에, 그리고 몽마르트 언덕의 노을까지. 파리를 하루에 도는 순서대로 담았습니다. #여행 #파리 #프랑스 #파리여행",
+  "comment": "Paris: the view from the Eiffel Tower or sunset in Montmartre, which would you pick?",
+  "tags": [
+    "shorts",
+    "travel",
+    "paris",
+    "france",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "europe",
+    "paris travel"
+  ],
+  "pexels_keywords": [
+    "Paris Seine river cruise",
+    "Paris Eiffel Tower",
+    "Paris Arc de Triomphe",
+    "Paris Opera House Garnier",
+    "Paris Montmartre street",
+    "Paris Sacre Coeur",
+    "Paris Notre-Dame",
+    "Paris Louvre Museum",
+    "Paris aerial view",
+    "Paris street"
+  ],
+  "fact_keywords": [
+    "Paris Seine river cruise boat",
+    "Paris Eiffel Tower aerial view",
+    "Paris Arc de Triomphe",
+    "Paris Opera House Palais Garnier",
+    "Paris Montmartre street Sacre Coeur"
+  ],
+  "clips": [
+    [
+      29909619,
+      29017183
+    ],
+    [
+      19197246,
+      35640369
+    ],
+    [
+      37220077,
+      36161719
+    ],
+    [
+      29069846,
+      35640267
+    ],
+    [
+      37535051,
+      38605283
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 파리: 에펠탑과 '오페라의 유령' 극장, 그리고 몽마르트 노을",
+      "description": "노트르담을 지나는 센강 유람선, 에펠탑 276m 전망대, 개선문 꼭대기, 오페라 가르니에, 그리고 몽마르트 언덕의 노을까지. 파리를 하루에 도는 순서대로 담았습니다. #여행 #파리 #프랑스 #파리여행"
+    },
+    "ja": {
+      "title": "60秒でパリ：エッフェル塔と『オペラ座の怪人』の劇場、そしてモンマルトルの夕日",
+      "description": "ノートルダム大聖堂の前を通るセーヌ川クルーズ、地上276mのエッフェル塔最上階、凱旋門の屋上テラス、オペラ・ガルニエ、そしてモンマルトルの夕日まで。パリを1日で回る順番にまとめました。#旅行 #パリ #フランス #パリ旅行"
+    },
+    "es": {
+      "title": "París en 60 segundos: la Torre Eiffel, la ópera del Fantasma y el atardecer en Montmartre",
+      "description": "Un crucero por el Sena frente a Notre-Dame, el último piso de la Torre Eiffel a 276 metros, la terraza del Arco del Triunfo, el Palais Garnier y el atardecer en Montmartre. Así se ve París en un día. #viajes #paris #francia #europa"
+    },
+    "pt": {
+      "title": "Paris em 60 segundos: a Torre Eiffel, a ópera do Fantasma e o pôr do sol em Montmartre",
+      "description": "Um cruzeiro pelo Sena passando pela Notre-Dame, o último andar da Torre Eiffel a 276 metros, o terraço do Arco do Triunfo, o Palais Garnier e o pôr do sol em Montmartre. Veja como conhecer Paris em um dia. #viagem #paris #franca #europa"
+    },
+    "de": {
+      "title": "Paris in 60 Sekunden: Eiffelturm, die Oper des Phantoms und Sonnenuntergang am Montmartre",
+      "description": "Eine Bootsfahrt auf der Seine vorbei an Notre-Dame, die oberste Etage des Eiffelturms auf 276 Metern, die Dachterrasse des Arc de Triomphe, das Palais Garnier und der Sonnenuntergang am Montmartre. So siehst du Paris an einem Tag. #reisen #paris #frankreich #europa"
+    },
+    "fr": {
+      "title": "Paris en 60 secondes : la tour Eiffel, l'opéra du Fantôme et le coucher de soleil à Montmartre",
+      "description": "Une croisière sur la Seine devant Notre-Dame, le sommet de la tour Eiffel à 276 mètres, la terrasse de l'Arc de Triomphe, le palais Garnier et le coucher de soleil à Montmartre. Voici comment voir Paris en une journée. #voyage #paris #france #europe"
+    },
+    "hi": {
+      "title": "60 सेकंड में पेरिस: एफिल टावर, फैंटम का ओपेरा हाउस और मोंमार्त्र का सूर्यास्त",
+      "description": "नोट्रे-डेम के पास से गुजरती सेन नदी की क्रूज़, 276 मीटर पर एफिल टावर की सबसे ऊपरी मंजिल, आर्क डी ट्रायम्फ की छत, पैले गार्नियर और मोंमार्त्र में सूर्यास्त। एक दिन में पेरिस कैसे देखें, यहां है। #travel #paris #france #europe"
+    }
+  },
+  "captions": {
+    "ko": [
+      "센강에서 몽마르트 노을까지, 파리에서 보내는 하루입니다.",
+      "한 시간짜리 센강 유람선으로 시작하세요, 루브르와 노트르담을 지나는 이 강변은 1991년에 유네스코 세계유산이 됐습니다.",
+      "에펠탑 276m 높이까지 올라가 보세요, 1889년 만국박람회 때 20년 기한의 허가로 세워졌는데, 무선 통신 덕분에 철거를 면했습니다.",
+      "강을 건너 1806년 나폴레옹의 명령으로 짓기 시작한 개선문에 가서, 계단 284개를 오르면 열두 갈래 대로가 별 모양으로 뻗어 나가는 게 보입니다.",
+      "이어서 샤갈의 천장화가 있는 1875년 개관 오페라 가르니에에 들어가 보세요, '지하 호수'라 불리는 건물 밑 물탱크가 '오페라의 유령'에 영감을 줬습니다.",
+      "마무리는 피카소가 1907년에 '아비뇽의 처녀들'을 그린 몽마르트 골목에서 하고, 사크레쾨르 성당 계단에서 파리 위로 지는 노을을 보세요.",
+      "파리 여행을 위해 저장해 두세요."
+    ],
+    "ja": [
+      "セーヌ川からモンマルトルの夕日まで、パリで過ごす1日です。",
+      "まずはセーヌ川の1時間クルーズから。ルーヴルとノートルダムを通り過ぎるこの川岸は、1991年にユネスコ世界遺産になりました。",
+      "エッフェル塔の地上276mまで上りましょう。1889年の万国博覧会のために20年の許可で建てられ、無線通信のおかげで取り壊しを免れました。",
+      "川を渡って、1806年にナポレオンが建設を命じた凱旋門へ。284段の階段を上ると、12本の大通りが星形に広がるのが見えます。",
+      "続いて、シャガールの天井画がある1875年開場のオペラ・ガルニエへ。「地下の湖」と呼ばれる建物の下の貯水槽が『オペラ座の怪人』の着想源になりました。",
+      "締めくくりはモンマルトルの路地。1907年にピカソが『アヴィニョンの娘たち』を描いた場所です。そしてサクレ・クール寺院の階段から、パリに沈む夕日を眺めましょう。",
+      "パリ旅行のために保存しておいてください。"
+    ],
+    "es": [
+      "Un día en París, del Sena al atardecer en Montmartre.",
+      "Empieza en el Sena con un crucero de una hora junto al Louvre y Notre-Dame, por unas orillas que la UNESCO declaró Patrimonio de la Humanidad en 1991.",
+      "Sube a la Torre Eiffel hasta los 276 metros; se construyó para la Exposición Universal de 1889 con un permiso de 20 años, y la radio la salvó de la demolición.",
+      "Cruza el río hasta el Arco del Triunfo, encargado por Napoleón en 1806, y sube 284 escalones para ver doce avenidas abrirse como una estrella.",
+      "Después entra en el Palais Garnier de 1875, con su techo de Chagall; el depósito de agua bajo el edificio, llamado el lago subterráneo, inspiró El fantasma de la ópera.",
+      "Termina en las callejuelas de Montmartre, donde Picasso pintó Las señoritas de Aviñón en 1907, y mira el atardecer sobre París desde las escaleras del Sacré-Cœur.",
+      "Guarda esto para tu viaje a París."
+    ],
+    "pt": [
+      "Um dia em Paris, do Sena ao pôr do sol em Montmartre.",
+      "Comece no Sena com um cruzeiro de uma hora passando pelo Louvre e pela Notre-Dame, ao longo de margens que a UNESCO declarou Patrimônio Mundial em 1991.",
+      "Suba a Torre Eiffel até 276 metros; ela foi construída para a Exposição Universal de 1889 com uma licença de 20 anos, e o rádio a salvou da demolição.",
+      "Atravesse o rio até o Arco do Triunfo, encomendado por Napoleão em 1806, e suba 284 degraus para ver doze avenidas se abrindo como uma estrela.",
+      "Depois entre no Palais Garnier, de 1875, com seu teto de Chagall; o tanque de água sob o prédio, chamado de lago subterrâneo, inspirou O Fantasma da Ópera.",
+      "Termine nas ruelas de Montmartre, onde Picasso pintou As Senhoritas de Avignon em 1907, e veja o pôr do sol sobre Paris da escadaria do Sacré-Cœur.",
+      "Salve isto para a sua viagem a Paris."
+    ],
+    "de": [
+      "Ein Tag in Paris, von der Seine bis zum Sonnenuntergang am Montmartre.",
+      "Beginne auf der Seine mit einer einstündigen Bootsfahrt vorbei am Louvre und an Notre-Dame, entlang der Ufer, die die UNESCO 1991 zum Welterbe erklärt hat.",
+      "Fahr auf den Eiffelturm bis auf 276 Meter; er wurde für die Weltausstellung 1889 mit einer Genehmigung für 20 Jahre gebaut, und der Funk rettete ihn vor dem Abriss.",
+      "Überquere den Fluss zum Arc de Triomphe, den Napoleon 1806 in Auftrag gab, und steig die 284 Stufen hinauf, um zwölf Avenuen sternförmig auseinanderlaufen zu sehen.",
+      "Dann geh ins Palais Garnier von 1875 mit seiner Chagall-Decke; der Wassertank darunter, der unterirdische See genannt, inspirierte Das Phantom der Oper.",
+      "Beende den Tag in den Gassen von Montmartre, wo Picasso 1907 Les Demoiselles d'Avignon malte, und sieh dir von den Stufen von Sacré-Cœur den Sonnenuntergang über Paris an.",
+      "Speicher dir das für deine Paris-Reise."
+    ],
+    "fr": [
+      "Une journée à Paris, de la Seine au coucher de soleil à Montmartre.",
+      "Commencez sur la Seine par une croisière d'une heure devant le Louvre et Notre-Dame, le long de berges inscrites au patrimoine mondial de l'UNESCO en 1991.",
+      "Montez au sommet de la tour Eiffel, à 276 mètres ; construite pour l'Exposition universelle de 1889 avec un permis de 20 ans, elle a été sauvée de la démolition par la radio.",
+      "Traversez la Seine jusqu'à l'Arc de Triomphe, commandé par Napoléon en 1806, et gravissez ses 284 marches pour voir douze avenues partir en étoile.",
+      "Entrez ensuite dans le palais Garnier de 1875 et son plafond de Chagall ; la cuve d'eau sous le bâtiment, appelée le lac souterrain, a inspiré Le Fantôme de l'Opéra.",
+      "Finissez dans les ruelles de Montmartre, où Picasso a peint Les Demoiselles d'Avignon en 1907, puis admirez le coucher de soleil sur Paris depuis les marches du Sacré-Cœur.",
+      "Enregistrez ceci pour votre voyage à Paris."
+    ],
+    "hi": [
+      "पेरिस में एक दिन, सेन नदी से मोंमार्त्र के सूर्यास्त तक।",
+      "सेन नदी पर एक घंटे की क्रूज़ से शुरू कीजिए, जो लूव्र और नोट्रे-डेम के पास से गुजरती है, उन किनारों के साथ जिन्हें यूनेस्को ने 1991 में विश्व धरोहर घोषित किया।",
+      "एफिल टावर पर 276 मीटर तक चढ़िए; यह 1889 के विश्व मेले के लिए 20 साल के परमिट पर बना था, और रेडियो ने इसे गिराए जाने से बचा लिया।",
+      "नदी पार करके आर्क डी ट्रायम्फ जाइए, जिसे बनाने का आदेश नेपोलियन ने 1806 में दिया था, और 284 सीढ़ियां चढ़कर बारह एवेन्यू को तारे की तरह फैलते देखिए।",
+      "फिर 1875 के पैले गार्नियर के अंदर जाइए, जिसकी छत पर शागाल की पेंटिंग है; इसके नीचे का पानी का टैंक, जिसे भूमिगत झील कहते हैं, 'द फैंटम ऑफ द ओपेरा' की प्रेरणा बना।",
+      "अंत में मोंमार्त्र की गलियों में जाइए, जहां पिकासो ने 1907 में 'ले दमुआज़ेल दाविन्यों' बनाई थी, फिर साक्रे-कूर की सीढ़ियों से पेरिस पर सूर्यास्त देखिए।",
+      "अपनी पेरिस यात्रा के लिए इसे सेव कर लीजिए।"
+    ]
+  }
+}
