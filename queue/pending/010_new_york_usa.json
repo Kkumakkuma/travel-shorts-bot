@@ -1,0 +1,175 @@
+{
+  "author": "claude",
+  "animal_key": "new_york_usa",
+  "display": "New York",
+  "single": "New York",
+  "country": "United States",
+  "category": "north_america",
+  "landmark_lock": "New York City, USA — Times Square, Statue of Liberty, Central Park, Brooklyn Bridge, Manhattan skyline",
+  "angle": "iconic_landmarks",
+  "format": "classic_trivia",
+  "hook_line": "New York, icon by icon.",
+  "hook": "SHE WASN'T ALWAYS GREEN",
+  "intro": "New York, icon by icon.",
+  "facts": [
+    "Start on the free Staten Island Ferry, gliding past the Statue of Liberty, which was penny brown in 1886 and took 20 to 30 years to turn green.",
+    "Then head up the Empire State Building, built in just 410 days, to its open-air 86th floor, and spot the Chrysler Building, the world's tallest building in 1930.",
+    "Spend the afternoon in Central Park, whose 843 acres look natural but were all designed and built by people, lakes included, and draw 42 million visits a year.",
+    "At sunset, walk the Brooklyn Bridge, the world's longest suspension bridge when it opened in 1883, finished with help from Emily Roebling after her engineer husband fell ill.",
+    "End after dark in Times Square, named in 1904 for The New York Times and its new tower, where the New Year's Eve ball first dropped in 1907."
+  ],
+  "outro": "Save this route.",
+  "title_en": "New York in 60 Seconds: Lady Liberty Was Once Brown, and Central Park Is Human-Made",
+  "title_ko": "60초 뉴욕: 처음엔 갈색이던 자유의 여신상, 그리고 사람이 만든 센트럴파크",
+  "description_en": "The free Staten Island Ferry past the Statue of Liberty, the Empire State Building's open-air 86th floor, Central Park, the Brooklyn Bridge at sunset, and Times Square after dark. Here is New York in one day. #shorts #travel #newyork #usa #wander",
+  "description_ko": "무료 스태튼 아일랜드 페리에서 보는 자유의 여신상, 엠파이어스테이트 빌딩 86층 야외 전망대, 센트럴파크, 해 질 녘 브루클린 브리지, 그리고 밤의 타임스스퀘어까지. 뉴욕을 하루에 도는 순서대로 담았습니다. #여행 #뉴욕 #미국 #뉴욕여행",
+  "comment": "New York: Lady Liberty from the ferry or the Brooklyn Bridge at sunset, which would you pick first?",
+  "tags": [
+    "shorts",
+    "travel",
+    "new york",
+    "usa",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "north america",
+    "nyc"
+  ],
+  "pexels_keywords": [
+    "New York Statue of Liberty",
+    "New York Staten Island Ferry",
+    "New York Empire State Building",
+    "New York Chrysler Building",
+    "New York Central Park",
+    "New York Brooklyn Bridge",
+    "New York City Times Square",
+    "New York Manhattan skyline",
+    "New York City skyline night",
+    "New York City aerial"
+  ],
+  "fact_keywords": [
+    "New York Statue of Liberty",
+    "New York Empire State Building Chrysler skyline",
+    "New York Central Park aerial",
+    "New York Brooklyn Bridge sunset skyline",
+    "New York City Times Square night"
+  ],
+  "clips": [
+    [
+      27275146,
+      28962716
+    ],
+    [
+      7076539,
+      5825794
+    ],
+    [
+      5827630,
+      10450113
+    ],
+    [
+      19699365,
+      38103782
+    ],
+    [
+      19933501,
+      5908347
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 뉴욕: 처음엔 갈색이던 자유의 여신상, 그리고 사람이 만든 센트럴파크",
+      "description": "무료 스태튼 아일랜드 페리에서 보는 자유의 여신상, 엠파이어스테이트 빌딩 86층 야외 전망대, 센트럴파크, 해 질 녘 브루클린 브리지, 그리고 밤의 타임스스퀘어까지. 뉴욕을 하루에 도는 순서대로 담았습니다. #여행 #뉴욕 #미국 #뉴욕여행"
+    },
+    "ja": {
+      "title": "60秒でニューヨーク：かつて茶色だった自由の女神と、人の手で造られたセントラルパーク",
+      "description": "無料のスタテンアイランド・フェリーから眺める自由の女神、エンパイア・ステート・ビル86階の屋外展望台、セントラルパーク、夕暮れのブルックリン橋、そして夜のタイムズスクエアまで。ニューヨークを1日で回る順番にまとめました。#旅行 #ニューヨーク #アメリカ #ニューヨーク旅行"
+    },
+    "es": {
+      "title": "Nueva York en 60 segundos: la Estatua de la Libertad era marrón y Central Park es artificial",
+      "description": "El ferry gratuito de Staten Island frente a la Estatua de la Libertad, el mirador al aire libre del piso 86 del Empire State Building, Central Park, el puente de Brooklyn al atardecer y Times Square de noche. Así se ve Nueva York en un día. #viajes #nuevayork #nyc #eeuu"
+    },
+    "pt": {
+      "title": "Nova York em 60 segundos: a Estátua da Liberdade era marrom e o Central Park é artificial",
+      "description": "O ferry gratuito de Staten Island passando pela Estátua da Liberdade, o mirante ao ar livre do 86º andar do Empire State Building, o Central Park, a Ponte do Brooklyn ao pôr do sol e a Times Square à noite. Veja como conhecer Nova York em um dia. #viagem #novayork #nyc #eua"
+    },
+    "de": {
+      "title": "New York in 60 Sekunden: Die Freiheitsstatue war braun, der Central Park ist künstlich angelegt",
+      "description": "Die kostenlose Staten Island Ferry vorbei an der Freiheitsstatue, die Open-Air-Plattform im 86. Stock des Empire State Building, der Central Park, die Brooklyn Bridge bei Sonnenuntergang und der Times Square bei Nacht. So siehst du New York an einem Tag. #reisen #newyork #nyc #usa"
+    },
+    "fr": {
+      "title": "New York en 60 secondes : la statue de la Liberté était marron et Central Park est artificiel",
+      "description": "Le ferry gratuit de Staten Island devant la statue de la Liberté, la terrasse en plein air du 86e étage de l'Empire State Building, Central Park, le pont de Brooklyn au coucher du soleil et Times Square la nuit. Voici comment voir New York en une journée. #voyage #newyork #nyc #etatsunis"
+    },
+    "hi": {
+      "title": "60 सेकंड में न्यूयॉर्क: कभी भूरी थी स्टैच्यू ऑफ लिबर्टी, और इंसानों का बनाया सेंट्रल पार्क",
+      "description": "मुफ्त स्टेटन आइलैंड फेरी से दिखती स्टैच्यू ऑफ लिबर्टी, एम्पायर स्टेट बिल्डिंग की 86वीं मंजिल का खुला ऑब्ज़र्वेशन डेक, सेंट्रल पार्क, सूर्यास्त में ब्रुकलिन ब्रिज और रात का टाइम्स स्क्वायर। एक दिन में न्यूयॉर्क कैसे देखें, यहां है। #यात्रा #न्यूयॉर्क #अमेरिका #travel #newyork"
+    }
+  },
+  "captions": {
+    "ko": [
+      "뉴욕의 명소를 하나씩 따라가 봅니다.",
+      "무료인 스태튼 아일랜드 페리로 하루를 시작하세요, 자유의 여신상 곁을 지나는데, 1886년엔 동전 같은 갈색이던 여신상이 초록색이 되기까지 20~30년이 걸렸습니다.",
+      "이어서 단 410일 만에 지은 엠파이어스테이트 빌딩의 86층 야외 전망대에 올라, 1930년 세계에서 가장 높은 건물이었던 크라이슬러 빌딩을 찾아보세요.",
+      "오후는 센트럴파크에서 보내세요, 843에이커가 자연 그대로처럼 보이지만, 호수까지 전부 사람이 설계해 만든 것이고, 한 해 방문 횟수는 4,200만 번에 이릅니다.",
+      "해 질 녘엔 브루클린 브리지를 걸어서 건너 보세요, 1883년 개통 당시 세계에서 가장 긴 현수교였고, 엔지니어인 남편이 병을 얻은 뒤 아내 에밀리 로블링의 도움으로 완공됐습니다.",
+      "마무리는 밤의 타임스스퀘어에서 하세요, 1904년 뉴욕타임스와 새 사옥에서 이름을 따왔고, 1907년 새해 전야 볼 드롭이 처음 열린 곳입니다.",
+      "이 코스를 저장해 두세요."
+    ],
+    "ja": [
+      "ニューヨークの名所を、ひとつずつ巡りましょう。",
+      "まずは無料のスタテンアイランド・フェリーで自由の女神のそばを通りましょう。女神は1886年当時、銅貨のような茶色で、緑色になるまで20〜30年かかりました。",
+      "次は、わずか410日で建てられたエンパイア・ステート・ビルの86階屋外展望台へ。1930年に世界一高いビルだったクライスラー・ビルを探してみましょう。",
+      "午後はセントラルパークで過ごしましょう。843エーカーは自然に見えますが、湖も含めてすべて人の手で設計・造成されたもので、年間延べ4,200万人が訪れます。",
+      "夕暮れにはブルックリン橋を歩いて渡りましょう。1883年の開通時は世界最長の吊り橋で、技師だった夫が病に倒れた後、妻エミリー・ローブリングの助けで完成しました。",
+      "締めくくりは夜のタイムズスクエアへ。1904年にニューヨーク・タイムズとその新社屋にちなんで名付けられ、1907年に年越しのボールドロップが初めて行われた場所です。",
+      "このルートを保存しておいてください。"
+    ],
+    "es": [
+      "Nueva York, icono a icono.",
+      "Empieza en el ferry gratuito de Staten Island, pasando junto a la Estatua de la Libertad, que en 1886 era marrón como una moneda de cobre y tardó entre 20 y 30 años en volverse verde.",
+      "Luego sube al Empire State Building, construido en solo 410 días, hasta su mirador al aire libre del piso 86, y busca el edificio Chrysler, el más alto del mundo en 1930.",
+      "Pasa la tarde en Central Park: sus 843 acres parecen naturales, pero todo fue diseñado y construido por personas, lagos incluidos, y el parque recibe 42 millones de visitas al año.",
+      "Al atardecer, cruza a pie el puente de Brooklyn, el puente colgante más largo del mundo cuando se inauguró en 1883, terminado con ayuda de Emily Roebling después de que su esposo ingeniero enfermara.",
+      "Termina de noche en Times Square, que en 1904 tomó su nombre de The New York Times y su nueva torre, y donde la bola de Año Nuevo bajó por primera vez en 1907.",
+      "Guarda esta ruta."
+    ],
+    "pt": [
+      "Nova York, ícone por ícone.",
+      "Comece no ferry gratuito de Staten Island, passando pela Estátua da Liberdade, que em 1886 era marrom como uma moeda de cobre e levou de 20 a 30 anos para ficar verde.",
+      "Depois suba no Empire State Building, construído em apenas 410 dias, até o mirante ao ar livre do 86º andar, e procure o Chrysler Building, o prédio mais alto do mundo em 1930.",
+      "Passe a tarde no Central Park: seus 843 acres parecem naturais, mas tudo foi projetado e construído por pessoas, lagos incluídos, e o parque recebe 42 milhões de visitas por ano.",
+      "Ao pôr do sol, atravesse a pé a Ponte do Brooklyn, a ponte pênsil mais longa do mundo quando foi inaugurada em 1883, concluída com a ajuda de Emily Roebling depois que o marido engenheiro dela adoeceu.",
+      "Termine à noite na Times Square, que em 1904 ganhou o nome em homenagem ao jornal The New York Times e à sua nova torre, e onde a bola do Réveillon desceu pela primeira vez em 1907.",
+      "Salve este roteiro."
+    ],
+    "de": [
+      "New York, ein Wahrzeichen nach dem anderen.",
+      "Starte auf der kostenlosen Staten Island Ferry, vorbei an der Freiheitsstatue, die 1886 noch kupferbraun wie eine Münze war und 20 bis 30 Jahre brauchte, um grün zu werden.",
+      "Dann fahr hinauf in den 86. Stock des Empire State Building, das in nur 410 Tagen gebaut wurde, raus auf die Open-Air-Plattform, und entdecke das Chrysler Building, 1930 das höchste Gebäude der Welt.",
+      "Verbring den Nachmittag im Central Park: Seine 843 Acres wirken natürlich, wurden aber komplett von Menschen geplant und angelegt, Seen inklusive, und der Park zählt 42 Millionen Besuche im Jahr.",
+      "Geh bei Sonnenuntergang über die Brooklyn Bridge, bei ihrer Eröffnung 1883 die längste Hängebrücke der Welt, vollendet mithilfe von Emily Roebling, nachdem ihr Mann, der Ingenieur, erkrankt war.",
+      "Beende den Tag nach Einbruch der Dunkelheit am Times Square, 1904 nach der New York Times und ihrem neuen Turm benannt, wo 1907 zum ersten Mal die Silvesterkugel herabgelassen wurde.",
+      "Speicher dir diese Route."
+    ],
+    "fr": [
+      "New York, icône après icône.",
+      "Commencez par le ferry gratuit de Staten Island, qui passe devant la statue de la Liberté : brun cuivré comme une pièce de monnaie en 1886, elle a mis 20 à 30 ans à devenir verte.",
+      "Montez ensuite à l'Empire State Building, construit en seulement 410 jours, jusqu'à sa terrasse en plein air du 86e étage, et repérez le Chrysler Building, le plus haut bâtiment du monde en 1930.",
+      "Passez l'après-midi à Central Park : ses 843 acres semblent naturelles, mais tout a été conçu et construit par l'homme, lacs compris, et le parc reçoit 42 millions de visites par an.",
+      "Au coucher du soleil, traversez à pied le pont de Brooklyn, le plus long pont suspendu du monde à son ouverture en 1883, achevé avec l'aide d'Emily Roebling quand son mari ingénieur est tombé malade.",
+      "Finissez à la nuit tombée à Times Square, baptisé en 1904 en l'honneur du New York Times et de sa nouvelle tour, là où la boule du Nouvel An est descendue pour la première fois en 1907.",
+      "Enregistrez ce parcours."
+    ],
+    "hi": [
+      "न्यूयॉर्क की मशहूर जगहें, एक-एक करके।",
+      "मुफ्त स्टेटन आइलैंड फेरी से शुरुआत कीजिए, जो स्टैच्यू ऑफ लिबर्टी के पास से गुजरती है, वही मूर्ति जो 1886 में तांबे के सिक्के जैसी भूरी थी और जिसे हरी होने में 20 से 30 साल लगे।",
+      "फिर सिर्फ 410 दिनों में बनी एम्पायर स्टेट बिल्डिंग की 86वीं मंजिल के खुले डेक पर जाइए, और क्राइसलर बिल्डिंग को ढूंढिए, जो 1930 में दुनिया की सबसे ऊंची इमारत थी।",
+      "दोपहर सेंट्रल पार्क में बिताइए, जिसके 843 एकड़ कुदरती लगते हैं, पर झीलों समेत सब कुछ इंसानों ने डिज़ाइन करके बनाया है, और यहां हर साल 4.2 करोड़ विज़िट होती हैं।",
+      "सूर्यास्त के समय ब्रुकलिन ब्रिज पर पैदल चलिए, जो 1883 में खुलते वक्त दुनिया का सबसे लंबा सस्पेंशन ब्रिज था, और जो एमिली रोब्लिंग की मदद से पूरा हुआ, जब उनके इंजीनियर पति बीमार पड़ गए थे।",
+      "अंधेरा होने पर टाइम्स स्क्वायर में दिन खत्म कीजिए, जिसका नाम 1904 में द न्यूयॉर्क टाइम्स और उसके नए टावर के नाम पर पड़ा, और जहां न्यू ईयर ईव की बॉल पहली बार 1907 में नीचे उतरी।",
+      "इस रूट को सेव कर लीजिए।"
+    ]
+  }
+}

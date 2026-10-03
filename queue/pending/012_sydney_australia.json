@@ -1,0 +1,175 @@
+{
+  "author": "claude",
+  "animal_key": "sydney_australia",
+  "display": "Sydney",
+  "single": "Sydney",
+  "country": "Australia",
+  "category": "oceania",
+  "landmark_lock": "Sydney, Australia — Opera House, Harbour Bridge, Bondi Beach, harbor skyline",
+  "angle": "iconic_landmarks",
+  "format": "classic_trivia",
+  "hook_line": "Sydney, from sails to surf.",
+  "hook": "SAILS, STEEL AND SURF",
+  "intro": "Sydney, from sails to surf.",
+  "facts": [
+    "The Opera House sails wear over a million Swedish tiles; construction took 14 years, and Danish architect Jorn Utzon quit in 1966, never returning to see it finished.",
+    "Walk the Harbour Bridge, built with six million hand-driven rivets; at its 1932 opening, a horseman slashed the ribbon with his sword before the Premier could cut it.",
+    "Circular Quay lines Sydney Cove, where the First Fleet settled in 1788; from its wharves, take the 30-minute ferry to Manly, across the harbor and past the Heads.",
+    "Darling Harbour was wharves and rail yards until the 1980s; cross its 1902 Pyrmont Bridge, among the world's first electric swing bridges, which was ordered demolished, then saved.",
+    "End at Bondi Beach, where the Icebergs winter swimming club, started by lifesavers in 1929, still requires members to swim three Sundays out of four for five years."
+  ],
+  "outro": "Save this one.",
+  "title_en": "Sydney in 60 Seconds: Over a Million Tiles, a Sword-Cut Ribbon, and the Bondi Icebergs",
+  "title_ko": "60초 시드니: 타일 100만여 장의 오페라하우스와 칼에 잘린 하버브리지 개통 테이프",
+  "description_en": "The Opera House under more than a million Swedish tiles, the Harbour Bridge and its sword-cut opening ribbon, the ferry from Circular Quay to Manly, Pyrmont Bridge in Darling Harbour, and the Bondi Icebergs. Here is Sydney in one day. #shorts #travel #sydney #australia #wander",
+  "description_ko": "스웨덴산 타일 100만여 장으로 덮인 오페라하우스, 개통식 테이프가 칼에 잘린 하버브리지, 서큘러키에서 맨리로 가는 페리, 철거될 뻔했던 달링하버의 피어몬트 다리, 그리고 본다이 아이스버그 겨울 수영 클럽까지. 시드니를 하루에 보는 방법을 정리했습니다. #여행 #시드니 #호주 #시드니여행",
+  "comment": "Sydney: the ferry to Manly or a winter swim at Bondi, which would you try first?",
+  "tags": [
+    "shorts",
+    "travel",
+    "sydney",
+    "australia",
+    "things to do",
+    "city guide",
+    "wander",
+    "travel tips",
+    "oceania",
+    "sydney travel"
+  ],
+  "pexels_keywords": [
+    "Sydney Opera House",
+    "Sydney Harbour Bridge",
+    "Sydney Circular Quay ferry",
+    "Sydney Darling Harbour",
+    "Sydney Bondi Beach",
+    "Sydney Bondi Icebergs pool",
+    "Sydney Pyrmont Bridge",
+    "Sydney harbor skyline",
+    "Sydney harbor ferry",
+    "Sydney Australia aerial"
+  ],
+  "fact_keywords": [
+    "Sydney Opera House harbor",
+    "Sydney Harbour Bridge",
+    "Sydney Circular Quay ferry",
+    "Sydney Darling Harbour Pyrmont Bridge",
+    "Sydney Bondi Icebergs pool"
+  ],
+  "clips": [
+    [
+      37534300,
+      37203091
+    ],
+    [
+      34779266,
+      32236262
+    ],
+    [
+      36991214,
+      31973362
+    ],
+    [
+      37217371,
+      39521580
+    ],
+    [
+      31845108,
+      34738542
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "60초 시드니: 타일 100만여 장의 오페라하우스와 칼에 잘린 하버브리지 개통 테이프",
+      "description": "스웨덴산 타일 100만여 장으로 덮인 오페라하우스, 개통식 테이프가 칼에 잘린 하버브리지, 서큘러키에서 맨리로 가는 페리, 철거될 뻔했던 달링하버의 피어몬트 다리, 그리고 본다이 아이스버그 겨울 수영 클럽까지. 시드니를 하루에 보는 방법을 정리했습니다. #여행 #시드니 #호주 #시드니여행"
+    },
+    "ja": {
+      "title": "60秒でシドニー：100万枚超のタイル、剣で切られた開通テープ、そしてボンダイ・アイスバーグス",
+      "description": "100万枚を超えるスウェーデン製タイルに覆われたオペラハウス、開通式のテープが剣で切られたハーバーブリッジ、サーキュラー・キーからマンリーへのフェリー、取り壊しを免れたダーリング・ハーバーのピアモント橋、そしてボンダイ・アイスバーグスの冬季水泳クラブまで。シドニーを1日で楽しむ方法をまとめました。#旅行 #シドニー #オーストラリア #シドニー旅行"
+    },
+    "es": {
+      "title": "Sídney en 60 segundos: más de un millón de azulejos, un espadazo y los Bondi Icebergs",
+      "description": "La Ópera bajo más de un millón de azulejos suecos, el Harbour Bridge y su cinta inaugural cortada con una espada, el ferry de Circular Quay a Manly, el puente de Pyrmont en Darling Harbour y el club de natación invernal Bondi Icebergs. Así se ve Sídney en un día. #viajes #sydney #australia #oceania"
+    },
+    "pt": {
+      "title": "Sydney em 60 segundos: mais de um milhão de azulejos, um golpe de espada e os Bondi Icebergs",
+      "description": "A Ópera coberta por mais de um milhão de azulejos suecos, a Harbour Bridge e sua fita de inauguração cortada com uma espada, o ferry de Circular Quay até Manly, a Pyrmont Bridge em Darling Harbour e o clube de natação de inverno Bondi Icebergs. Veja como conhecer Sydney em um dia. #viagem #sydney #australia #oceania"
+    },
+    "de": {
+      "title": "Sydney in 60 Sekunden: über eine Million Fliesen, ein Säbelhieb und die Bondi Icebergs",
+      "description": "Das Opernhaus unter über einer Million schwedischer Fliesen, die Harbour Bridge und ihr mit dem Säbel durchtrenntes Eröffnungsband, die Fähre vom Circular Quay nach Manly, die Pyrmont Bridge in Darling Harbour und der Winterschwimmclub Bondi Icebergs. So siehst du Sydney an einem Tag. #reisen #sydney #australien #ozeanien"
+    },
+    "fr": {
+      "title": "Sydney en 60 secondes : plus d'un million de tuiles, un coup de sabre et les Bondi Icebergs",
+      "description": "L'Opéra sous plus d'un million de tuiles suédoises, le Harbour Bridge et son ruban inaugural tranché au sabre, le ferry de Circular Quay à Manly, le pont de Pyrmont à Darling Harbour et le club de nage hivernale Bondi Icebergs. Voici comment voir Sydney en une journée. #voyage #sydney #australie #oceanie"
+    },
+    "hi": {
+      "title": "60 सेकंड में सिडनी: 10 लाख से ज़्यादा टाइलें, तलवार से कटा फीता और बॉन्डी आइसबर्ग्स",
+      "description": "10 लाख से ज़्यादा स्वीडिश टाइलों से ढका ओपेरा हाउस, हार्बर ब्रिज और तलवार से कटा उसका उद्घाटन फीता, सर्कुलर क्वे से मैनली की फेरी, डार्लिंग हार्बर का पिरमोंट ब्रिज और बॉन्डी आइसबर्ग्स विंटर स्विमिंग क्लब। एक दिन में सिडनी कैसे देखें, यहां है। #यात्रा #सिडनी #ऑस्ट्रेलिया #travel #sydney"
+    }
+  },
+  "captions": {
+    "ko": [
+      "돛 모양 지붕부터 파도치는 해변까지, 시드니를 둘러봅니다.",
+      "오페라하우스의 돛 모양 지붕은 100만 장이 넘는 스웨덴산 타일로 덮여 있습니다, 공사는 14년이 걸렸고, 덴마크 건축가 예른 웃손은 1966년에 사임한 뒤 완공된 모습을 보러 끝내 돌아오지 않았습니다.",
+      "손으로 박은 리벳 600만 개로 지은 하버브리지를 걸어서 건너 보세요, 1932년 개통식 때는 주총리가 테이프를 자르기도 전에 말 탄 남자가 칼로 테이프를 베어 버렸습니다.",
+      "서큘러키는 1788년 영국 제1함대가 정착한 시드니 코브 물가에 있습니다, 이곳 부두에서 30분짜리 페리를 타고 항구를 가로질러 입구의 헤즈를 지나 맨리까지 가 보세요.",
+      "달링하버는 1980년대까지 부두와 철도 화물 기지였습니다, 1902년에 개통한 피어몬트 다리를 건너 보세요, 세계 최초의 전동 회전교 가운데 하나로, 철거 명령까지 받았다가 살아남았습니다.",
+      "마무리는 본다이 비치에서 하세요, 이곳의 겨울 수영 클럽 아이스버그는 1929년 인명구조대원들이 만들었는데, 지금도 회원들에게 5년 동안 일요일 네 번 중 세 번은 수영하라고 요구합니다.",
+      "이 영상은 저장해 두세요."
+    ],
+    "ja": [
+      "帆の形の屋根から波打つビーチまで、シドニーを巡ります。",
+      "オペラハウスの帆は100万枚を超えるスウェーデン製タイルに覆われています。建設には14年かかり、デンマーク人建築家ヨーン・ウツソンは1966年に辞任し、完成した姿を見に戻ることはありませんでした。",
+      "手作業で打たれた600万本のリベットで造られたハーバーブリッジを歩いて渡りましょう。1932年の開通式では、州首相がテープを切る前に、馬に乗った男が剣でテープを切り裂きました。",
+      "サーキュラー・キーは、1788年に第一船団が入植したシドニー・コーブに面しています。その埠頭から30分のフェリーに乗り、港を横切って湾口のヘッズを過ぎ、マンリーへ向かいましょう。",
+      "ダーリング・ハーバーは1980年代まで埠頭と鉄道ヤードでした。1902年開通のピアモント橋を渡りましょう。世界で最初期の電動旋回橋の一つで、一度は取り壊しを命じられながら、保存されました。",
+      "締めはボンダイビーチで。1929年にライフセーバーたちが始めた冬季水泳クラブ「アイスバーグス」は、今も会員に、5年間にわたり日曜日4回のうち3回泳ぐことを求めています。",
+      "この動画を保存しておいてください。"
+    ],
+    "es": [
+      "Sídney, de las velas a las olas.",
+      "Las velas de la Ópera están cubiertas por más de un millón de azulejos suecos; su construcción llevó 14 años, y el arquitecto danés Jørn Utzon dejó el proyecto en 1966 y nunca regresó para verla terminada.",
+      "Cruza a pie el Harbour Bridge, construido con seis millones de remaches colocados a mano; en su inauguración de 1932, un jinete cortó la cinta con su espada antes de que el primer ministro del estado pudiera hacerlo.",
+      "Circular Quay bordea Sydney Cove, donde se asentó la Primera Flota en 1788; desde sus muelles, toma el ferry de 30 minutos a Manly, cruzando la bahía y pasando frente a los Heads.",
+      "Darling Harbour era una zona de muelles y patios ferroviarios hasta los años 80; cruza su puente de Pyrmont de 1902, uno de los primeros puentes giratorios eléctricos del mundo, que se mandó demoler y luego se salvó.",
+      "Termina en la playa de Bondi, donde el club de natación invernal Icebergs, fundado por socorristas en 1929, todavía exige a sus socios nadar tres de cada cuatro domingos durante cinco años.",
+      "Guarda este video."
+    ],
+    "pt": [
+      "Sydney, das velas às ondas.",
+      "As velas da Ópera são cobertas por mais de um milhão de azulejos suecos; a construção levou 14 anos, e o arquiteto dinamarquês Jørn Utzon deixou o projeto em 1966 e nunca voltou para vê-la pronta.",
+      "Atravesse a pé a Harbour Bridge, construída com seis milhões de rebites cravados à mão; na inauguração, em 1932, um cavaleiro cortou a fita com sua espada antes que o premiê do estado pudesse cortá-la.",
+      "Circular Quay margeia Sydney Cove, onde a Primeira Frota se instalou em 1788; de seus cais, pegue o ferry de 30 minutos até Manly, atravessando a baía e passando pelos Heads.",
+      "Darling Harbour era uma área de cais e pátios ferroviários até os anos 1980; atravesse a Pyrmont Bridge, de 1902, uma das primeiras pontes giratórias elétricas do mundo, que teve a demolição ordenada e depois foi salva.",
+      "Termine na praia de Bondi, onde o clube de natação de inverno Icebergs, fundado por salva-vidas em 1929, ainda exige que os sócios nadem em três de cada quatro domingos durante cinco anos.",
+      "Salve este vídeo."
+    ],
+    "de": [
+      "Sydney, von den Segeln bis zur Brandung.",
+      "Die Segel des Opernhauses tragen über eine Million schwedischer Fliesen; der Bau dauerte 14 Jahre, und der dänische Architekt Jørn Utzon stieg 1966 aus und kam nie zurück, um es fertig zu sehen.",
+      "Geh über die Harbour Bridge, gebaut mit sechs Millionen von Hand eingeschlagenen Nieten; bei der Eröffnung 1932 durchtrennte ein Reiter das Band mit seinem Säbel, bevor der Premierminister des Bundesstaats es durchschneiden konnte.",
+      "Der Circular Quay säumt Sydney Cove, wo sich 1788 die Erste Flotte niederließ; nimm von seinen Anlegern die 30-minütige Fähre nach Manly, quer über den Hafen und an den Heads vorbei.",
+      "Darling Harbour bestand bis in die 1980er-Jahre aus Kais und Güterbahnhöfen; überquere die Pyrmont Bridge von 1902, eine der ersten elektrischen Drehbrücken der Welt, deren Abriss angeordnet war, bevor man sie rettete.",
+      "Beende den Tag am Bondi Beach, wo der Winterschwimmclub Icebergs, 1929 von Rettungsschwimmern gegründet, von seinen Mitgliedern noch heute verlangt, fünf Jahre lang an drei von vier Sonntagen zu schwimmen.",
+      "Speicher dir dieses Video."
+    ],
+    "fr": [
+      "Sydney, des voiles aux vagues.",
+      "Les voiles de l'Opéra sont couvertes de plus d'un million de tuiles suédoises ; le chantier a duré 14 ans, et l'architecte danois Jørn Utzon a démissionné en 1966 sans jamais revenir la voir achevée.",
+      "Traversez à pied le Harbour Bridge, construit avec six millions de rivets posés à la main ; à son inauguration en 1932, un cavalier a tranché le ruban d'un coup de sabre avant que le Premier ministre de l'État ne puisse le couper.",
+      "Circular Quay borde Sydney Cove, où la Première Flotte s'est installée en 1788 ; depuis ses quais, prenez le ferry de 30 minutes pour Manly, à travers la baie et devant les Heads.",
+      "Darling Harbour n'était que quais et dépôts ferroviaires jusqu'aux années 1980 ; traversez son pont de Pyrmont de 1902, l'un des premiers ponts tournants électriques au monde, condamné à la démolition puis sauvé.",
+      "Finissez à Bondi Beach, où le club de nage hivernale des Icebergs, fondé par des sauveteurs en 1929, exige encore de ses membres qu'ils nagent trois dimanches sur quatre pendant cinq ans.",
+      "Enregistrez cette vidéo."
+    ],
+    "hi": [
+      "सिडनी, पाल जैसी छतों से लेकर लहरों वाले बीच तक।",
+      "ओपेरा हाउस की पाल जैसी छतों पर 10 लाख से ज़्यादा स्वीडिश टाइलें लगी हैं, इसे बनने में 14 साल लगे, और डेनमार्क के आर्किटेक्ट जॉर्न उत्ज़ोन ने 1966 में इस्तीफ़ा दे दिया और इसे पूरा हुआ देखने कभी नहीं लौटे।",
+      "हार्बर ब्रिज पर पैदल चलिए, जिसे हाथ से ठोकी गई 60 लाख रिवेटों से बनाया गया, 1932 में उद्घाटन के वक्त, राज्य के प्रीमियर के फीता काटने से पहले ही एक घुड़सवार ने अपनी तलवार से फीता काट दिया।",
+      "सर्कुलर क्वे सिडनी कोव के किनारे है, जहां 1788 में फर्स्ट फ्लीट आकर बसा, यहां के घाटों से मैनली के लिए 30 मिनट की फेरी लीजिए, जो बंदरगाह पार करके हेड्स के पास से गुज़रती है।",
+      "डार्लिंग हार्बर 1980 के दशक तक घाटों और रेल यार्डों से भरा था, यहां 1902 का पिरमोंट ब्रिज पार कीजिए, जो दुनिया के पहले बिजली-चालित स्विंग ब्रिजों में से एक है, इसे गिराने का आदेश हुआ था, फिर इसे बचा लिया गया।",
+      "अंत में बॉन्डी बीच जाइए, जहां के विंटर स्विमिंग क्लब आइसबर्ग्स को 1929 में लाइफगार्डों ने शुरू किया था, और यह आज भी सदस्यों से पांच साल तक हर चार में से तीन रविवार तैरने की शर्त रखता है।",
+      "इस वीडियो को सेव कर लीजिए।"
+    ]
+  }
+}
