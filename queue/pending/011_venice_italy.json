@@ -13,7 +13,7 @@
   "intro": "Leave Saint Mark's Square behind.",
   "facts": [
     "Slip into Cannaregio to the Ghetto, ringed by quiet canals; Venice made its Jews live here from 1516, and the word ghetto was first used for this place.",
-    "At sunrise, ride the Grand Canal, a backward S over two miles long with just four bridges, lined by palaces whose bright striped poles mark their water doors.",
+    "At sunrise, ride the Grand Canal, a backward S over two miles long with just four bridges, lined by palaces whose brightly painted poles mark their water doors.",
     "Gondolas are rowed with one oar and built lopsided, wider on the left; old anti-luxury laws made them black, and back in the 1500s Venice had about 10,000.",
     "Venice bans cars, so you get around on foot or by boat, and 400 or so bridges, many still the old arched stone kind, tie 118 islands together.",
     "Cross the Rialto Bridge at dawn; 6,000 timber piles support each end, and from the late 1500s to the 1850s it was the Grand Canal's only fixed crossing."
@@ -58,14 +58,14 @@
   "clips": [
     [
       18493879,
-      15887367
+      18493870
     ],
     [
       36398876,
-      20409196
+      18258799
     ],
     [
-      38837920,
+      39631641,
       38837911
     ],
     [
@@ -73,8 +73,8 @@
       19844636
     ],
     [
-      19844641,
-      19844640
+      19844640,
+      19844641
     ]
   ],
   "localizations": {
@@ -84,14 +84,14 @@
     },
     "ja": {
       "title": "60秒でヴェネツィア：左右非対称のゴンドラ、約400の橋、そして「ゲットー」という言葉が生まれた場所",
-      "description": "カンナレージョのゲットーを囲む静かな運河、朝日の大運河、昔の贅沢禁止令で黒くなった左右非対称のゴンドラ、約400の橋でつながる車のない街、そして夜明けのリアルト橋まで。観光客で混み合う前のヴェネツィアを歩いてみましょう。#旅行 #ヴェネツィア #ベネチア #イタリア #イタリア旅行"
+      "description": "カンナレージョのゲットーを囲む静かな運河、朝日に染まる大運河、昔の贅沢禁止令で黒くなった左右非対称のゴンドラ、約400の橋でつながる車のない街、そして夜明けのリアルト橋まで。観光客で混み合う前のヴェネツィアを歩いてみましょう。#旅行 #ヴェネツィア #ベネチア #イタリア #イタリア旅行"
     },
     "es": {
       "title": "Venecia en 60 segundos: góndolas asimétricas, unos 400 puentes y donde nació la palabra gueto",
       "description": "Canales tranquilos alrededor del gueto de Cannaregio, el Gran Canal al amanecer, góndolas asimétricas que antiguas leyes contra el lujo volvieron negras, una ciudad sin coches con unos 400 puentes y el puente de Rialto al alba. Así es Venecia antes de las multitudes. #viajes #venecia #italia #europa"
     },
     "pt": {
-      "title": "Veneza em 60 segundos: gôndolas assimétricas, cerca de 400 pontes e onde nasceu a palavra gueto",
+      "title": "Veneza em 60 segundos: gôndolas assimétricas, umas 400 pontes e onde nasceu a palavra gueto",
       "description": "Canais tranquilos em volta do gueto de Cannaregio, o Grande Canal ao nascer do sol, gôndolas assimétricas que antigas leis contra o luxo deixaram pretas, uma cidade sem carros com cerca de 400 pontes e a Ponte de Rialto ao amanhecer. Esta é Veneza antes das multidões. #viagem #veneza #italia #europa"
     },
     "de": {
@@ -110,26 +110,26 @@
   "captions": {
     "ko": [
       "산마르코 광장을 벗어나 보세요.",
-      "칸나레조로 들어가 조용한 운하에 둘러싸인 게토를 찾아가 보세요, 1516년부터 베네치아는 유대인들을 이곳에 강제로 살게 했고, '게토'라는 말이 처음 쓰인 곳도 바로 여기입니다.",
-      "해 뜰 무렵엔 배를 타고 대운하를 따라가 보세요, 2마일이 넘는 거꾸로 된 S자 물길에 다리는 단 4개뿐이고, 물 쪽 출입문을 알록달록한 줄무늬 말뚝으로 표시한 저택들이 양옆에 늘어서 있습니다.",
-      "곤돌라는 노 하나로 젓고, 배가 비대칭으로 만들어져 왼쪽이 더 넓습니다, 검은색이 된 건 옛 사치 금지령 때문이고, 1500년대 베네치아에는 곤돌라가 1만 척쯤 있었습니다.",
-      "베네치아는 자동차가 금지라 걷거나 배를 타고 다니고, 다리 400여 개가 섬 118개를 이어 주는데, 그중 상당수는 지금도 옛날식 아치형 돌다리입니다.",
+      "칸나레조 지구로 들어가 조용한 운하에 둘러싸인 게토를 찾아가 보세요, 1516년부터 베네치아는 유대인들을 이곳에 강제로 살게 했고, '게토'라는 말이 처음 쓰인 곳도 바로 여기입니다.",
+      "해 뜰 무렵엔 배를 타고 대운하를 따라가 보세요, 2마일이 넘는 거꾸로 된 S자 물길에 다리는 단 4개뿐이고, 운하 쪽 출입문을 알록달록하게 칠한 말뚝으로 표시한 저택들이 양옆에 늘어서 있습니다.",
+      "곤돌라는 노 하나로 젓는데, 좌우 비대칭으로 만들어져 왼쪽이 더 넓습니다. 검은색이 된 건 옛 사치 금지령 때문이고, 1500년대 베네치아에는 곤돌라가 1만 척쯤 있었습니다.",
+      "베네치아는 자동차 통행이 금지라 걷거나 배를 타고 다녀야 하고, 다리 400여 개가 섬 118개를 이어 주는데, 그중 상당수는 지금도 옛날식 아치형 돌다리입니다.",
       "새벽엔 리알토 다리를 건너 보세요, 양쪽 끝을 각각 나무 말뚝 6,000개가 떠받치고 있고, 1500년대 후반부터 1850년대까지 대운하를 건너는 고정된 다리는 이것 하나뿐이었습니다.",
       "이 영상은 저장해 두세요."
     ],
     "ja": [
-      "サン・マルコ広場を離れてみましょう。",
-      "カンナレージョに入り、静かな運河に囲まれたゲットーへ。ヴェネツィアは1516年からユダヤ人をここに強制的に住まわせ、「ゲットー」という言葉もこの場所を指して初めて使われました。",
-      "朝日の中、船で大運河を進みましょう。全長2マイルを超える逆S字の水路で、橋はわずか4本。両岸の邸宅は、水に面した玄関を鮮やかな縞模様の杭で示しています。",
+      "サン・マルコ広場をあとにしましょう。",
+      "カンナレージョ地区に入り、静かな運河に囲まれたゲットーへ。ヴェネツィアは1516年からユダヤ人をここに強制的に住まわせ、「ゲットー」という言葉もこの場所を指して初めて使われました。",
+      "朝日の中、船で大運河を進みましょう。全長2マイルを超える逆S字の水路に橋はわずか4本。両岸に並ぶ邸宅は、運河側の玄関を色鮮やかに塗った杭で目印にしています。",
       "ゴンドラは1本のオールで漕ぎ、左側が広い左右非対称の造りです。黒いのは昔の贅沢禁止令のためで、1500年代のヴェネツィアには約1万艘ありました。",
-      "ヴェネツィアは車が禁止なので、移動は徒歩か船です。約400の橋が118の島を結び、その多くは今も昔ながらのアーチ型の石橋です。",
+      "ヴェネツィアは車の乗り入れが禁止なので、移動は徒歩か船です。約400の橋が118の島を結び、その多くは今も昔ながらのアーチ型の石橋です。",
       "夜明けにリアルト橋を渡りましょう。両端はそれぞれ6000本の木の杭に支えられ、1500年代後半から1850年代まで、大運河に架かる唯一の固定された橋でした。",
       "この動画を保存しておいてください。"
     ],
     "es": [
       "Deja atrás la plaza de San Marcos.",
       "Adéntrate en Cannaregio hasta el Gueto, rodeado de canales tranquilos; Venecia obligó a sus judíos a vivir aquí desde 1516, y la palabra gueto se usó por primera vez para este lugar.",
-      "Al amanecer, recorre en barco el Gran Canal, una S invertida de más de dos millas con solo cuatro puentes, bordeada de palacios cuyos postes de rayas de colores marcan sus entradas desde el agua.",
+      "Al amanecer, recorre en barco el Gran Canal, una S invertida de más de dos millas con solo cuatro puentes, bordeado de palacios cuyos postes pintados de colores vivos marcan sus entradas desde el agua.",
       "Las góndolas se impulsan con un solo remo y se construyen asimétricas, más anchas del lado izquierdo; antiguas leyes contra el lujo las volvieron negras, y en el siglo XVI Venecia tenía unas 10.000.",
       "Venecia prohíbe los coches, así que te mueves a pie o en barco, y unos 400 puentes, muchos todavía de piedra y en arco como antaño, unen 118 islas.",
       "Cruza el puente de Rialto al alba; 6000 pilotes de madera sostienen cada extremo, y desde finales del siglo XVI hasta la década de 1850 fue el único paso fijo sobre el Gran Canal.",
@@ -138,7 +138,7 @@
     "pt": [
       "Deixe a Praça de São Marcos para trás.",
       "Entre em Cannaregio e vá até o Gueto, cercado de canais tranquilos; Veneza obrigou seus judeus a viver aqui a partir de 1516, e a palavra gueto foi usada pela primeira vez para este lugar.",
-      "Ao nascer do sol, percorra de barco o Grande Canal, um S invertido de mais de duas milhas com só quatro pontes, ladeado de palácios cujos postes listrados e coloridos marcam suas entradas pela água.",
+      "Ao nascer do sol, percorra de barco o Grande Canal, um S invertido de mais de duas milhas com só quatro pontes, ladeado de palácios cujos postes pintados de cores vivas marcam suas entradas pela água.",
       "As gôndolas são movidas por um só remo e construídas assimétricas, mais largas do lado esquerdo; antigas leis contra o luxo as deixaram pretas, e no século XVI Veneza tinha cerca de 10 mil.",
       "Veneza proíbe carros, então você anda a pé ou de barco, e cerca de 400 pontes, muitas ainda de pedra e em arco como antigamente, ligam 118 ilhas.",
       "Atravesse a Ponte de Rialto ao amanhecer; 6.000 estacas de madeira sustentam cada ponta, e do fim do século XVI até a década de 1850 ela foi a única travessia fixa do Grande Canal.",
@@ -146,8 +146,8 @@
     ],
     "de": [
       "Lass den Markusplatz hinter dir.",
-      "Schlüpf nach Cannaregio ins Ghetto, das von stillen Kanälen umgeben ist; Venedig zwang seine Juden ab 1516, hier zu leben, und das Wort Ghetto wurde zuerst für diesen Ort benutzt.",
-      "Fahr bei Sonnenaufgang über den Canal Grande, ein umgekehrtes S, über zwei Meilen lang mit nur vier Brücken, gesäumt von Palästen, deren bunt gestreifte Pfähle ihre Wassereingänge markieren.",
+      "Schlüpf nach Cannaregio ins Ghetto, umgeben von stillen Kanälen; ab 1516 mussten die Juden Venedigs hier leben, und das Wort Ghetto wurde zuerst für diesen Ort verwendet.",
+      "Fahr bei Sonnenaufgang über den Canal Grande, ein umgekehrtes S, über zwei Meilen lang mit nur vier Brücken, gesäumt von Palästen, deren bunt bemalte Pfähle ihre Wassereingänge markieren.",
       "Gondeln werden mit nur einem Ruder bewegt und asymmetrisch gebaut, links breiter; alte Luxusgesetze machten sie schwarz, und im 16. Jahrhundert hatte Venedig rund 10.000 davon.",
       "Venedig verbietet Autos, also bist du zu Fuß oder mit dem Boot unterwegs, und rund 400 Brücken, viele noch alte Steinbogenbrücken, verbinden 118 Inseln.",
       "Überquere im Morgengrauen die Rialtobrücke, deren Enden auf je 6000 Holzpfählen stehen; vom späten 16. Jahrhundert bis in die 1850er-Jahre war sie die einzige feste Querung des Canal Grande.",
@@ -155,9 +155,9 @@
     ],
     "fr": [
       "Laissez la place Saint-Marc derrière vous.",
-      "Glissez-vous dans Cannaregio jusqu'au Ghetto, entouré de canaux paisibles ; Venise y a obligé ses Juifs à vivre dès 1516, et le mot ghetto a d'abord désigné ce lieu.",
-      "Au lever du soleil, parcourez en bateau le Grand Canal, un S inversé de plus de deux miles avec seulement quatre ponts, bordé de palais dont les poteaux rayés aux couleurs vives signalent les portes donnant sur l'eau.",
-      "Les gondoles se manœuvrent avec une seule rame et sont asymétriques, plus larges à gauche ; d'anciennes lois somptuaires les ont rendues noires, et au XVIe siècle Venise en comptait environ 10 000.",
+      "Glissez-vous dans Cannaregio jusqu'au Ghetto, entouré de canaux paisibles ; Venise a obligé ses Juifs à y vivre dès 1516, et le mot ghetto a d'abord désigné ce lieu.",
+      "Au lever du soleil, parcourez en bateau le Grand Canal, un S inversé de plus de deux miles avec seulement quatre ponts, bordé de palais dont les poteaux peints de couleurs vives signalent les portes donnant sur l'eau.",
+      "Les gondoles se manœuvrent avec une seule rame et sont construites asymétriques, plus larges à gauche ; d'anciennes lois somptuaires les ont rendues noires, et au XVIe siècle Venise en comptait environ 10 000.",
       "Venise interdit les voitures, alors on se déplace à pied ou en bateau, et quelque 400 ponts, dont beaucoup en pierre et en arc comme autrefois, relient 118 îles.",
       "Traversez le pont du Rialto à l'aube : 6000 pieux en bois soutiennent chaque extrémité, et de la fin du XVIe siècle aux années 1850, ce fut le seul passage fixe sur le Grand Canal.",
       "Enregistrez cette vidéo."
@@ -165,7 +165,7 @@
     "hi": [
       "सेंट मार्क स्क्वायर को पीछे छोड़िए।",
       "कन्नारेजो में घेटो तक जाइए, जो शांत नहरों से घिरा है, वेनिस ने 1516 से अपने यहूदियों को यहीं रहने पर मजबूर किया, और 'घेटो' शब्द पहली बार इसी जगह के लिए इस्तेमाल हुआ।",
-      "सूर्योदय के समय नाव से ग्रैंड कैनाल घूमिए, दो मील से लंबी उल्टे S जैसी नहर, जिस पर सिर्फ चार पुल हैं, और किनारे के महलों के पानी वाले दरवाज़ों को रंगीन धारीदार खंभे पहचान देते हैं।",
+      "सूर्योदय के समय नाव से ग्रैंड कैनाल घूमिए, दो मील से लंबी उल्टे S जैसी इस नहर पर सिर्फ चार पुल हैं, और किनारे के महलों के पानी वाले दरवाज़ों को चटख रंगों में रंगे खंभे चिह्नित करते हैं।",
       "गोंडोला एक ही चप्पू से खेई जाती है और असमान बनाई जाती है, बाईं ओर ज़्यादा चौड़ी, पुराने विलासिता-विरोधी कानूनों ने इन्हें काला कर दिया, और 16वीं सदी में वेनिस में करीब 10,000 गोंडोला थीं।",
       "वेनिस में कारों पर पाबंदी है, इसलिए आप पैदल या नाव से घूमते हैं, और करीब 400 पुल, जिनमें से कई आज भी पुराने मेहराबदार पत्थर के हैं, 118 द्वीपों को जोड़ते हैं।",
       "भोर में रियाल्टो ब्रिज पार कीजिए, इसके हर सिरे को लकड़ी के 6,000 खूंटे संभालते हैं, और 16वीं सदी के आखिर से 1850 के दशक तक यह ग्रैंड कैनाल का अकेला स्थायी पुल था।",

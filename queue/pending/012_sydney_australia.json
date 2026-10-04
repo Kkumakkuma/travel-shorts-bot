@@ -12,11 +12,11 @@
   "hook": "SAILS, STEEL AND SURF",
   "intro": "Sydney, from sails to surf.",
   "facts": [
-    "The Opera House sails wear over a million Swedish tiles; construction took 14 years, and Danish architect Jorn Utzon quit in 1966, never returning to see it finished.",
-    "Walk the Harbour Bridge, built with six million hand-driven rivets; at its 1932 opening, a horseman slashed the ribbon with his sword before the Premier could cut it.",
-    "Circular Quay lines Sydney Cove, where the First Fleet settled in 1788; from its wharves, take the 30-minute ferry to Manly, across the harbor and past the Heads.",
-    "Darling Harbour was wharves and rail yards until the 1980s; cross its 1902 Pyrmont Bridge, among the world's first electric swing bridges, which was ordered demolished, then saved.",
-    "End at Bondi Beach, where the Icebergs winter swimming club, started by lifesavers in 1929, still requires members to swim three Sundays out of four for five years."
+    "Over a million Swedish tiles cover the Opera House sails, and its Danish architect, Jorn Utzon, quit in 1966 and never once came back to see it finished.",
+    "The Harbour Bridge has six million hand-driven rivets, and at its 1932 opening a man on a horse slashed the ribbon with a sword before the Premier could.",
+    "From Circular Quay, on the cove where the First Fleet settled in 1788, ride the ferry to Manly, 30 minutes across the harbor with the Heads in view.",
+    "In Darling Harbour, walk Pyrmont Bridge, which opened in 1902 as one of the first electric swing bridges and was saved after the government ordered it torn down.",
+    "End at Bondi Beach, where the Icebergs club has swum in winter since 1929, and members must race three Sundays out of four for five years to stay."
   ],
   "outro": "Save this one.",
   "title_en": "Sydney in 60 Seconds: Over a Million Tiles, a Sword-Cut Ribbon, and the Bondi Icebergs",
@@ -52,7 +52,7 @@
     "Sydney Opera House harbor",
     "Sydney Harbour Bridge",
     "Sydney Circular Quay ferry",
-    "Sydney Darling Harbour Pyrmont Bridge",
+    "Sydney Darling Harbour",
     "Sydney Bondi Icebergs pool"
   ],
   "clips": [
@@ -66,7 +66,7 @@
     ],
     [
       36991214,
-      31973362
+      35572660
     ],
     [
       37217371,
@@ -84,7 +84,7 @@
     },
     "ja": {
       "title": "60秒でシドニー：100万枚超のタイル、剣で切られた開通テープ、そしてボンダイ・アイスバーグス",
-      "description": "100万枚を超えるスウェーデン製タイルに覆われたオペラハウス、開通式のテープが剣で切られたハーバーブリッジ、サーキュラー・キーからマンリーへのフェリー、取り壊しを免れたダーリング・ハーバーのピアモント橋、そしてボンダイ・アイスバーグスの冬季水泳クラブまで。シドニーを1日で楽しむ方法をまとめました。#旅行 #シドニー #オーストラリア #シドニー旅行"
+      "description": "100万枚を超えるスウェーデン製タイルに覆われたオペラハウス、開通式のテープが剣で切られたハーバーブリッジ、サーキュラー・キーからマンリーへのフェリー、取り壊しを免れたダーリング・ハーバーのピアモント橋、そして冬季水泳クラブ「ボンダイ・アイスバーグス」まで。シドニーを1日で楽しむ方法をまとめました。#旅行 #シドニー #オーストラリア #シドニー旅行"
     },
     "es": {
       "title": "Sídney en 60 segundos: más de un millón de azulejos, un espadazo y los Bondi Icebergs",
@@ -110,65 +110,65 @@
   "captions": {
     "ko": [
       "돛 모양 지붕부터 파도치는 해변까지, 시드니를 둘러봅니다.",
-      "오페라하우스의 돛 모양 지붕은 100만 장이 넘는 스웨덴산 타일로 덮여 있습니다, 공사는 14년이 걸렸고, 덴마크 건축가 예른 웃손은 1966년에 사임한 뒤 완공된 모습을 보러 끝내 돌아오지 않았습니다.",
-      "손으로 박은 리벳 600만 개로 지은 하버브리지를 걸어서 건너 보세요, 1932년 개통식 때는 주총리가 테이프를 자르기도 전에 말 탄 남자가 칼로 테이프를 베어 버렸습니다.",
-      "서큘러키는 1788년 영국 제1함대가 정착한 시드니 코브 물가에 있습니다, 이곳 부두에서 30분짜리 페리를 타고 항구를 가로질러 입구의 헤즈를 지나 맨리까지 가 보세요.",
-      "달링하버는 1980년대까지 부두와 철도 화물 기지였습니다, 1902년에 개통한 피어몬트 다리를 건너 보세요, 세계 최초의 전동 회전교 가운데 하나로, 철거 명령까지 받았다가 살아남았습니다.",
-      "마무리는 본다이 비치에서 하세요, 이곳의 겨울 수영 클럽 아이스버그는 1929년 인명구조대원들이 만들었는데, 지금도 회원들에게 5년 동안 일요일 네 번 중 세 번은 수영하라고 요구합니다.",
+      "오페라하우스의 돛 모양 지붕은 100만 장이 넘는 스웨덴산 타일로 덮여 있고, 이 건물을 설계한 덴마크 건축가 예른 웃손은 1966년에 사임한 뒤 완공된 모습을 보러 한 번도 돌아오지 않았습니다.",
+      "하버브리지에는 손으로 박은 리벳이 600만 개 들어가 있고, 1932년 개통식에서는 주총리가 테이프를 자르기도 전에 말 탄 남자가 칼로 테이프를 베어 버렸습니다.",
+      "1788년 영국 제1함대가 정착한 시드니 코브의 서큘러키에서 맨리행 페리를 타 보세요, 30분 동안 항구를 가로지르는 뱃길에서 어귀의 헤즈 곶이 보입니다.",
+      "달링하버에서는 피어몬트 다리를 걸어 보세요, 1902년에 최초의 전동 회전교 가운데 하나로 개통했고, 정부의 철거 명령까지 받았다가 살아남았습니다.",
+      "마무리는 본다이 비치에서 하세요, 이곳 아이스버그 클럽은 1929년부터 겨울 수영을 이어 왔고, 회원으로 남으려면 5년 동안 일요일 네 번 중 세 번은 경기에 나가야 합니다.",
       "이 영상은 저장해 두세요."
     ],
     "ja": [
       "帆の形の屋根から波打つビーチまで、シドニーを巡ります。",
-      "オペラハウスの帆は100万枚を超えるスウェーデン製タイルに覆われています。建設には14年かかり、デンマーク人建築家ヨーン・ウツソンは1966年に辞任し、完成した姿を見に戻ることはありませんでした。",
-      "手作業で打たれた600万本のリベットで造られたハーバーブリッジを歩いて渡りましょう。1932年の開通式では、州首相がテープを切る前に、馬に乗った男が剣でテープを切り裂きました。",
-      "サーキュラー・キーは、1788年に第一船団が入植したシドニー・コーブに面しています。その埠頭から30分のフェリーに乗り、港を横切って湾口のヘッズを過ぎ、マンリーへ向かいましょう。",
-      "ダーリング・ハーバーは1980年代まで埠頭と鉄道ヤードでした。1902年開通のピアモント橋を渡りましょう。世界で最初期の電動旋回橋の一つで、一度は取り壊しを命じられながら、保存されました。",
-      "締めはボンダイビーチで。1929年にライフセーバーたちが始めた冬季水泳クラブ「アイスバーグス」は、今も会員に、5年間にわたり日曜日4回のうち3回泳ぐことを求めています。",
+      "オペラハウスの帆は100万枚を超えるスウェーデン製タイルに覆われています。設計したデンマーク人建築家ヨーン・ウツソンは1966年に辞任し、完成した姿を見に戻ることは一度もありませんでした。",
+      "ハーバーブリッジには手作業で打ち込まれたリベットが600万本使われています。1932年の開通式では、州首相がテープを切る前に、馬に乗った男が剣でテープを切り裂きました。",
+      "1788年に第一船団が入植したシドニー・コーブのサーキュラー・キーから、マンリー行きのフェリーに乗りましょう。湾口のヘッズを望みながら、30分で湾を渡ります。",
+      "ダーリング・ハーバーではピアモント橋を歩いて渡りましょう。1902年に最初期の電動旋回橋の一つとして開通し、政府に取り壊しを命じられながらも生き残りました。",
+      "締めくくりはボンダイビーチで。ここのアイスバーグス・クラブは1929年から冬の水泳を続けていて、会員でいるには5年間、日曜4回のうち3回はレースに出なければなりません。",
       "この動画を保存しておいてください。"
     ],
     "es": [
       "Sídney, de las velas a las olas.",
-      "Las velas de la Ópera están cubiertas por más de un millón de azulejos suecos; su construcción llevó 14 años, y el arquitecto danés Jørn Utzon dejó el proyecto en 1966 y nunca regresó para verla terminada.",
-      "Cruza a pie el Harbour Bridge, construido con seis millones de remaches colocados a mano; en su inauguración de 1932, un jinete cortó la cinta con su espada antes de que el primer ministro del estado pudiera hacerlo.",
-      "Circular Quay bordea Sydney Cove, donde se asentó la Primera Flota en 1788; desde sus muelles, toma el ferry de 30 minutos a Manly, cruzando la bahía y pasando frente a los Heads.",
-      "Darling Harbour era una zona de muelles y patios ferroviarios hasta los años 80; cruza su puente de Pyrmont de 1902, uno de los primeros puentes giratorios eléctricos del mundo, que se mandó demoler y luego se salvó.",
-      "Termina en la playa de Bondi, donde el club de natación invernal Icebergs, fundado por socorristas en 1929, todavía exige a sus socios nadar tres de cada cuatro domingos durante cinco años.",
+      "Más de un millón de azulejos suecos cubren las velas de la Ópera, y su arquitecto danés Jørn Utzon renunció en 1966 y jamás regresó para verla terminada.",
+      "El Harbour Bridge tiene seis millones de remaches colocados a mano, y en su inauguración de 1932, un hombre a caballo cortó la cinta con una espada antes de que pudiera hacerlo el primer ministro del estado.",
+      "Desde Circular Quay, en la ensenada donde se asentó la Primera Flota en 1788, toma el ferry a Manly: 30 minutos cruzando la bahía con los promontorios de los Heads a la vista.",
+      "En Darling Harbour, recorre a pie el puente de Pyrmont, inaugurado en 1902 como uno de los primeros puentes giratorios eléctricos y salvado después de que el gobierno ordenara derribarlo.",
+      "Termina en la playa de Bondi, donde el club Icebergs nada en invierno desde 1929; para seguir siendo socio, hay que competir tres de cada cuatro domingos durante cinco años.",
       "Guarda este video."
     ],
     "pt": [
       "Sydney, das velas às ondas.",
-      "As velas da Ópera são cobertas por mais de um milhão de azulejos suecos; a construção levou 14 anos, e o arquiteto dinamarquês Jørn Utzon deixou o projeto em 1966 e nunca voltou para vê-la pronta.",
-      "Atravesse a pé a Harbour Bridge, construída com seis milhões de rebites cravados à mão; na inauguração, em 1932, um cavaleiro cortou a fita com sua espada antes que o premiê do estado pudesse cortá-la.",
-      "Circular Quay margeia Sydney Cove, onde a Primeira Frota se instalou em 1788; de seus cais, pegue o ferry de 30 minutos até Manly, atravessando a baía e passando pelos Heads.",
-      "Darling Harbour era uma área de cais e pátios ferroviários até os anos 1980; atravesse a Pyrmont Bridge, de 1902, uma das primeiras pontes giratórias elétricas do mundo, que teve a demolição ordenada e depois foi salva.",
-      "Termine na praia de Bondi, onde o clube de natação de inverno Icebergs, fundado por salva-vidas em 1929, ainda exige que os sócios nadem em três de cada quatro domingos durante cinco anos.",
+      "Mais de um milhão de azulejos suecos cobrem as velas da Ópera, e seu arquiteto dinamarquês Jørn Utzon pediu demissão em 1966 e nunca mais voltou para vê-la pronta.",
+      "A Harbour Bridge tem seis milhões de rebites cravados à mão, e na inauguração, em 1932, um homem a cavalo cortou a fita com uma espada antes que o premiê do estado pudesse fazê-lo.",
+      "De Circular Quay, na enseada onde a Primeira Frota se instalou em 1788, pegue o ferry para Manly: 30 minutos atravessando a baía com os promontórios dos Heads à vista.",
+      "Em Darling Harbour, atravesse a pé a Pyrmont Bridge, inaugurada em 1902 como uma das primeiras pontes giratórias elétricas e salva depois que o governo mandou demoli-la.",
+      "Termine na praia de Bondi, onde o clube Icebergs nada no inverno desde 1929; para continuar sócio, é preciso competir em três de cada quatro domingos durante cinco anos.",
       "Salve este vídeo."
     ],
     "de": [
       "Sydney, von den Segeln bis zur Brandung.",
-      "Die Segel des Opernhauses tragen über eine Million schwedischer Fliesen; der Bau dauerte 14 Jahre, und der dänische Architekt Jørn Utzon stieg 1966 aus und kam nie zurück, um es fertig zu sehen.",
-      "Geh über die Harbour Bridge, gebaut mit sechs Millionen von Hand eingeschlagenen Nieten; bei der Eröffnung 1932 durchtrennte ein Reiter das Band mit seinem Säbel, bevor der Premierminister des Bundesstaats es durchschneiden konnte.",
-      "Der Circular Quay säumt Sydney Cove, wo sich 1788 die Erste Flotte niederließ; nimm von seinen Anlegern die 30-minütige Fähre nach Manly, quer über den Hafen und an den Heads vorbei.",
-      "Darling Harbour bestand bis in die 1980er-Jahre aus Kais und Güterbahnhöfen; überquere die Pyrmont Bridge von 1902, eine der ersten elektrischen Drehbrücken der Welt, deren Abriss angeordnet war, bevor man sie rettete.",
-      "Beende den Tag am Bondi Beach, wo der Winterschwimmclub Icebergs, 1929 von Rettungsschwimmern gegründet, von seinen Mitgliedern noch heute verlangt, fünf Jahre lang an drei von vier Sonntagen zu schwimmen.",
+      "Über eine Million schwedischer Fliesen bedecken die Segel des Opernhauses, und sein dänischer Architekt Jørn Utzon schied 1966 aus und kehrte nie zurück, um es vollendet zu sehen.",
+      "In der Harbour Bridge stecken sechs Millionen von Hand gesetzte Nieten, und bei der Eröffnung 1932 durchtrennte ein Reiter das Band mit einem Säbel, bevor der Premierminister des Bundesstaats dazu kam.",
+      "Nimm am Circular Quay, an der Bucht, in der sich 1788 die Erste Flotte niederließ, die Fähre nach Manly: 30 Minuten quer über den Hafen, die Heads an der Hafeneinfahrt im Blick.",
+      "Geh in Darling Harbour über die Pyrmont Bridge: 1902 als eine der ersten elektrischen Drehbrücken eröffnet, wurde sie gerettet, nachdem die Regierung ihren Abriss angeordnet hatte.",
+      "Beende den Tag am Bondi Beach, wo der Icebergs-Club seit 1929 im Winter schwimmt; wer Mitglied bleiben will, muss fünf Jahre lang an drei von vier Sonntagen Rennen schwimmen.",
       "Speicher dir dieses Video."
     ],
     "fr": [
       "Sydney, des voiles aux vagues.",
-      "Les voiles de l'Opéra sont couvertes de plus d'un million de tuiles suédoises ; le chantier a duré 14 ans, et l'architecte danois Jørn Utzon a démissionné en 1966 sans jamais revenir la voir achevée.",
-      "Traversez à pied le Harbour Bridge, construit avec six millions de rivets posés à la main ; à son inauguration en 1932, un cavalier a tranché le ruban d'un coup de sabre avant que le Premier ministre de l'État ne puisse le couper.",
-      "Circular Quay borde Sydney Cove, où la Première Flotte s'est installée en 1788 ; depuis ses quais, prenez le ferry de 30 minutes pour Manly, à travers la baie et devant les Heads.",
-      "Darling Harbour n'était que quais et dépôts ferroviaires jusqu'aux années 1980 ; traversez son pont de Pyrmont de 1902, l'un des premiers ponts tournants électriques au monde, condamné à la démolition puis sauvé.",
-      "Finissez à Bondi Beach, où le club de nage hivernale des Icebergs, fondé par des sauveteurs en 1929, exige encore de ses membres qu'ils nagent trois dimanches sur quatre pendant cinq ans.",
+      "Plus d'un million de tuiles suédoises couvrent les voiles de l'Opéra, et son architecte danois, Jørn Utzon, a démissionné en 1966 sans jamais revenir le voir achevé.",
+      "Le Harbour Bridge compte six millions de rivets posés à la main, et à son inauguration en 1932, un cavalier a tranché le ruban d'un coup de sabre avant que le Premier ministre de l'État ne puisse le faire.",
+      "Depuis Circular Quay, dans l'anse où la Première Flotte s'est installée en 1788, prenez le ferry pour Manly : 30 minutes à travers la baie, avec les promontoires des Heads en vue.",
+      "À Darling Harbour, traversez à pied le pont de Pyrmont, ouvert en 1902 comme l'un des premiers ponts tournants électriques, puis sauvé après que le gouvernement a ordonné sa démolition.",
+      "Terminez à Bondi Beach, où le club des Icebergs nage l'hiver depuis 1929 ; pour rester membre, il faut concourir trois dimanches sur quatre pendant cinq ans.",
       "Enregistrez cette vidéo."
     ],
     "hi": [
       "सिडनी, पाल जैसी छतों से लेकर लहरों वाले बीच तक।",
-      "ओपेरा हाउस की पाल जैसी छतों पर 10 लाख से ज़्यादा स्वीडिश टाइलें लगी हैं, इसे बनने में 14 साल लगे, और डेनमार्क के आर्किटेक्ट जॉर्न उत्ज़ोन ने 1966 में इस्तीफ़ा दे दिया और इसे पूरा हुआ देखने कभी नहीं लौटे।",
-      "हार्बर ब्रिज पर पैदल चलिए, जिसे हाथ से ठोकी गई 60 लाख रिवेटों से बनाया गया, 1932 में उद्घाटन के वक्त, राज्य के प्रीमियर के फीता काटने से पहले ही एक घुड़सवार ने अपनी तलवार से फीता काट दिया।",
-      "सर्कुलर क्वे सिडनी कोव के किनारे है, जहां 1788 में फर्स्ट फ्लीट आकर बसा, यहां के घाटों से मैनली के लिए 30 मिनट की फेरी लीजिए, जो बंदरगाह पार करके हेड्स के पास से गुज़रती है।",
-      "डार्लिंग हार्बर 1980 के दशक तक घाटों और रेल यार्डों से भरा था, यहां 1902 का पिरमोंट ब्रिज पार कीजिए, जो दुनिया के पहले बिजली-चालित स्विंग ब्रिजों में से एक है, इसे गिराने का आदेश हुआ था, फिर इसे बचा लिया गया।",
-      "अंत में बॉन्डी बीच जाइए, जहां के विंटर स्विमिंग क्लब आइसबर्ग्स को 1929 में लाइफगार्डों ने शुरू किया था, और यह आज भी सदस्यों से पांच साल तक हर चार में से तीन रविवार तैरने की शर्त रखता है।",
+      "ओपेरा हाउस की पाल जैसी छतों पर 10 लाख से ज़्यादा स्वीडिश टाइलें लगी हैं, और इसके डेनिश आर्किटेक्ट जॉर्न उत्ज़ोन ने 1966 में इस्तीफ़ा दे दिया और तैयार इमारत देखने एक बार भी वापस नहीं आए।",
+      "हार्बर ब्रिज में हाथ से ठोके गए 60 लाख रिवेट लगे हैं, और 1932 में इसके उद्घाटन पर राज्य के प्रीमियर के फीता काटने से पहले ही एक घुड़सवार ने तलवार से फीता काट दिया।",
+      "सर्कुलर क्वे से, जो उस खाड़ी पर है जहां 1788 में फर्स्ट फ्लीट आकर बसा था, मैनली की फेरी लीजिए: बंदरगाह के पार 30 मिनट का सफर, मुहाने की हेड्स चट्टानों के नज़ारे के साथ।",
+      "डार्लिंग हार्बर में पिरमोंट ब्रिज पर पैदल चलिए, जो 1902 में बिजली से घूमने वाले शुरुआती पुलों में से एक के रूप में खुला था, और सरकार के इसे गिराने का आदेश देने के बाद भी बचा लिया गया।",
+      "आखिर में बॉन्डी बीच जाइए, जहां आइसबर्ग्स क्लब 1929 से सर्दियों में तैरता आ रहा है, और सदस्य बने रहने के लिए पांच साल तक हर चार में से तीन रविवार रेस में उतरना पड़ता है।",
       "इस वीडियो को सेव कर लीजिए।"
     ]
   }
