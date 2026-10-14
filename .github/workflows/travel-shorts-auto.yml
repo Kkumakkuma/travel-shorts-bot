@@ -6,6 +6,10 @@ on:
     # 주 2회: 수·토 각 1편 — KST 12:00 = UTC 03:00 (2026-07-17 쿠마님 지시: 동물 월목 / 우주 화금 / 여행 수토)
     # 주의: 주기 바꿀 땐 cron과 이 주석을 함께 갱신할 것 (과거 fork 주석 불일치 사고).
     - cron: '0 3 * * 3,6'
+    # 놓친 회차 자동 보충(2026-10-14): 보충 요일에 gate 잡이 판정 — 직전 정규 회차가 실패해 비었을 때만 발행.
+    # 보충 요일(목·일)은 3봇 공유 할당량(하루 2편) 때문에 봇마다 다르게 나눴다 — .github/scripts/catchup_gate.py 설명 참고.
+    # UTC 08:xx = 할당량 리셋(태평양 자정: 서머타임 07:00·표준시 08:00 UTC) 뒤. 정규·보충 cron 을 바꾸면 아래 gate 잡의 REGULAR_CRON·CATCHUP_CRON 도 같이 바꿀 것.
+    - cron: '50 8 * * 0,4'
   workflow_dispatch:
 
 permissions:
@@ -19,12 +23,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # 이벤트 시점 SHA 대신 실행 시점의 브랜치 최신 — 직렬 대기한 실행도 앞 회차 발행 기록을 본다(2026-10-14)
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+          sparse-checkout: |
+            queue
+            .github
+      - name: 놓친 회차 보충 판정
+        id: check
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          REGULAR_CRON: '0 3 * * 3,6'
+          CATCHUP_CRON: '50 8 * * 0,4'
+        run: python3 .github/scripts/catchup_gate.py >> "$GITHUB_OUTPUT"
+
   generate-and-upload:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60  # 2026-09-03 40→60: 하이라이트당 컷 2개 + preset fast 로 인코딩 시간이 늘었다
     steps:
       - uses: actions/checkout@v4
         with:
+          # 이벤트 시점 SHA 대신 실행 시점의 브랜치 최신 — 직렬 대기한 실행도 앞 회차 발행 기록을 본다(2026-10-14)
+          ref: ${{ github.ref }}
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
