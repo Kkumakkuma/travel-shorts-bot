@@ -170,6 +170,8 @@ def queue_pending_files() -> list:
 
 
 QUEUE_UNLOCKED_PREFIX = "[unlocked] "  # NO_OPENAI 잠금 정보(clips/localizations)만 아직 없는 대본 — failed 가 아니라 pending 유지
+QUEUE_MAX_CLIPS_PER_SLOT = 4  # 사실 하나에 잠글 Pexels id 최대 개수(2026-10-18 2→4: 장면을 더 자주 바꿔 시청 유지)
+QUEUE_ASSET_PREFIX = "queue/assets/"  # 대본 images(AI 장면 그림 jpg·png) 가 놓이는 저장소 안 위치(2026-10-18)
 
 
 def validate_queue_meta(data, filename: str) -> list:
@@ -235,16 +237,41 @@ def validate_queue_meta(data, filename: str) -> list:
     clips = data.get("clips")
     if clips is not None or _cfg.no_openai_mode():
         ok = (isinstance(clips, list) and len(clips) == n_facts and all(
-            isinstance(sl, list) and 1 <= len(sl) <= 2
+            isinstance(sl, list) and 1 <= len(sl) <= QUEUE_MAX_CLIPS_PER_SLOT
             and all(isinstance(c, int) and not isinstance(c, bool) and c > 0 for c in sl)
             for sl in clips))
         if not ok:
             r.append((QUEUE_UNLOCKED_PREFIX if clips is None else "")
-                     + f"clips 가 facts 수({n_facts})만큼의 [양의 정수 id 1~2개] 슬롯이 아님")
+                     + f"clips 가 facts 수({n_facts})만큼의 [양의 정수 id 1~{QUEUE_MAX_CLIPS_PER_SLOT}개] 슬롯이 아님")
         else:
             flat = [c for sl in clips for c in sl]
             if len(flat) != len(set(flat)):
                 r.append("clips 에 같은 id 가 두 번 들어감(영상 내 중복)")
+    # 2026-10-18 AI 장면 그림(선택 키): [{"fact_index": i, "cut_index": k, "path": "queue/assets/x.jpg", "required": bool}]
+    imgs = data.get("images")
+    if imgs is not None:
+        if not isinstance(imgs, list):
+            r.append("images: 리스트가 아님")
+        else:
+            for j, im in enumerate(imgs):
+                if not isinstance(im, dict):
+                    r.append(f"images[{j}]: 객체가 아님")
+                    continue
+                fi, ci, pth = im.get("fact_index"), im.get("cut_index", 0), im.get("path")
+                if not (isinstance(fi, int) and not isinstance(fi, bool) and 0 <= fi < n_facts):
+                    r.append(f"images[{j}].fact_index 가 0~{n_facts - 1} 정수가 아님")
+                if not (isinstance(ci, int) and not isinstance(ci, bool) and ci >= 0):
+                    r.append(f"images[{j}].cut_index 가 0 이상 정수가 아님")
+                full = os.path.realpath(os.path.join(BASE_DIR, pth)) if isinstance(pth, str) else ""
+                inside = full.startswith(os.path.realpath(os.path.join(BASE_DIR, QUEUE_ASSET_PREFIX)) + os.sep)
+                if not (isinstance(pth, str) and pth.replace("\\", "/").startswith(QUEUE_ASSET_PREFIX)
+                        and pth.lower().endswith((".jpg", ".jpeg", ".png")) and ".." not in pth and inside):
+                    r.append(f"images[{j}].path 는 {QUEUE_ASSET_PREFIX} 안의 jpg·png 여야 함")
+                elif not os.path.isfile(full) and im.get("required") is True:
+                    # 필수 그림이 아직 커밋 안 됐으면 실패가 아니라 pending 유지(다음 실행에서 재시도), 선택 그림은 실행 때 건너뜀
+                    r.append(QUEUE_UNLOCKED_PREFIX + f"images[{j}] 필수 그림 파일 없음: {pth}")
+                if "required" in im and not isinstance(im["required"], bool):
+                    r.append(f"images[{j}].required 가 true/false 가 아님")
     locs = data.get("localizations")
     if locs is not None or _cfg.no_openai_mode():
         need = ("ko", "ja", "es", "pt", "de", "fr", "hi")
@@ -471,6 +498,21 @@ def _fetch_locked_backgrounds(meta: dict, work_dir: str, locked: list, n: int,
             if path:
                 slots[i].append((path, cid))
                 seen.add(cid)
+    # 2026-10-18 AI 장면 그림: images[{fact_index, cut_index, path, required}] 를 켄번스 mp4 로 바꿔 그 사실의 cut_index 자리에 끼운다.
+    #   필수 그림이 실패하면 발행을 멈춘다(RuntimeError → 호출부가 pending 유지·다음 대본). 선택 그림은 건너뛴다.
+    for j, im in enumerate(meta.get("images") or []):
+        try:
+            from pipeline import image_to_video
+            fi = int(im["fact_index"])
+            ci = max(0, int(im.get("cut_index", 0)))
+            src = os.path.join(BASE_DIR, str(im["path"]))
+            out = os.path.join(work_dir, f"queue_img_{j}.mp4")
+            image_to_video.png_to_video(src, out, duration=8.0)
+            slots[fi].insert(min(ci, len(slots[fi])), (out, f"img:{os.path.basename(src)}"))
+        except Exception as e:
+            if isinstance(im, dict) and im.get("required"):
+                raise RuntimeError(f"필수 그림 images[{j}] 실패: {e}")
+            log.warning(f"선택 그림 images[{j}] 건너뜀: {e}")
     filled_idx = [i for i in range(n) if slots[i]]
     min_pass = min(n, 3)
     if len(filled_idx) < min_pass:
@@ -489,7 +531,7 @@ def _fetch_locked_backgrounds(meta: dict, work_dir: str, locked: list, n: int,
         j = min(filled_idx, key=lambda x: (abs(x - i), x))
         log.warning(f"fact[{i}] 잠금 클립 없음 → fact[{j}] 클립 재사용 (fact↔영상 정렬 유지)")
         bg_groups.append([slots[j][0]])
-    ids = list(dict.fromkeys(cid for i in filled_idx for _, cid in slots[i]))
+    ids = list(dict.fromkeys(cid for i in filled_idx for _, cid in slots[i] if not str(cid).startswith("img:")))
     log.info(f"배경 확보(잠금): fact {len(filled_idx)}/{n} 슬롯, 컷 {sum(len(g) for g in bg_groups)}개 "
              f"(슬롯별 {[len(g) for g in bg_groups]}, vision 0회)")
     log.info(f"[timing] media={_time.monotonic() - _t0:.1f} (locked)")

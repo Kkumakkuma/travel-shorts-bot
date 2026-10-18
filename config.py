@@ -92,7 +92,7 @@ CAPTION_HIGHLIGHT_NUMBERS = True  # 숫자는 옐로우 강조
 
 # 컷 페이싱 — 하이라이트 1개당 배경 클립 수 (2026-09-03). 수집이 모자라면 자동으로 1개로 폴백.
 # 클립 사이는 하드컷(크로스페이드 금지 — Actions 러너 메모리 보호).
-CLIPS_PER_FACT = 2
+CLIPS_PER_FACT = 4  # 2026-10-18 2→4(잠금 클립 상한과 같게, 대본이 준 만큼만 씀)
 
 # 썸네일 — 도입샷/첫 배경 클립 1.0초 프레임 + 상단 후크 (pipeline/thumbnail.py, fail-soft: 실패해도 발행 진행)
 ENABLE_THUMBNAIL = True

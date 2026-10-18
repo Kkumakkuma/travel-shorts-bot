@@ -47,57 +47,69 @@ def png_to_video(png_path: str, output_mp4: str, duration: float = 10.0,
         img = img.crop((0, y_off, src_w, y_off + new_h))
     img = img.resize((width, height), Image.LANCZOS)
 
-    tmp_resized = png_path.replace(".png", "_resized.png")
+    # 2026-10-18: 임시 프레임을 원본 옆(.png 치환)이 아니라 출력 옆에 만든다 — .jpg 원본은 치환이 안 돼
+    # 원본을 덮어쓰고 마지막에 지워 버리던 버그(codex 검토).
+    os.makedirs(os.path.dirname(output_mp4) or ".", exist_ok=True)
+    tmp_resized = os.path.splitext(output_mp4)[0] + "_frame.png"
     img.save(tmp_resized)
 
-    clip = ImageClip(tmp_resized).set_duration(duration)
-
-    start_zoom = random.uniform(1.04, 1.08)
-    end_zoom = random.uniform(1.18, 1.25)
-
-    def zoom_factor(t):
-        return start_zoom + (end_zoom - start_zoom) * (t / duration)
-
-    clip = clip.resize(zoom_factor)
-
-    pan_dir = random.choice(["lr", "rl", "tb", "bt", "center"])
-
-    def pos_func(t):
-        progress = t / duration
-        if pan_dir == "center":
-            return ("center", "center")
-        if pan_dir == "lr":
-            return (-int(20 * progress), "center")
-        if pan_dir == "rl":
-            return (int(20 * progress), "center")
-        if pan_dir == "tb":
-            return ("center", -int(40 * progress))
-        if pan_dir == "bt":
-            return ("center", int(40 * progress))
-        return ("center", "center")
-
-    clip = clip.set_position(pos_func)
-
-    from moviepy.editor import CompositeVideoClip, ColorClip
-    bg = ColorClip(size=(width, height), color=(0, 0, 0)).set_duration(duration)
-    final = CompositeVideoClip([bg, clip], size=(width, height)).set_duration(duration)
-
-    os.makedirs(os.path.dirname(output_mp4) or ".", exist_ok=True)
-    final.write_videofile(
-        output_mp4,
-        fps=fps,
-        codec="libx264",
-        audio=False,
-        preset="ultrafast",
-        threads=2,
-        verbose=False,
-        logger=None,
-    )
-
+    clip = final = None
     try:
-        os.remove(tmp_resized)
-    except Exception:
-        pass
+        clip = ImageClip(tmp_resized).set_duration(duration)
+
+        start_zoom = random.uniform(1.04, 1.08)
+        end_zoom = random.uniform(1.18, 1.25)
+
+        def zoom_factor(t):
+            return start_zoom + (end_zoom - start_zoom) * (t / duration)
+
+        clip = clip.resize(zoom_factor)
+
+        pan_dir = random.choice(["lr", "rl", "tb", "bt", "center"])
+
+        def pos_func(t):
+            progress = t / duration
+            if pan_dir == "center":
+                return ("center", "center")
+            if pan_dir == "lr":
+                return (-int(20 * progress), "center")
+            if pan_dir == "rl":
+                return (int(20 * progress), "center")
+            if pan_dir == "tb":
+                return ("center", -int(40 * progress))
+            if pan_dir == "bt":
+                return ("center", int(40 * progress))
+            return ("center", "center")
+
+        clip = clip.set_position(pos_func)
+
+        from moviepy.editor import CompositeVideoClip, ColorClip
+        bg = ColorClip(size=(width, height), color=(0, 0, 0)).set_duration(duration)
+        final = CompositeVideoClip([bg, clip], size=(width, height)).set_duration(duration)
+
+        os.makedirs(os.path.dirname(output_mp4) or ".", exist_ok=True)
+        final.write_videofile(
+            output_mp4,
+            fps=fps,
+            codec="libx264",
+            audio=False,
+            preset="ultrafast",
+            threads=2,
+            verbose=False,
+            logger=None,
+        )
+    finally:
+        # 2026-10-18: 실패해도 클립을 닫고 임시 프레임을 지운다(codex 검토)
+        for c in (final, clip):
+            try:
+                if c is not None:
+                    c.close()
+            except Exception:
+                pass
+        try:
+            os.remove(tmp_resized)
+        except Exception:
+            pass
 
     log.info(f"image→video: {os.path.basename(png_path)} → {os.path.basename(output_mp4)}")
     return output_mp4

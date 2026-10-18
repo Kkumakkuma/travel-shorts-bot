@@ -717,12 +717,11 @@ def compose(
     raw_total = cursor - pad_between + end_pad
     # 2026-07-17 v4: 적응형 길이. v3의 '항상 59.7s 강제'는 여행봇의 짧은 내레이션(~28s)에서
     # 마지막 클립 ~39s 루프 + ~25s 무자막 데드타임을 만들었다(리텐션 붕괴, 검증 확정 finding).
-    # tail은 3.5s — 7s로 두면 cta_start=max(outro시작, total-7)이 raw_total로 밀려
-    # 'CTA는 outro 발화와 동시 표시'(v5) 의도가 깨진다. 3.5s면 total-7 < outro시작이라
-    # CTA가 outro 시작부터 뜨고(v5 복원), 노출 시간 = outro(~2-3s) + tail 3.5s ≈ 6s.
+    # tail 0.9s(2026-10-18, 이전 3.5s) — 발화 뒤 여운 = end_pad 0.6 + 0.9 = 1.5s. 끝의 빈 시간을 줄여 평균 시청 %·다시 보기를 올린다.
+    # CTA 는 아래에서 outro 발화 시작과 동시에 뜬다(cta_start = last_tts_start, v5 동기 유지).
     cap_dur = final_video_duration()
     min_dur = float(getattr(_cfg, "MIN_VIDEO_DURATION_SEC", 40))
-    tail = 3.5  # 음성이 끝난 뒤 BGM/CTA가 남는 아웃트로 길이
+    tail = 0.9  # 음성이 끝난 뒤 BGM/CTA가 남는 아웃트로 길이(end_pad 0.6 별도)
     target = raw_total + tail
     if target > cap_dur:
         # 60초 방어: 넘치면 아웃트로(BGM 꼬리)를 줄여서 cap 안으로 넣는다.
@@ -805,6 +804,13 @@ def compose(
         클립 하나가 0.9초 미만이 될 만큼 잘게 쪼개지 않는다(깜빡임 방지)."""
         grp = list(grp or [])
         m = max(1, min(len(grp), int(span // 0.9) or 1)) if grp else 1
+        if grp and m < len(grp):
+            # 2026-10-18: 컷을 줄여야 하면 대본 그림(img:)을 먼저 남기고 남은 자리를 원래 순서의 영상으로 채운다
+            def _is_img(g):
+                return isinstance(g, (list, tuple)) and len(g) > 1 and str(g[1]).startswith("img:")
+            keep = [i for i, g in enumerate(grp) if _is_img(g)][:m]
+            rest = [i for i in range(len(grp)) if i not in keep][:m - len(keep)]
+            grp = [grp[i] for i in sorted(keep + rest)]
         each = span / m
         for c in range(m):
             bucket_path.append(grp[c])
@@ -888,7 +894,7 @@ def compose(
     # outro 음성은 timeline 마지막 라인. cta_start = outro_voice_start (자막=음성 동시 시작).
     last_tts_start = timeline[-1]["start"] if timeline else (total_dur - 4.0)
     last_tts_end = timeline[-1]["end"] if timeline else total_dur
-    cta_start = max(last_tts_start, total_dur - 7.0)  # 최소 7초 자리 보장 (CTA 보이는 시간)
+    cta_start = last_tts_start  # outro 발화 시작 = CTA 시작(2026-10-18: 고정 7초 창 제거)
     cta_dur = max(0.0, total_dur - cta_start)
     if cta_dur < 1.0:
         cta_dur = 0.0
