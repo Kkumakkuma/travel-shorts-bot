@@ -9,7 +9,7 @@
   "angle": "hidden_gem",
   "format": "classic_trivia",
   "hook_line": "In Prague, Death keeps time.",
-  "hook": "HALLOWEEN IN GOTHIC PRAGUE",
+  "hook": "A SKELETON RINGS THE HOUR",
   "intro": "In Prague, Death keeps time.",
   "facts": [
     "Start at the Old Town Hall, where the astronomical clock was built in 1410; on the hour, Death, a skeleton, rings the bell as twelve Apostles appear above.",
@@ -19,8 +19,8 @@
     "In Old Town Square, 27 crosses in the pavement mark where 27 rebel leaders were executed in 1621; twelve heads hung on Charles Bridge's tower for over a decade."
   ],
   "outro": "Happy Halloween.",
-  "title_en": "Gothic Prague in 60 Seconds: The Skeleton That Rings the Hour, and the Devil's Stream",
-  "title_ko": "60초 프라하: 정각이면 종을 울리는 해골과 '악마의 개울'",
+  "title_en": "In Prague, a Skeleton Rings the Hour on a 600-Year-Old Clock",
+  "title_ko": "프라하에서는 600년 된 시계 위 해골이 정각을 알린다",
   "description_en": "The astronomical clock's skeleton, Charles Bridge at dawn, Prague Castle and the old Daliborka jail tower, the Devil's Stream along Kampa Island, and the 27 crosses of Old Town Square. Here is Prague's gothic side for Halloween. #shorts #travel #prague #czechrepublic #wander",
   "description_ko": "천문시계에서 정각에 종을 울리는 해골, 새벽 카를교의 조각상 30점, 프라하성과 옛 감옥 달리보르카 탑, 캄파섬을 따라 흐르는 '악마의 개울', 그리고 구시가 광장 바닥에 박힌 십자가 27개까지. 핼러윈에 걸어 보기 좋은 프라하의 어두운 역사 코스입니다. #여행 #프라하 #체코 #프라하여행 #핼러윈",
   "comment": "Prague: Charles Bridge at dawn or the clock when the skeleton rings, which would you see first?",
@@ -79,31 +79,31 @@
   ],
   "localizations": {
     "ko": {
-      "title": "60초 프라하: 정각이면 종을 울리는 해골과 '악마의 개울'",
+      "title": "프라하에서는 600년 된 시계 위 해골이 정각을 알린다",
       "description": "천문시계에서 정각에 종을 울리는 해골, 새벽 카를교의 조각상 30점, 프라하성과 옛 감옥 달리보르카 탑, 캄파섬을 따라 흐르는 '악마의 개울', 그리고 구시가 광장 바닥에 박힌 십자가 27개까지. 핼러윈에 걸어 보기 좋은 프라하의 어두운 역사 코스입니다. #여행 #프라하 #체코 #프라하여행 #핼러윈"
     },
     "ja": {
-      "title": "60秒でプラハ：正時に鐘を鳴らす骸骨と「悪魔の小川」",
+      "title": "プラハでは、600年前の時計で骸骨が時を告げる",
       "description": "天文時計で正時に鐘を鳴らす骸骨、夜明けのカレル橋に並ぶ30体の彫像、プラハ城とかつての牢獄ダリボルカ塔、カンパ島に沿って流れる「悪魔の小川」、そして旧市街広場の石畳に刻まれた27の十字架まで。ハロウィンに歩きたい、プラハのダークな歴史をたどるコースです。#旅行 #プラハ #チェコ #プラハ旅行 #ハロウィン"
     },
     "es": {
-      "title": "La Praga gótica en 60 segundos: el esqueleto que da la hora y el Arroyo del Diablo",
+      "title": "En Praga, un esqueleto toca la hora en un reloj de 600 años",
       "description": "El esqueleto del reloj astronómico, el Puente de Carlos al amanecer, el Castillo de Praga y la antigua prisión de la torre Daliborka, el Arroyo del Diablo junto a la isla de Kampa y las 27 cruces de la Plaza de la Ciudad Vieja. Así es el lado gótico de Praga para Halloween. #viajes #praga #republicacheca #halloween #europa"
     },
     "pt": {
-      "title": "A Praga gótica em 60 segundos: o esqueleto que anuncia as horas e o Riacho do Diabo",
+      "title": "Em Praga, um esqueleto toca as horas num relógio de 600 anos",
       "description": "O esqueleto do relógio astronômico, a Ponte Carlos ao amanhecer, o Castelo de Praga e a antiga prisão da Torre Daliborka, o Riacho do Diabo ao longo da ilha Kampa e as 27 cruzes da Praça da Cidade Velha. Este é o lado gótico de Praga para o Halloween. #viagem #praga #republicatcheca #halloween #europa"
     },
     "de": {
-      "title": "Das gotische Prag in 60 Sekunden: das Skelett, das die Stunde schlägt, und der Teufelsbach",
+      "title": "In Prag läutet ein Skelett die Stunde an einer 600 Jahre alten Uhr",
       "description": "Das Skelett der astronomischen Uhr, die Karlsbrücke im Morgengrauen, die Prager Burg mit dem einstigen Gefängnisturm Daliborka, der Teufelsbach an der Insel Kampa und die 27 Kreuze auf dem Altstädter Ring. Das ist die düstere Seite Prags für Halloween. #reisen #prag #tschechien #halloween #europa"
     },
     "fr": {
-      "title": "Prague la gothique en 60 secondes : le squelette qui sonne l'heure et le ruisseau du Diable",
+      "title": "À Prague, un squelette sonne l'heure sur une horloge vieille de 600 ans",
       "description": "Le squelette de l'horloge astronomique, le pont Charles à l'aube, le château de Prague et l'ancienne prison de la tour Daliborka, le ruisseau du Diable le long de l'île de Kampa et les 27 croix de la place de la Vieille-Ville. Voici le côté gothique de Prague pour Halloween. #voyage #prague #republiquetcheque #halloween #europe"
     },
     "hi": {
-      "title": "60 सेकंड में गॉथिक प्राग: हर घंटे घंटी बजाता कंकाल और 'शैतान की धारा'",
+      "title": "प्राग में 600 साल पुरानी घड़ी पर एक कंकाल घंटा बजाता है",
       "description": "खगोलीय घड़ी का कंकाल, सुबह-सुबह चार्ल्स ब्रिज, प्राग कैसल और पुरानी जेल डालिबोर्का टावर, कम्पा द्वीप के साथ बहती 'शैतान की धारा', और ओल्ड टाउन स्क्वायर के फ़र्श में बने 27 क्रॉस। हैलोवीन के लिए प्राग का गॉथिक रूप यहां है। #यात्रा #प्राग #travel #prague #halloween"
     }
   },

@@ -8,19 +8,19 @@
   "landmark_lock": "Amsterdam, Netherlands — canal ring, Rijksmuseum, canal houses, bicycles",
   "angle": "hidden_gem",
   "format": "classic_trivia",
-  "hook_line": "Amsterdam, the way locals live.",
-  "hook": "BIKES, GABLES, FLOATING HOMES",
-  "intro": "Amsterdam, the way locals live.",
+  "hook_line": "Many of these facades lean forward on purpose.",
+  "hook": "THESE FACADES LEAN ON PURPOSE",
+  "intro": "Many of these facades lean forward on purpose.",
   "facts": [
     "Start in the Jordaan, begun in 1613 for workers and artisans, where narrow lanes still follow the old polder layout, and Noordermarkt holds markets every Monday and Saturday.",
-    "Look up at stepped, neck and bell gables, where merchants hoisted goods by pulley from boats straight into the attic, and see how the facades lean slightly forward.",
+    "Look up at stepped, neck and bell gables, where merchants hoisted goods by pulley from boats straight into the attic, one reason the facades tilt out over the street.",
     "Amsterdam has over two thousand houseboats, but mooring permits are scarce and expensive; on Prinsengracht, step aboard one, the Houseboat Museum, a former cargo ship built in 1914.",
     "Then rent a bike, one of over 800,000 in the city, and pedal to where Reguliersgracht meets Herengracht; from that corner, fifteen bridges come into view at once.",
-    "End aboard a blue and white tram; electric trams have run here since 1900, all now on green power, across about 200 kilometers of track and fifteen lines."
+    "End aboard a blue and white tram; electric trams have run here since 1900, all now on green power."
   ],
   "outro": "Save this route.",
-  "title_en": "Amsterdam in 60 Seconds: Houseboats, Leaning Canal Houses, and 15 Bridges in One View",
-  "title_ko": "60초 암스테르담: 하우스보트와 기울어진 운하집, 그리고 한눈에 보이는 다리 15개",
+  "title_en": "Many of Amsterdam's Canal-House Facades Lean Forward on Purpose",
+  "title_ko": "암스테르담 운하 집 정면 상당수는 일부러 앞으로 기울게 지었다",
   "description_en": "The Jordaan's narrow lanes and Noordermarkt, gables where goods were hoisted by pulley into the attic, a houseboat you can step aboard, 15 bridges from one corner, and the blue and white trams. Here is Amsterdam the way locals live. #shorts #travel #amsterdam #netherlands #wander",
   "description_ko": "요르단 지구의 좁은 골목과 월·토요일 장터, 짐을 도르래로 다락까지 끌어올리던 운하집 박공, 직접 올라타 볼 수 있는 하우스보트, 다리 15개가 한꺼번에 보이는 모퉁이, 그리고 파랑·흰색 트램까지. 사람들이 실제로 사는 암스테르담을 따라가 봅니다. #여행 #암스테르담 #네덜란드 #유럽여행",
   "comment": "Amsterdam: would you rather live on a houseboat or in a leaning canal house?",
@@ -79,96 +79,96 @@
   ],
   "localizations": {
     "ko": {
-      "title": "60초 암스테르담: 하우스보트와 기울어진 운하집, 그리고 한눈에 보이는 다리 15개",
+      "title": "암스테르담 운하 집 정면 상당수는 일부러 앞으로 기울게 지었다",
       "description": "요르단 지구의 좁은 골목과 월·토요일 장터, 짐을 도르래로 다락까지 끌어올리던 운하집 박공, 직접 올라타 볼 수 있는 하우스보트, 다리 15개가 한꺼번에 보이는 모퉁이, 그리고 파랑·흰색 트램까지. 사람들이 실제로 사는 암스테르담을 따라가 봅니다. #여행 #암스테르담 #네덜란드 #유럽여행"
     },
     "ja": {
-      "title": "60秒でアムステルダム：ハウスボート、傾いた運河沿いの家、そして一度に見える15の橋",
+      "title": "アムステルダムの運河沿いの家の正面の多くは、わざと前に傾けて建てられた",
       "description": "ヨルダーン地区の細い路地とノールデルマルクトの市場、滑車で荷物を屋根裏まで引き上げた運河沿いの家の破風、中に乗り込めるハウスボート、15の橋が一度に見える角、そして青と白のトラムまで。地元の人の暮らしに沿ってアムステルダムを歩きます。#旅行 #アムステルダム #オランダ #ヨーロッパ旅行"
     },
     "es": {
-      "title": "Ámsterdam en 60 segundos: casas flotantes, fachadas inclinadas y 15 puentes de un vistazo",
+      "title": "Muchas fachadas de Ámsterdam junto a los canales se inclinan hacia delante a propósito",
       "description": "Las callejuelas del Jordaan y el mercado de Noordermarkt, frontones por donde se subían mercancías con polea hasta el desván, una casa flotante a la que puedes subir, una esquina con 15 puentes a la vista y los tranvías azules y blancos. Así es Ámsterdam como la viven sus vecinos. #viajes #amsterdam #paisesbajos #europa"
     },
     "pt": {
-      "title": "Amsterdã em 60 segundos: casas flutuantes, fachadas inclinadas e 15 pontes de uma só vez",
+      "title": "Muitas fachadas de Amsterdã nos canais se inclinam para a frente de propósito",
       "description": "As vielas do Jordaan e a feira da Noordermarkt, frontões por onde as mercadorias subiam de polia até o sótão, uma casa flutuante que você pode conhecer por dentro, uma esquina com 15 pontes à vista e os bondes azuis e brancos. Veja Amsterdã do jeito que os moradores vivem. #viagem #amsterda #holanda #europa"
     },
     "de": {
-      "title": "Amsterdam in 60 Sekunden: Hausboote, schiefe Grachtenhäuser und 15 Brücken auf einen Blick",
+      "title": "Viele Fassaden der Amsterdamer Grachtenhäuser neigen sich absichtlich nach vorn",
       "description": "Die engen Gassen im Jordaan und der Noordermarkt, Giebel, über die Waren per Flaschenzug bis auf den Dachboden gezogen wurden, ein Hausboot zum Betreten, eine Ecke mit 15 Brücken im Blick und die blau-weißen Straßenbahnen. So lebt man in Amsterdam. #reisen #amsterdam #niederlande #europa"
     },
     "fr": {
-      "title": "Amsterdam en 60 secondes : péniches habitées, façades penchées et 15 ponts d'un coup d'œil",
+      "title": "Beaucoup de façades des canaux d'Amsterdam ont été bâties inclinées vers l'avant",
       "description": "Les ruelles du Jordaan et le Noordermarkt, des pignons par lesquels on hissait les marchandises à la poulie jusqu'au grenier, une péniche où l'on peut monter à bord, un coin de rue d'où l'on voit 15 ponts et les trams bleu et blanc. Voici Amsterdam comme la vivent ses habitants. #voyage #amsterdam #paysbas #europe"
     },
     "hi": {
-      "title": "60 सेकंड में एम्स्टर्डम: हाउसबोट, झुके हुए नहर किनारे के घर और एक नज़र में 15 पुल",
+      "title": "एम्स्टर्डम के कई नहर किनारे घरों के अगले हिस्से जान-बूझकर आगे झुकाए गए हैं",
       "description": "योर्डान की तंग गलियां और नोर्डरमार्क्ट बाज़ार, वे गेबल जहां से माल चरखी से सीधे अटारी तक खींचा जाता था, एक हाउसबोट जिस पर आप चढ़ सकते हैं, एक कोना जहां से 15 पुल एक साथ दिखते हैं, और नीली-सफ़ेद ट्राम। एम्स्टर्डम को वैसे देखिए जैसे यहां के लोग जीते हैं। #यात्रा #एम्स्टर्डम #नीदरलैंड #travel #amsterdam"
     }
   },
   "captions": {
     "ko": [
-      "현지인이 사는 방식 그대로 보는 암스테르담입니다.",
+      "이 건물들의 정면 상당수는 일부러 앞으로 기울게 지었습니다.",
       "요르단 지구에서 시작하세요, 1613년 노동자와 장인을 위해 조성되기 시작한 곳으로, 좁은 골목이 지금도 옛 간척지 구획을 따라 나 있고, 노르더마르크트에서는 매주 월요일과 토요일에 장이 섭니다.",
-      "고개를 들어 계단형, 목형, 종형 박공을 보세요, 상인들이 배에서 다락까지 도르래로 짐을 곧장 끌어올리던 곳이고, 건물 정면이 앞으로 살짝 기울어 있는 것도 보입니다.",
+      "고개를 들어 계단형, 목형, 종형 박공을 보세요, 상인들이 배에서 다락까지 도르래로 짐을 곧장 끌어올리던 곳인데, 정면이 길 쪽으로 기운 이유 중 하나가 바로 이것입니다.",
       "암스테르담에는 하우스보트가 2천 척 넘게 있지만 계류 허가는 드물고 비쌉니다. 프린센 운하에서는 그중 한 척에 직접 올라 볼 수 있는데, 1914년에 만든 화물선이었던 하우스보트 박물관입니다.",
       "그다음 이 도시에 80만 대 넘게 있는 자전거 중 한 대를 빌려서, 레휠리르스 운하와 헤렌 운하가 만나는 곳까지 달려 보세요, 그 모퉁이에서는 다리 15개가 한꺼번에 눈에 들어옵니다.",
-      "마지막은 파랑·흰색 트램에 올라타세요, 이곳에서는 1900년부터 전기 트램이 다녔고 지금은 모두 친환경 전력으로 달립니다. 선로는 약 200킬로미터, 노선은 15개입니다.",
+      "마지막은 파랑·흰색 트램에 올라타세요, 이곳에서는 1900년부터 전기 트램이 다녔고 지금은 모두 친환경 전력으로 달립니다.",
       "이 코스를 저장해 두세요."
     ],
     "ja": [
-      "地元の人の暮らしに沿って歩く、アムステルダムです。",
+      "ここの建物の正面の多くは、わざと前に傾けて建てられています。",
       "まずはヨルダーン地区から。1613年に労働者や職人のために造られ始めた地区で、細い路地は今も昔の干拓地の区画に沿っています。ノールデルマルクトでは毎週月曜と土曜に市場が開かれます。",
-      "見上げてみてください。階段型、ネック型、ベル型の破風です。商人たちは滑車を使い、船から屋根裏まで荷物を直接引き上げていました。建物の正面が少し前に傾いているのも分かります。",
+      "見上げてみてください。階段型、ネック型、ベル型の破風です。商人たちは滑車を使い、船から屋根裏まで荷物を直接引き上げていました。正面が通りへ傾いている理由の一つがこれです。",
       "アムステルダムには2000隻を超えるハウスボートがありますが、係留許可は少なく高額です。プリンセン運河では、そのうちの1隻に乗り込めます。1914年に造られた元貨物船、ハウスボート博物館です。",
       "次は自転車を借りましょう。この街には80万台以上あります。レフリールス運河とヘーレン運河が交わる場所まで走れば、その角から15の橋が一度に見えます。",
-      "最後は青と白のトラムへ。ここでは1900年から電気トラムが走っていて、今はすべてグリーン電力で動いています。線路は約200キロ、路線は15本です。",
+      "最後は青と白のトラムへ。ここでは1900年から電気トラムが走っていて、今はすべてグリーン電力で動いています。",
       "このルートを保存しておいてください。"
     ],
     "es": [
-      "Ámsterdam, como la viven sus vecinos.",
+      "Muchas de estas fachadas se inclinan hacia delante a propósito.",
       "Empieza en el Jordaan, iniciado en 1613 para obreros y artesanos, donde las callejuelas aún siguen el trazado del antiguo pólder, y el Noordermarkt tiene mercado todos los lunes y sábados.",
-      "Mira hacia arriba: frontones escalonados, de cuello y de campana, por donde los comerciantes subían con polea las mercancías desde los barcos directo al desván, y fíjate en cómo las fachadas se inclinan un poco hacia delante.",
+      "Mira hacia arriba: frontones escalonados, de cuello y de campana, por donde los comerciantes subían con polea las mercancías desde los barcos directo al desván, una de las razones por las que las fachadas se inclinan sobre la calle.",
       "Ámsterdam tiene más de dos mil casas flotantes, pero los permisos de amarre son escasos y caros; en el Prinsengracht puedes subir a una, el Museo de la Casa Flotante, un antiguo barco de carga construido en 1914.",
       "Luego alquila una bici, una de las más de 800.000 de la ciudad, y pedalea hasta donde el Reguliersgracht se cruza con el Herengracht; desde esa esquina se ven quince puentes a la vez.",
-      "Termina en un tranvía azul y blanco; aquí circulan tranvías eléctricos desde 1900, hoy todos con energía verde, por unos 200 kilómetros de vías y quince líneas.",
+      "Termina en un tranvía azul y blanco; aquí circulan tranvías eléctricos desde 1900, hoy todos con energía verde.",
       "Guarda esta ruta."
     ],
     "pt": [
-      "Amsterdã, do jeito que os moradores vivem.",
+      "Muitas destas fachadas se inclinam para a frente de propósito.",
       "Comece no Jordaan, iniciado em 1613 para operários e artesãos, onde as vielas ainda seguem o traçado do antigo pólder, e a Noordermarkt tem feira toda segunda e todo sábado.",
-      "Olhe para cima: frontões em degraus, de pescoço e de sino, por onde os comerciantes içavam as mercadorias com polia dos barcos direto para o sótão, e repare como as fachadas se inclinam um pouco para a frente.",
+      "Olhe para cima: frontões em degraus, de pescoço e de sino, por onde os comerciantes içavam as mercadorias com polia dos barcos direto para o sótão, um dos motivos de as fachadas se inclinarem sobre a rua.",
       "Amsterdã tem mais de duas mil casas flutuantes, mas as licenças de atracação são raras e caras; no Prinsengracht, entre em uma delas, o Museu da Casa Flutuante, um antigo navio de carga construído em 1914.",
       "Depois alugue uma bicicleta, uma das mais de 800 mil da cidade, e pedale até onde o Reguliersgracht encontra o Herengracht; daquela esquina, quinze pontes aparecem ao mesmo tempo.",
-      "Termine a bordo de um bonde azul e branco; os bondes elétricos circulam aqui desde 1900, hoje todos com energia verde, por cerca de 200 quilômetros de trilhos e quinze linhas.",
+      "Termine a bordo de um bonde azul e branco; os bondes elétricos circulam aqui desde 1900, hoje todos com energia verde.",
       "Salve este roteiro."
     ],
     "de": [
-      "Amsterdam, so wie die Einheimischen leben.",
+      "Viele dieser Fassaden neigen sich absichtlich nach vorn.",
       "Beginne im Jordaan, ab 1613 für Arbeiter und Handwerker angelegt, wo die engen Gassen noch dem alten Polderraster folgen und auf dem Noordermarkt jeden Montag und Samstag Markt ist.",
-      "Schau nach oben auf Treppen-, Hals- und Glockengiebel, über die Kaufleute Waren per Flaschenzug vom Boot direkt auf den Dachboden hievten, und sieh, wie sich die Fassaden leicht nach vorne neigen.",
+      "Schau nach oben auf Treppen-, Hals- und Glockengiebel, über die Kaufleute Waren per Flaschenzug vom Boot direkt auf den Dachboden hievten, ein Grund, warum sich die Fassaden über die Straße neigen.",
       "Amsterdam hat über zweitausend Hausboote, aber Liegeplatzgenehmigungen sind rar und teuer; an der Prinsengracht kannst du eines betreten, das Hausbootmuseum, ein ehemaliges Frachtschiff von 1914.",
       "Dann leih dir ein Fahrrad, eines von über 800.000 in der Stadt, und fahr dorthin, wo die Reguliersgracht auf die Herengracht trifft; von dieser Ecke aus siehst du fünfzehn Brücken auf einmal.",
-      "Steig zum Schluss in eine blau-weiße Straßenbahn; elektrische Trams fahren hier seit 1900, heute alle mit Ökostrom, auf rund 200 Kilometern Gleis und fünfzehn Linien.",
+      "Steig zum Schluss in eine blau-weiße Straßenbahn; elektrische Trams fahren hier seit 1900, heute alle mit Ökostrom.",
       "Speicher dir diese Route."
     ],
     "fr": [
-      "Amsterdam, comme la vivent ses habitants.",
+      "Beaucoup de ces façades ont été construites inclinées vers l'avant.",
       "Commencez par le Jordaan, lancé en 1613 pour les ouvriers et les artisans, où les ruelles suivent encore le tracé de l'ancien polder, et où le Noordermarkt accueille un marché chaque lundi et samedi.",
-      "Levez les yeux vers les pignons à gradins, à cou et en cloche : les marchands y hissaient les marchandises à la poulie, des bateaux jusqu'au grenier. Regardez aussi les façades pencher légèrement vers l'avant.",
+      "Levez les yeux vers les pignons à gradins, à cou et en cloche : les marchands y hissaient les marchandises à la poulie, des bateaux jusqu'au grenier, l'une des raisons pour lesquelles les façades penchent au-dessus de la rue.",
       "Amsterdam compte plus de deux mille péniches habitées, mais les permis d'amarrage sont rares et chers ; sur le Prinsengracht, montez à bord de l'une d'elles, le Houseboat Museum, un ancien cargo construit en 1914.",
       "Louez ensuite un vélo, l'un des plus de 800 000 de la ville, et pédalez jusqu'au croisement du Reguliersgracht et du Herengracht ; depuis ce coin, quinze ponts apparaissent d'un seul coup.",
-      "Finissez à bord d'un tram bleu et blanc ; les trams électriques circulent ici depuis 1900, tous alimentés aujourd'hui en énergie verte, sur environ 200 kilomètres de voies et quinze lignes.",
+      "Finissez à bord d'un tram bleu et blanc ; les trams électriques circulent ici depuis 1900, tous alimentés aujourd'hui en énergie verte.",
       "Enregistrez cet itinéraire."
     ],
     "hi": [
-      "एम्स्टर्डम, वैसे जैसे यहां के लोग जीते हैं।",
+      "इनमें से कई इमारतों का अगला हिस्सा जान-बूझकर आगे की ओर झुकाकर बनाया गया है।",
       "योर्डान से शुरू कीजिए, जिसे 1613 में मज़दूरों और कारीगरों के लिए बसाना शुरू किया गया था, जहां तंग गलियां आज भी पुराने पोल्डर के नक्शे पर चलती हैं, और नोर्डरमार्क्ट में हर सोमवार और शनिवार बाज़ार लगता है।",
-      "ऊपर देखिए, सीढ़ीनुमा, गर्दननुमा और घंटीनुमा गेबल, जहां से व्यापारी नावों से माल चरखी के सहारे सीधे अटारी तक खींचते थे, और देखिए कि इमारतों के अगले हिस्से थोड़ा आगे की ओर झुके हुए हैं।",
+      "ऊपर देखिए, सीढ़ीनुमा, गर्दननुमा और घंटीनुमा गेबल, जहां से व्यापारी नावों से माल चरखी के सहारे सीधे अटारी तक खींचते थे, और यही इमारतों के अगले हिस्से के सड़क की ओर झुके होने की एक वजह है।",
       "एम्स्टर्डम में दो हज़ार से ज़्यादा हाउसबोट हैं, लेकिन लंगर डालने के परमिट कम और महंगे हैं; प्रिंसेनग्राख़्त पर उनमें से एक पर चढ़िए, हाउसबोट म्यूज़ियम, जो 1914 में बना एक पुराना मालवाहक जहाज़ है।",
       "फिर एक साइकिल किराए पर लीजिए, शहर की 8 लाख से ज़्यादा साइकिलों में से एक, और वहां तक चलाइए जहां रेगुलियर्सग्राख़्त हेरेनग्राख़्त से मिलती है; उस कोने से पंद्रह पुल एक साथ दिखते हैं।",
-      "आख़िर में नीली-सफ़ेद ट्राम में बैठिए; यहां 1900 से बिजली की ट्राम चल रही हैं, अब सभी हरित ऊर्जा पर, लगभग 200 किलोमीटर पटरियों और पंद्रह लाइनों पर।",
+      "आख़िर में नीली-सफ़ेद ट्राम में बैठिए; यहां 1900 से बिजली की ट्राम चल रही हैं, अब सभी हरित ऊर्जा पर।",
       "इस रूट को सेव कर लीजिए।"
     ]
   }
