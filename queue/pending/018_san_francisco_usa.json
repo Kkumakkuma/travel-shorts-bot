@@ -1,0 +1,181 @@
+{
+  "author": "claude",
+  "animal_key": "san_francisco_usa",
+  "display": "San Francisco",
+  "single": "San Francisco",
+  "country": "USA",
+  "category": "north_america",
+  "landmark_lock": "San Francisco, USA — Golden Gate Bridge, Alcatraz, cable cars, Lombard Street, Painted Ladies",
+  "angle": "iconic_landmarks",
+  "format": "classic_trivia",
+  "hook_line": "The Navy wanted the Golden Gate Bridge painted in black and yellow stripes.",
+  "hook": "THE NAVY WANTED IT STRIPED",
+  "intro": "The Navy wanted the Golden Gate Bridge painted in black and yellow stripes.",
+  "facts": [
+    "Instead it got this orange, first meant only as a primer; architect Irving Morrow chose to keep it, and it's now called International Orange.",
+    "Its two main cables hold 80,000 miles of steel wire, enough to wrap around the Earth three times.",
+    "And it's built to flex: in strong wind, the middle of the span is designed to sway up to nearly 28 feet sideways.",
+    "Around 1990, sea lions took over a boat dock at Pier 39; experts said let them stay, and in 2024 over 2,100 crowded in, a record.",
+    "Then ferry to Alcatraz, where in 1962 three inmates left fake heads in their beds, slipped away on a raincoat raft, and were never found."
+  ],
+  "outro": "Save this for San Francisco.",
+  "title_en": "The Navy Wanted the Golden Gate Bridge Black and Yellow 🤯",
+  "title_ko": "해군은 금문교를 검은색·노란색 줄무늬로 칠하길 원했다 🤯",
+  "description_en": "The Navy's striped plan for the Golden Gate Bridge, the primer color that became International Orange, 80,000 miles of cable wire, a span built to sway in the wind, the sea lions of Pier 39, and the 1962 escape from Alcatraz. Here is San Francisco, one surprise at a time. #shorts #travel #sanfrancisco #goldengatebridge #wander",
+  "description_ko": "해군이 원했던 금문교의 검은색·노란색 줄무늬, 밑칠 색이던 인터내셔널 오렌지, 지구를 세 바퀴 감을 케이블 강선, 바람에 옆으로 흔들리도록 설계된 다리, 피어 39 바다사자, 그리고 1962년 알카트라즈 탈옥까지. 샌프란시스코를 놀라운 이야기 다섯 개로 돌아봅니다. #여행 #샌프란시스코 #금문교 #미국여행",
+  "comment": "San Francisco: would you walk the Golden Gate Bridge first, or take the ferry to Alcatraz?",
+  "tags": [
+    "shorts",
+    "travel",
+    "san francisco",
+    "golden gate bridge",
+    "usa",
+    "things to do",
+    "wander",
+    "travel tips",
+    "california",
+    "alcatraz"
+  ],
+  "pexels_keywords": [
+    "San Francisco Golden Gate Bridge",
+    "San Francisco Golden Gate Bridge fog",
+    "San Francisco Golden Gate Bridge tower cables",
+    "San Francisco Golden Gate Bridge sunset",
+    "San Francisco Pier 39 sea lions",
+    "San Francisco Alcatraz Island",
+    "San Francisco bay skyline",
+    "San Francisco aerial city"
+  ],
+  "fact_keywords": [
+    "San Francisco Golden Gate Bridge",
+    "San Francisco Golden Gate Bridge cables",
+    "San Francisco Golden Gate Bridge fog wind",
+    "San Francisco Pier 39 sea lions",
+    "San Francisco Alcatraz Island"
+  ],
+  "clips": [
+    [
+      3062959,
+      15810980,
+      3062956,
+      30846611
+    ],
+    [
+      33163264,
+      3062958,
+      3062957,
+      30846614
+    ],
+    [
+      30846612,
+      16202755,
+      33162963,
+      26125471
+    ],
+    [
+      36118170,
+      36118169,
+      12119712
+    ],
+    [
+      37412694,
+      30846613,
+      30846619
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "해군은 금문교를 검은색·노란색 줄무늬로 칠하길 원했다 🤯",
+      "description": "해군이 원했던 금문교의 검은색·노란색 줄무늬, 밑칠 색이던 인터내셔널 오렌지, 지구를 세 바퀴 감을 케이블 강선, 바람에 옆으로 흔들리도록 설계된 다리, 피어 39 바다사자, 그리고 1962년 알카트라즈 탈옥까지. 샌프란시스코를 놀라운 이야기 다섯 개로 돌아봅니다. #여행 #샌프란시스코 #금문교 #미국여행"
+    },
+    "ja": {
+      "title": "海軍はゴールデンゲート・ブリッジを黒と黄色の縞模様にしたかった 🤯",
+      "description": "海軍が望んだ黒と黄色の縞模様、下塗りの色から生まれたインターナショナル・オレンジ、地球を3周できる長さのケーブル鋼線、風で横に揺れるよう設計された橋、ピア39のアシカ、そして1962年のアルカトラズ脱獄まで。サンフランシスコを5つの驚きでめぐります。#旅行 #サンフランシスコ #ゴールデンゲートブリッジ #アメリカ旅行"
+    },
+    "es": {
+      "title": "La Marina quería el Golden Gate a rayas negras y amarillas 🤯",
+      "description": "Las rayas negras y amarillas que quería la Marina, el color de imprimación que se volvió naranja internacional, 129.000 km de alambre de acero en sus cables, un puente diseñado para moverse con el viento, los leones marinos del Pier 39 y la fuga de Alcatraz de 1962. San Francisco, sorpresa a sorpresa. #viajes #sanfrancisco #goldengate #estadosunidos"
+    },
+    "pt": {
+      "title": "A Marinha queria a Golden Gate com listras pretas e amarelas 🤯",
+      "description": "As listras pretas e amarelas que a Marinha queria, a tinta de fundo que virou laranja internacional, 129 mil km de fio de aço nos cabos, uma ponte feita para balançar com o vento, os leões-marinhos do Pier 39 e a fuga de Alcatraz em 1962. San Francisco, uma surpresa de cada vez. #viagem #sanfrancisco #goldengate #estadosunidos"
+    },
+    "de": {
+      "title": "Die Navy wollte die Golden Gate Bridge schwarz-gelb gestreift 🤯",
+      "description": "Die schwarz-gelben Streifen, die die Navy wollte, die Grundierung, aus der International Orange wurde, 129.000 km Stahldraht in den Hauptkabeln, eine Brücke, die im Wind mitschwingt, die Seelöwen am Pier 39 und die Flucht von Alcatraz 1962. San Francisco, eine Überraschung nach der anderen. #reisen #sanfrancisco #goldengatebridge #usa"
+    },
+    "fr": {
+      "title": "La Marine voulait un Golden Gate à rayures noires et jaunes 🤯",
+      "description": "Les rayures noires et jaunes voulues par la Marine, la sous-couche devenue orange international, 129 000 km de fil d'acier dans ses câbles, un pont conçu pour bouger avec le vent, les otaries du Pier 39 et l'évasion d'Alcatraz en 1962. San Francisco, une surprise à la fois. #voyage #sanfrancisco #goldengate #etatsunis"
+    },
+    "hi": {
+      "title": "नौसेना चाहती थी गोल्डन गेट ब्रिज काली-पीली धारियों वाला हो 🤯",
+      "description": "नौसेना की काली-पीली धारियों वाली योजना, प्राइमर से बना इंटरनेशनल ऑरेंज रंग, केबलों में 1,29,000 किलोमीटर स्टील का तार, हवा में झूलने के लिए बना पुल, पियर 39 के समुद्री शेर, और 1962 में अल्काट्राज़ से भागने की कहानी। सैन फ़्रांसिस्को की पांच हैरान करने वाली बातें। #यात्रा #सैनफ्रांसिस्को #travel #sanfrancisco #goldengatebridge"
+    }
+  },
+  "captions": {
+    "ko": [
+      "해군은 금문교를 검은색과 노란색 줄무늬로 칠하길 원했습니다.",
+      "대신 이 주황색이 칠해졌는데, 원래는 밑칠용 색이었습니다. 건축가 어빙 모로가 이 색을 그대로 살렸고, 지금은 '인터내셔널 오렌지'라고 부릅니다.",
+      "주케이블 두 가닥에 들어간 강철선은 약 12만 9천 킬로미터, 지구를 세 바퀴 감을 수 있는 길이입니다.",
+      "게다가 유연하게 지어졌습니다. 강한 바람이 불면 다리 한가운데가 옆으로 최대 8.4미터까지 흔들리도록 설계됐죠.",
+      "1990년 무렵 바다사자들이 피어 39의 보트 선착장을 차지했습니다. 전문가들이 그대로 두라고 했고, 2024년에는 2,100마리 넘게 몰려 역대 최다를 기록했습니다.",
+      "이어서 페리를 타고 알카트라즈로 가 보세요. 1962년 죄수 세 명이 침대에 가짜 머리를 두고 비옷으로 만든 뗏목을 타고 빠져나갔는데, 끝내 발견되지 않았습니다.",
+      "샌프란시스코 여행 전에 저장해 두세요."
+    ],
+    "ja": [
+      "海軍は、ゴールデンゲート・ブリッジを黒と黄色の縞模様に塗ることを望んでいました。",
+      "代わりに塗られたのがこのオレンジ。もとは下塗り用の色でしたが、建築家アーヴィング・モローがそのまま残し、今は「インターナショナル・オレンジ」と呼ばれています。",
+      "2本のメインケーブルに使われた鋼線は約12万9千キロ。地球を3周できる長さです。",
+      "しかも、しなやかに造られています。強風のときは、橋の中央が横に最大約8.4メートル揺れる設計です。",
+      "1990年ごろ、ピア39のボート用の桟橋をアシカが占拠しました。専門家の助言でそのままにしたところ、2024年には2,100頭以上が集まり、過去最多になりました。",
+      "次はフェリーでアルカトラズへ。1962年、3人の囚人がベッドに偽の頭を残し、レインコートで作ったいかだで抜け出しましたが、今も見つかっていません。",
+      "サンフランシスコ旅行の前に保存しておいてください。"
+    ],
+    "es": [
+      "La Marina quería pintar el Golden Gate con rayas negras y amarillas.",
+      "En cambio, recibió este naranja, pensado al principio solo como imprimación; el arquitecto Irving Morrow decidió conservarlo, y hoy se llama naranja internacional.",
+      "Sus dos cables principales contienen 129.000 kilómetros de alambre de acero, suficiente para dar tres vueltas a la Tierra.",
+      "Y está diseñado para ser flexible: con viento fuerte, el centro del puente puede desplazarse hacia un lado hasta unos 8,4 metros.",
+      "Hacia 1990, los leones marinos se adueñaron de un muelle del Pier 39; los expertos aconsejaron dejarlos, y en 2024 llegaron más de 2.100, todo un récord.",
+      "Luego toma el ferry a Alcatraz, donde en 1962 tres presos dejaron cabezas falsas en sus camas, escaparon en una balsa hecha de impermeables y nunca fueron encontrados.",
+      "Guarda esto para tu viaje a San Francisco."
+    ],
+    "pt": [
+      "A Marinha queria pintar a Golden Gate com listras pretas e amarelas.",
+      "Em vez disso, ela ganhou este laranja, que no início seria só a tinta de fundo; o arquiteto Irving Morrow decidiu mantê-lo, e hoje ele se chama laranja internacional.",
+      "Seus dois cabos principais têm 129 mil quilômetros de fio de aço, o bastante para dar três voltas na Terra.",
+      "E ela foi projetada para ser flexível: com vento forte, o meio do vão pode balançar até cerca de 8,4 metros para o lado.",
+      "Por volta de 1990, leões-marinhos tomaram uma doca de barcos do Pier 39; especialistas recomendaram deixá-los ficar, e em 2024 mais de 2.100 se amontoaram ali, um recorde.",
+      "Depois, pegue a balsa para Alcatraz, onde em 1962 três presos deixaram cabeças falsas em suas camas, fugiram numa jangada feita de capas de chuva e nunca foram encontrados.",
+      "Salve este vídeo para sua viagem a San Francisco."
+    ],
+    "de": [
+      "Die Navy wollte die Golden Gate Bridge schwarz-gelb gestreift anstreichen lassen.",
+      "Stattdessen bekam sie dieses Orange, das eigentlich nur als Grundierung gedacht war; Architekt Irving Morrow behielt es bei, und heute heißt es „International Orange“.",
+      "Ihre zwei Hauptkabel enthalten 129.000 Kilometer Stahldraht, genug, um die Erde dreimal zu umwickeln.",
+      "Und sie ist flexibel gebaut: Bei starkem Wind kann die Mitte der Brücke bis zu etwa 8,4 Meter seitlich ausschwingen.",
+      "Um 1990 nahmen Seelöwen einen Bootssteg am Pier 39 in Beschlag; Experten rieten, sie bleiben zu lassen, und 2024 kamen mit über 2.100 so viele wie nie zuvor.",
+      "Dann mit der Fähre nach Alcatraz, wo 1962 drei Häftlinge falsche Köpfe in ihren Betten zurückließen, auf einem Floß aus Regenmänteln entkamen und nie gefunden wurden.",
+      "Speichere das für deine Reise nach San Francisco."
+    ],
+    "fr": [
+      "La Marine voulait peindre le Golden Gate à rayures noires et jaunes.",
+      "À la place, il a reçu cet orange, prévu au départ comme simple sous-couche ; l'architecte Irving Morrow a choisi de le garder, et on l'appelle aujourd'hui orange international.",
+      "Ses deux câbles principaux contiennent 129 000 kilomètres de fil d'acier, de quoi faire trois fois le tour de la Terre.",
+      "Et il est conçu pour être flexible : par grand vent, le milieu du pont peut osciller sur le côté jusqu'à environ 8,4 mètres.",
+      "Vers 1990, des otaries ont envahi un ponton du Pier 39 ; les experts ont conseillé de les laisser, et en 2024, plus de 2 100 s'y sont entassées, un record.",
+      "Puis prenez le ferry pour Alcatraz, où en 1962 trois détenus ont laissé de fausses têtes dans leurs lits, se sont enfuis sur un radeau fait d'imperméables et n'ont jamais été retrouvés.",
+      "Enregistrez cette vidéo pour votre voyage à San Francisco."
+    ],
+    "hi": [
+      "नौसेना चाहती थी कि गोल्डन गेट ब्रिज को काली और पीली धारियों से रंगा जाए।",
+      "इसके बजाय इसे यह नारंगी रंग मिला, जो पहले सिर्फ़ प्राइमर के तौर पर लगना था; आर्किटेक्ट इरविंग मॉरो ने इसे ही रखने का फ़ैसला किया, और आज इसे इंटरनेशनल ऑरेंज कहते हैं।",
+      "दोनों मुख्य केबलों में कुल 1,29,000 किलोमीटर स्टील का तार लगा है, जो धरती के तीन चक्कर लगाने के लिए काफ़ी है।",
+      "और इसे लचीला बनाया गया है: तेज़ हवा में पुल का बीच वाला हिस्सा बगल की ओर क़रीब 8.4 मीटर तक झूल सकता है।",
+      "1990 के आसपास समुद्री शेरों ने पियर 39 के एक नाव-घाट पर कब्ज़ा कर लिया; विशेषज्ञों ने उन्हें रहने देने की सलाह दी, और 2024 में रिकॉर्ड 2,100 से ज़्यादा वहां जमा हो गए।",
+      "फिर फ़ेरी से अल्काट्राज़ जाइए, जहां 1962 में तीन कैदी अपने बिस्तरों पर नकली सिर छोड़कर रेनकोट से बने बेड़े पर निकल भागे और फिर कभी नहीं मिले।",
+      "सैन फ़्रांसिस्को की यात्रा के लिए यह वीडियो सेव कर लीजिए।"
+    ]
+  }
+}
